@@ -66,17 +66,17 @@ extension CustomWidgets on StatelessWidget {
         backgroundColor: AppColor.blueAccent,
         color: AppColor.darkGray,
       );
-  showSnackBar({required String title, required String message, Color? color}) {
-    Get.showSnackbar(GetSnackBar(
-      title: title,
-      borderRadius: 10,
-      backgroundColor: color ?? AppColor.blueAccent,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      message: message,
-      snackPosition: SnackPosition.TOP,
-      dismissDirection: DismissDirection.up,
-    ));
-  }
+  // showSnackBar({required String title, required String message, Color? color}) {
+  //   Get.showSnackbar(GetSnackBar(
+  //     title: title,
+  //     borderRadius: 10,
+  //     backgroundColor: color ?? AppColor.blueAccent,
+  //     margin: const EdgeInsets.symmetric(horizontal: 20),
+  //     message: message,
+  //     snackPosition: SnackPosition.TOP,
+  //     dismissDirection: DismissDirection.up,
+  //   ));
+  // }
 
   Text textView({required String text, TextStyle? textStyle}) {
     return Text(
@@ -133,17 +133,17 @@ extension CWidgets on StatefulWidget {
         backgroundColor: AppColor.white,
       );
 
-  showSnackBar({required String title, required String message, Color? color}) {
-    Get.showSnackbar(GetSnackBar(
-      title: title,
-      borderRadius: 10,
-      backgroundColor: color ?? AppColor.blueAccent,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      message: message,
-      snackPosition: SnackPosition.TOP,
-      dismissDirection: DismissDirection.up,
-    ));
-  }
+  // showSnackBar({required String title, required String message, Color? color}) {
+  //   Get.showSnackbar(GetSnackBar(
+  //     title: title,
+  //     borderRadius: 10,
+  //     backgroundColor: color ?? AppColor.blueAccent,
+  //     margin: const EdgeInsets.symmetric(horizontal: 20),
+  //     message: message,
+  //     snackPosition: SnackPosition.TOP,
+  //     dismissDirection: DismissDirection.up,
+  //   ));
+  // }
 
   Text textView({required String text, TextStyle? textStyle}) {
     return Text(
@@ -199,21 +199,21 @@ extension CsWidgets on State {
   CircularProgressIndicator get progressIndicator => CircularProgressIndicator(
         backgroundColor: AppColor.white,
       );
-  showSnackBar({required String title, required String message, Color? color}) {
-    Get.showSnackbar(GetSnackBar(
-      title: title,
-      borderRadius: 10,
-      backgroundColor: AppColor.soft,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      message: message,
-      isDismissible: true,
-      barBlur: 20,
-      duration: const Duration(seconds: 4),
-      snackStyle: SnackStyle.FLOATING,
-      snackPosition: SnackPosition.TOP,
-      dismissDirection: DismissDirection.up,
-    ));
-  }
+  // showSnackBar({required String title, required String message, Color? color}) {
+  //   Get.showSnackbar(GetSnackBar(
+  //     title: title,
+  //     borderRadius: 10,
+  //     backgroundColor: AppColor.soft,
+  //     margin: const EdgeInsets.symmetric(horizontal: 20),
+  //     message: message,
+  //     isDismissible: true,
+  //     barBlur: 20,
+  //     duration: const Duration(seconds: 4),
+  //     snackStyle: SnackStyle.FLOATING,
+  //     snackPosition: SnackPosition.TOP,
+  //     dismissDirection: DismissDirection.up,
+  //   ));
+  // }
   Text textView({required String text, TextStyle? textStyle}) {
     return Text(
       text,
