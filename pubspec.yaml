@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   firebase_core: ^2.27.1
   firebase_auth: ^4.17.9
+  intl_phone_field: ^3.2.0
+  pinput: ^4.0.0
+  get: ^4.6.6
 
 
 
