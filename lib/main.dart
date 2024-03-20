@@ -1,7 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shopee_seller_app/views/screens/auth/phone_auth_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_themes/app_theme.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+ await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   runApp(const MyApp());
 }
 
@@ -13,8 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      home: PhoneAuthScreen(),
       theme: AppTheme.dayTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
