@@ -5,6 +5,9 @@ import 'package:lottie/lottie.dart';
 import 'package:shopee_seller_app/views/utils/app_constants/image_constants.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
+import '../../screens/auth/phone_auth_screen.dart';
+import '../../screens/home/home_screen.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -16,17 +19,15 @@ class _SplashScreenState extends State<SplashScreen> {
   var user = FirebaseAuth.instance.currentUser?.uid;
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
       if (user != null) {
+context.pushReplace(HomeScreen());
+      } else {
+        context.pushReplace(PhoneAuthScreen());
 
-      } else {}
+      }
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
