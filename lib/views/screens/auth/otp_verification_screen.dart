@@ -32,7 +32,7 @@ class OtpVerificationScreen extends StatelessWidget {
             height: context.screenHeight * 0.05,
             child: ElevatedButton(onPressed: () {
               AuthController.otpVerification(context: context, smsCode: pinController.text, verificationId: verificationId);
-            }, child: const Text("Verify", style: defaultTextStyle,)),
+            }, child:  Text("Verify", style: defaultTextStyle,)),
           )
         ],
       )

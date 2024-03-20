@@ -42,7 +42,7 @@ class PhoneAuthScreen extends StatelessWidget {
                 onPressed: () {
                   AuthController.phoneAuth(phoneController, context);
                 },
-                child: const Text("Send otp", style: defaultTextStyle,)),
+                child:  Text("Send otp", style: defaultTextStyle,)),
           )
         ],
       ),
