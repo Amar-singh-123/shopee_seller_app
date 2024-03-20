@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shopee_seller_app/views/utils/app_colors/app_colors.dart';
+
 extension Spaces on int {
   Radius get radius => Radius.circular(toDouble());
 
@@ -23,7 +24,7 @@ extension Spaces on int {
       );
   SizedBox get square => SizedBox(
         height: toDouble(),
-    width: toDouble(),
+        width: toDouble(),
       );
 
   SizedBox get width => SizedBox(
@@ -32,6 +33,7 @@ extension Spaces on int {
 }
 
 extension Responsive on BuildContext {
+
   double get screenWidth => MediaQuery.sizeOf(this).width;
 
   double get screenHeight => MediaQuery.sizeOf(this).height;
@@ -272,5 +274,6 @@ extension Dates on DateTime {
 
 extension Ext on String{
 int   toInt() =>int.parse(this);
-
 }
+
+
