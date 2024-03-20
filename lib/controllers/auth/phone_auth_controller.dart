@@ -25,7 +25,7 @@ class AuthController {
     FirebaseAuth.instance.signInWithCredential(credential).whenComplete(() {
       if(FirebaseAuth.instance.currentUser?.uid != null){
         // context.pushReplace()
-        context.showSnackBar(title: "Otp: ", message: 'verification complete', color: AppColor.dark);
+        context.showSnackBar(title: "Otp: ", message: ' verification completed', color: AppColor.dark);
       }
     });
   }
