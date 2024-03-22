@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shopee_seller_app/views/screens/auth/otp_verification_screen.dart';
+import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_colors/app_colors.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
@@ -24,7 +25,7 @@ class AuthController {
         verificationId: verificationId, smsCode: smsCode);
     FirebaseAuth.instance.signInWithCredential(credential).whenComplete(() {
       if(FirebaseAuth.instance.currentUser?.uid != null){
-        // context.pushReplace()
+       context.pushReplace(HomeScreen());
         context.showSnackBar(title: "Otp: ", message: ' verification completed', color: AppColor.dark);
       }
     });

@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shopee_seller_app/views/screens/splash_screen/splash_screens.dart';
 import 'firebase_options.dart';
-import 'views/screen/splash_screen/splash_screens.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
