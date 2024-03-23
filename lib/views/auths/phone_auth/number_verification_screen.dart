@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopee_seller_app/views/utils/app_constants/text_constants.dart';
 import 'package:shopee_seller_app/views/utils/app_widgets/app_widgets.dart';
 
 class NumberVerificationScreen extends StatefulWidget {
@@ -9,17 +10,26 @@ class NumberVerificationScreen extends StatefulWidget {
 }
 
 class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final TextEditingController _numberVerificationController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var view = AppWidgets(context: context);
     return Scaffold(
       appBar: view.appBarView(),
-      body: ListView(
-        children: const [
-          Text("Enter your"),
-          Text("mobile number"),
-          Text("We'll send OTP on this number")
-        ],
+      body: Form(
+        key: _globalKey,
+        child: ListView(
+          children: const [
+            Text(enterYour),
+            Text(mobileNumber),
+            Text(weSendOTPOnThisNumber),
+
+
+
+
+          ],
+        ),
       ),
 
     );

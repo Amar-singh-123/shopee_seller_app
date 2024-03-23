@@ -50,7 +50,8 @@ class AppWidgets {
         required TextInputAction? textInputAction,
         void Function(String?)? onSaved,
         bool obscureText = false}) {
-    return TextFormField(
+    return
+      TextFormField(
       validator: validator,
       controller: controller,
       onTap: onTap,
