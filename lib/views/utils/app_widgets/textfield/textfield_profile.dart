@@ -1,28 +1,3 @@
-// import 'package:flutter/material.dart';
-//
-// class CustomTextFormField extends StatelessWidget {
-//   final TextEditingController controller;
-//   final InputDecoration decoration;
-//   final FormFieldValidator<String>? validator;
-//   final TextInputType keyboardType;
-//
-//   const CustomTextFormField({super.key,
-//     required this.controller,
-//     required this.decoration,
-//     required this.validator,
-//     required this.keyboardType,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       controller: controller,
-//       validator: validator,
-//       keyboardType: keyboardType,
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 
 class FormWidget extends StatelessWidget {
@@ -35,7 +10,7 @@ class FormWidget extends StatelessWidget {
   final Widget? prefixIcon;
 
   const FormWidget({
-    Key? key,
+    super.key,
     this.fontSize,
     this.maxLines,
     required this.controller,
@@ -43,7 +18,7 @@ class FormWidget extends StatelessWidget {
     this.validator,
     required this.decoration,
      this.prefixIcon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

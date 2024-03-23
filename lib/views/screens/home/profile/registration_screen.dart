@@ -5,10 +5,8 @@ import 'package:shopee_seller_app/controllers/app_controller.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import '../../../../models/profile_model.dart';
 
-
 class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
-
+  const RegistrationScreen({super.key});
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
@@ -22,6 +20,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   File? pickedImage;
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +59,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       prefixIcon: const Icon(Icons.person),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Enter Your name',
+                      hintText: 'Enter your name',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter Your name';
+                        return 'Enter your name';
                       }
                       return null;
                     },
@@ -77,11 +76,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Enter Your email',
+                      hintText: 'Enter your email',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter Your email';
+                        return 'Enter your email';
                       }
                       return null;
                     },
@@ -94,11 +93,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       prefixIcon: const Icon(Icons.location_on),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Enter Your address',
+                      hintText: 'Enter your address',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter Your address';
+                        return 'Enter your address';
                       }
                       return null;
                     },
@@ -111,11 +110,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       prefixIcon: const Icon(Icons.calendar_today_outlined),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Enter Your Age',
+                      hintText: 'Enter your Age',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter Your Age';
+                        return 'Enter your Age';
                       }
                       return null;
                     },
@@ -128,11 +127,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       prefixIcon: const Icon(Icons.transgender),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Enter Your Gender',
+                      hintText: 'Enter your Gender',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter Your Gender';
+                        return 'Enter your Gender';
                       }
                       return null;
                     },
@@ -147,25 +146,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            ProfileModel user = ProfileModel(
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            ProfileModel userDetails = ProfileModel(
                               name: nameController.text,
                               email: emailController.text,
                               address: addressController.text,
                               age: int.parse(ageController.text),
                               gender: genderController.text,
-                              imageUrl: pickedImage != null
-                                  ? pickedImage!.path
-                                  : '', // Update this when you have the image URL
+                              imageUrl:
+                                  pickedImage != null ? pickedImage!.path : '',
                             );
-                            AppController(context: context).upload(user);
+
+                            AppController(context: context)
+                                .upload(userDetails)
+                                .then((_) {
+                              // Data upload completed
+                              setState(() {
+                                _isLoading = false; // Set loading state to false
+                              });
+                            });
                           }
                         },
-                        child: const Text("Submit"),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )),
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                ),
+                              )
+                            : const Text("Submit"),
                       ),
                     ),
                   ),
@@ -190,6 +209,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       print(ex.toString());
     }
   }
+
   showAlertBox() {
     showDialog(
       context: context,
