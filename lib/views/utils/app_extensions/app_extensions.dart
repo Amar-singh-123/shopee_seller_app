@@ -53,7 +53,7 @@ extension Responsive on BuildContext {
         ));
   }
 
-  void pushReplace(Widget screen) {
+  void pushReplace(Widget screen) async {
     Navigator.pushReplacement(
         this,
         MaterialPageRoute(

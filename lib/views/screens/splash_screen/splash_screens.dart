@@ -22,10 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
       if (user != null) {
-context.pushReplace(HomeScreen());
+        context.pushReplace(HomeScreen());
       } else {
         context.pushReplace(PhoneAuthScreen());
-
       }
     });
     return Scaffold(
