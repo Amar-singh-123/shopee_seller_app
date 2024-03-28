@@ -3,3 +3,4 @@ const defaultMovieImage = 'https://img.freepik.com/free-vector/cinema-realistic-
 const introImage = 'assets/images/onboarding.png';
 const filterIcon = 'assets/images/filter.png';
 const ageIcon = 'assets/images/anti-age.png';
+const splash = 'splash_animation.json';

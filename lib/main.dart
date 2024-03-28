@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:shopee_seller_app/views/screens/home/profile/registration_screen.dart';
 import 'firebase_options.dart';
 
-void main()async{
-  runApp(MyApp());
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(const MyApp());
 }
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -21,9 +22,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RegistrationScreen(),
-    );
-  }
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: RegistrationScreen(),
+    }
 }
