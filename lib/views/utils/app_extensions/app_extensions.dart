@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:shopee_seller_app/views/utils/app_colors/app_colors.dart';
+
 extension Spaces on int {
   Radius get radius => Radius.circular(toDouble());
 
@@ -23,7 +27,7 @@ extension Spaces on int {
       );
   SizedBox get square => SizedBox(
         height: toDouble(),
-    width: toDouble(),
+        width: toDouble(),
       );
 
   SizedBox get width => SizedBox(
@@ -32,6 +36,7 @@ extension Spaces on int {
 }
 
 extension Responsive on BuildContext {
+
   double get screenWidth => MediaQuery.sizeOf(this).width;
 
   double get screenHeight => MediaQuery.sizeOf(this).height;
@@ -48,14 +53,16 @@ extension Responsive on BuildContext {
         ));
   }
 
-  void pushReplace(Widget screen) {
+  void pushReplace(Widget screen) async {
     Navigator.pushReplacement(
         this,
         MaterialPageRoute(
           builder: (context) => screen,
         ));
   }
-
+  showSnackBar({required String title, required String message, Color? color}) {
+    Get.snackbar(title, message,backgroundColor: color);
+  }
   void get pop {
     Navigator.pop(this);
   }
@@ -66,17 +73,9 @@ extension CustomWidgets on StatelessWidget {
         backgroundColor: AppColor.blueAccent,
         color: AppColor.darkGray,
       );
-  // showSnackBar({required String title, required String message, Color? color}) {
-  //   Get.showSnackbar(GetSnackBar(
-  //     title: title,
-  //     borderRadius: 10,
-  //     backgroundColor: color ?? AppColor.blueAccent,
-  //     margin: const EdgeInsets.symmetric(horizontal: 20),
-  //     message: message,
-  //     snackPosition: SnackPosition.TOP,
-  //     dismissDirection: DismissDirection.up,
-  //   ));
-  // }
+  showSnackBar({required String title, required String message, Color? color}) {
+    Get.snackbar(title, message,backgroundColor: color);
+  }
 
   Text textView({required String text, TextStyle? textStyle}) {
     return Text(
@@ -132,7 +131,9 @@ extension CWidgets on StatefulWidget {
   CircularProgressIndicator get progressIndicator => CircularProgressIndicator(
         backgroundColor: AppColor.white,
       );
-
+  showSnackBar({required String title, required String message, Color? color}) {
+    Get.snackbar(title, message,backgroundColor: color);
+  }
   // showSnackBar({required String title, required String message, Color? color}) {
   //   Get.showSnackbar(GetSnackBar(
   //     title: title,
@@ -272,5 +273,6 @@ extension Dates on DateTime {
 
 extension Ext on String{
 int   toInt() =>int.parse(this);
-
 }
+
+
