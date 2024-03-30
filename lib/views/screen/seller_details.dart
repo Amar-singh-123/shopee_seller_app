@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,25 +23,41 @@ class _SellerDetailsState extends State<SellerDetails> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController businessCategoryController = TextEditingController();
-  TextEditingController individualController = TextEditingController();
-  TextEditingController gstNumberController = TextEditingController();
-  TextEditingController upiIdController = TextEditingController();
-  TextEditingController fssaiLicenseNoController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController bankAccountController = TextEditingController();
-  TextEditingController businessCategory = TextEditingController();
+  // TextEditingController individualController = TextEditingController();
+  // TextEditingController gstNumberController = TextEditingController();
+  // TextEditingController upiIdController = TextEditingController();
+  // TextEditingController fssaiLicenseNoController = TextEditingController();
+  // TextEditingController addressController = TextEditingController();
+  // TextEditingController bankAccountController = TextEditingController();
+  // TextEditingController businessCategory = TextEditingController();
 
   String? imageUrl;
   File? imageFile;
 
 
-  void getData(){
-    var data = FirebaseAuth.instance.currentUser!.uid;
-    var querySnapshot = FirebaseFirestore.instance.doc(data).collection("SellerDetails").get();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getCurrentUserImage();
+    getData();
   }
 
-
-
+  void getData()async{
+    User? user = FirebaseAuth.instance.currentUser;
+    if(user != null){
+    final doc = await FirebaseFirestore.instance.collection("SellerDetails").doc(user.uid).get();
+      if(doc.exists){
+        setState(() {
+          storeNameController.text = doc.data()?["storeName"] ?? "";
+          businessNameController.text = doc.data()?["businessName"]??"";
+          phoneController.text = doc.data()?["sellerPhone"]?? "";
+          emailController.text = doc.data()?["sellerEmail"]?? "";
+          businessCategoryController.text = doc.data()?["businessCategory"]?? "";
+        });
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,26 +77,40 @@ class _SellerDetailsState extends State<SellerDetails> {
             children: [
               20.height,
               GestureDetector(
-                onTap: () {
-                  _showImageOptions(context);
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: imageUrl != null
-                      ? Image.network(
-                    imageUrl!,
-                    height: MediaQuery.of(context).size.height * 0.060,
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                  )
-                      : Image.network(
-                    "https://static.thenounproject.com/png/4974686-200.png",
-                    height: MediaQuery.of(context).size.height * 0.060,
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                  ),
+                onTap: () => _showImageOptions(context),
+                child: imageUrl != null
+                    ? Image.network(
+                  imageUrl!,
+                  height: MediaQuery.of(context).size.height * 0.060,
+                  fit: BoxFit.cover,
+                  width: MediaQuery.of(context).size.width * 0.15,
+                )
+                    : FutureBuilder<String?>(
+                  future: _getCurrentUserImage(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CupertinoActivityIndicator(color: Colors.yellow,);
+                    } else {
+                      if (snapshot.hasData) {
+                        return Image.network(
+                          snapshot.data!,
+                          height: MediaQuery.of(context).size.height * 0.060,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width * 0.15,
+                        );
+                      } else {
+                        return Image.network(
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-RKXJ4XsJZD0N5ZRZGByBllxoQwA0lv6YF-OI1lt27A&s",
+                          height: MediaQuery.of(context).size.height * 0.060,
+                          fit: BoxFit.cover,color: Colors.blueGrey,
+                          width: MediaQuery.of(context).size.width * 0.15,
+                        );
+                      }
+                    }
+                  },
                 ),
               ),
+
               Text("Update Logo"),
               80.height,
               Padding(
@@ -105,18 +136,17 @@ class _SellerDetailsState extends State<SellerDetails> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: phoneController,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)
                   ),
                     labelText: "Phone",
                   ),
                 ),
               ),
-
 
               Padding(
                 padding: const EdgeInsets.all(10),
@@ -140,10 +170,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                   ),
                 ),
               ),
-
-
               40.height,
-
             ],
           )
         ],
@@ -212,6 +239,19 @@ class _SellerDetailsState extends State<SellerDetails> {
     );
   }
 
+
+
+  Future<String?> _getCurrentUserImage() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final doc = await FirebaseFirestore.instance.collection('SellerDetails').doc(user.uid).get();
+      if (doc.exists) {
+          return doc.data()?['imageUrl'];
+      }
+    }
+    return null;
+  }
+  
   void _getImageFromCamera(BuildContext context) async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
@@ -251,8 +291,6 @@ class _SellerDetailsState extends State<SellerDetails> {
   //   );
   // }
 
-
-
   void _getImageFromGallery(BuildContext context) async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -278,12 +316,10 @@ class _SellerDetailsState extends State<SellerDetails> {
       print('Error uploading image: $e');
     }
   }
+
   void _saveSellerDetails() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
-   //   if (user != null) {
-       // var userId = user.uid;
-
         SellerDetailsModels sellerDetailsModels = SellerDetailsModels(
           sId: user?.uid,
           storeName: storeNameController.text.trim().toString(),
@@ -291,22 +327,23 @@ class _SellerDetailsState extends State<SellerDetails> {
           sellerEmail: emailController.text.trim().toString(),
           businessCategory: businessCategoryController.text.trim().toString(),
           businessName: businessNameController.text.trim().toString(),
-          imageUrl: imageUrl,
+          imageUrl: imageUrl.toString(),
         );
 
-        await FirebaseFirestore.instance.collection('SellerDetails').doc(user?.uid).set(sellerDetailsModels.toJson());
-
+        await FirebaseFirestore.instance.collection('SellerDetails').doc(user?.uid).update(sellerDetailsModels.toJson());
         // Clear all text controllers after uploading data
         storeNameController.clear();
         phoneController.clear();
         emailController.clear();
         businessCategoryController.clear();
-        individualController.clear();
-        gstNumberController.clear();
-        upiIdController.clear();
-        fssaiLicenseNoController.clear();
-        addressController.clear();
-        bankAccountController.clear();
+        businessNameController.clear();
+
+        // individualController.clear();
+        // gstNumberController.clear();
+        // upiIdController.clear();
+        // fssaiLicenseNoController.clear();
+        // addressController.clear();
+        // bankAccountController.clear();
 
         // Optionally, show a success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
@@ -331,31 +368,6 @@ class _SellerDetailsState extends State<SellerDetails> {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

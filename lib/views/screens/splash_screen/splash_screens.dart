@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shopee_seller_app/views/screen/setting_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_constants/image_constants.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
       if (user != null) {
-        context.pushReplace(HomeScreen());
+        context.pushReplace(SettingScreen());
       } else {
         context.pushReplace(PhoneAuthScreen());
       }

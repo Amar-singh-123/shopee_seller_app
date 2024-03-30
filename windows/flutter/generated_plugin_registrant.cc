@@ -24,7 +24,6 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("FirebaseCorePluginCApi"));
   FirebaseStoragePluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FirebaseStoragePluginCApi"));
-
   SmartAuthPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("SmartAuthPlugin"));
 }

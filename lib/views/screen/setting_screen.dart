@@ -66,7 +66,7 @@ class _SettingScreenState extends State<SettingScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
             ),
-            height: context.screenHeight * 0.25, // Adjusted container height
+            height: context.screenHeight * 0.38, // Adjusted container height
             child: Column(
               children: [
                 Container(
@@ -107,7 +107,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    storeName ?? "null",
+                                    storeName ?? "Store name",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w900,
@@ -130,7 +130,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                         future: _getCurrentUserImage(),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState == ConnectionState.waiting) {
-                                            return CircularProgressIndicator();
+                                            return CupertinoActivityIndicator(color: Colors.yellow,);
                                           } else {
                                             if (snapshot.hasData) {
                                               return Image.network(
@@ -141,7 +141,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                               );
                                             } else {
                                               return Image.network(
-                                                "https://static.thenounproject.com/png/4974686-200.png",
+                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-RKXJ4XsJZD0N5ZRZGByBllxoQwA0lv6YF-OI1lt27A&s",
                                                 height: MediaQuery.of(context).size.height * 0.060,
                                                 fit: BoxFit.cover,color: Colors.blueGrey,
                                                 width: MediaQuery.of(context).size.width * 0.15,
@@ -210,16 +210,6 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  Future<String?> _getCurrentUserImage() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-      if (doc.exists) {
-        return doc.data()?['image'];
-      }
-    }
-    return null;
-  }
 
 
   void _showImageOptions(BuildContext context) {
@@ -251,6 +241,16 @@ class _SettingScreenState extends State<SettingScreen> {
         );
       },
     );
+  }
+  Future<String?> _getCurrentUserImage() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final doc = await FirebaseFirestore.instance.collection('SellerDetails').doc(user.uid).get();
+      if (doc.exists) {
+        return doc.data()?['imageUrl'];
+      }
+    }
+    return null;
   }
 
 
