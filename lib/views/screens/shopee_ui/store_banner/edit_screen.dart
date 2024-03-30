@@ -8,14 +8,14 @@ import 'package:shopee_seller_app/views/utils/app_widgets/text_form_field/text_f
 import '../../../../controllers/banner_controller.dart';
 import '../../../screens/shopee_ui/store_banner/banner_library_screen.dart';
 
-class TabBarWidget extends StatefulWidget {
-  const TabBarWidget({Key? key}) : super(key: key);
+class UpdateTabBarWidget extends StatefulWidget {
+  const UpdateTabBarWidget({Key? key}) : super(key: key);
 
   @override
-  _TabBarWidgetState createState() => _TabBarWidgetState();
+  _UpdateTabBarWidgetState createState() => _UpdateTabBarWidgetState();
 }
 
-class _TabBarWidgetState extends State<TabBarWidget> {
+class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
   File? _imageForMobile;
   File? _imageForDesktop;
   final TextEditingController _navigateToLinkMobile = TextEditingController();
@@ -94,11 +94,11 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                       child: _imageForMobile == null
                           ? const Center(child: Text("No Image Selected"))
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.file(
-                                _imageForMobile!,
-                                fit: BoxFit.cover,
-                              )),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.file(
+                            _imageForMobile!,
+                            fit: BoxFit.cover,
+                          )),
                     ),
                   ),
                   20.height,
@@ -179,11 +179,11 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                       child: _imageForDesktop == null
                           ? const Center(child: Text("No Image Selected"))
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.file(
-                                _imageForDesktop!,
-                                fit: BoxFit.cover,
-                              )),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.file(
+                            _imageForDesktop!,
+                            fit: BoxFit.cover,
+                          )),
                     ),
                   ),
                   20.height,
@@ -207,26 +207,26 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                   20.height,
                   _switchValueForDesktop
                       ? Column(
-                        children: [
-                          TextFormFieldWidget(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return null;
-                                } else {
-                                  return "Please Add Link";
-                                }
-                              },
-                              controller: _navigateToLinkDesktop,
-                              keyboardType: TextInputType.text,
-                              labelText: "Navigate to link",
-                              obscureText: false,
-                              textInputAction: TextInputAction.next,
-                            ),
-                          20.height,
-                          const Text("Provided link will be opened when user clicks on banner")
+                    children: [
+                      TextFormFieldWidget(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return null;
+                          } else {
+                            return "Please Add Link";
+                          }
+                        },
+                        controller: _navigateToLinkDesktop,
+                        keyboardType: TextInputType.text,
+                        labelText: "Navigate to link",
+                        obscureText: false,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      20.height,
+                      const Text("Provided link will be opened when user clicks on banner")
 
-                        ],
-                      )
+                    ],
+                  )
                       : const SizedBox(),
                   100.height,
                   Expanded(
@@ -261,7 +261,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
               leading: const Icon(Icons.search),
               title: const Text("Search Images"),
             ),
-             ListTile(
+            ListTile(
               onTap: () => context.push(BannerLibraryScreen()),
               leading: Icon(Icons.library_add),
               title: Text("Banner Library"),
@@ -294,9 +294,9 @@ class _TabBarWidgetState extends State<TabBarWidget> {
               leading: const Icon(Icons.search),
               title: const Text("Search Images"),
             ),
-             ListTile(
-               onTap: () => context.push(BannerLibraryScreen()),
-               leading: const Icon(Icons.library_add),
+            ListTile(
+              onTap: () => context.push(BannerLibraryScreen()),
+              leading: const Icon(Icons.library_add),
               title: const Text("Banner Library"),
             ),
 
@@ -349,13 +349,10 @@ class _TabBarWidgetState extends State<TabBarWidget> {
               TextFormFieldWidget(validator: (value){}, controller: _searchBannerItemsForMobile, keyboardType: TextInputType.text, labelText: "Search images", textInputAction: TextInputAction.next, obscureText: false),
               const SizedBox(height: 20,),
               CustomButtonWidget(text: "Search", onTap: (){})
-
-              // Text("")
             ],
           ),
         );
       },
     );
   }
-
 }

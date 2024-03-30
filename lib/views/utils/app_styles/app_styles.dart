@@ -5,4 +5,5 @@ class AppStyle {
   static ButtonStyle buttonStyle = ElevatedButton.styleFrom(
     backgroundColor: AppColor.soft,
   );
+
 }
