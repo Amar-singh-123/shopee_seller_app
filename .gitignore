@@ -30,7 +30,8 @@ pubspec.yaml
 .pub-cache/
 .pub/
 /build/
-
+pubspec.lock
+pubspec.yaml
 # Symbolication related
 app.*.symbols
 
