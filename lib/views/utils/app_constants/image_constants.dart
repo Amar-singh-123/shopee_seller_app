@@ -4,3 +4,4 @@ const introImage = 'assets/images/onboarding.png';
 const filterIcon = 'assets/images/filter.png';
 const ageIcon = 'assets/images/anti-age.png';
 const splash = 'splash_animation.json';
+const whatsapp = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM_rW3R1Jbw-q3G7kiHZCYvjcICmVDIS9pxS7oKY9dUQ&s';
