@@ -1,14 +1,12 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shopee_seller_app/views/product/widget_class.dart';
-
-import 'Product_model.dart';
+import 'package:shopee_seller_app/views/utils/app_widgets/textfield/widget_class.dart';
+import '../../../../models/products/Product_model.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);

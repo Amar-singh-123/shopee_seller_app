@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shopee_seller_app/models/order_model.dart';
+import 'package:shopee_seller_app/models/orders/order_model.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import 'package:shopee_seller_app/views/utils/app_styles/app_styles.dart';
 
