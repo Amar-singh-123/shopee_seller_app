@@ -326,11 +326,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+<<<<<<< HEAD
   flutter_localizations:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
+=======
+>>>>>>> 0cb6bc2051691e7cfe03372e86674381051ac82c
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
