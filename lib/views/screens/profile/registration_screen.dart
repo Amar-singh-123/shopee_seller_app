@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopee_seller_app/controllers/app_controller.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
-import '../../../../models/profile_model.dart';
+import '../../../models/profile/profile_model.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
