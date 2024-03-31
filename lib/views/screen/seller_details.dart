@@ -23,13 +23,6 @@ class _SellerDetailsState extends State<SellerDetails> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController businessCategoryController = TextEditingController();
-  // TextEditingController individualController = TextEditingController();
-  // TextEditingController gstNumberController = TextEditingController();
-  // TextEditingController upiIdController = TextEditingController();
-  // TextEditingController fssaiLicenseNoController = TextEditingController();
-  // TextEditingController addressController = TextEditingController();
-  // TextEditingController bankAccountController = TextEditingController();
-  // TextEditingController businessCategory = TextEditingController();
 
   String? imageUrl;
   File? imageFile;
@@ -262,35 +255,6 @@ class _SellerDetailsState extends State<SellerDetails> {
     }
   }
 
-  //  _showCategoryButtonSheet(BuildContext context){
-  //   showBottomSheet(context: context,
-  //     builder: (BuildContext context) {
-  //       return SafeArea(
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: <Widget>[
-  //               ListView(
-  //                 children: [
-  //                   TextField(
-  //                     controller: businessCategory,
-  //                     decoration: InputDecoration(
-  //                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-  //                         label: Text("Enter Business Category")
-  //                     ),
-  //                   ),
-  //                   ElevatedButton(onPressed: (){
-  //
-  //                   },
-  //                       child: Text("Submit"))
-  //                 ],
-  //               )
-  //             ],
-  //           )
-  //       );
-  //     },
-  //   );
-  // }
-
   void _getImageFromGallery(BuildContext context) async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -338,14 +302,6 @@ class _SellerDetailsState extends State<SellerDetails> {
         businessCategoryController.clear();
         businessNameController.clear();
 
-        // individualController.clear();
-        // gstNumberController.clear();
-        // upiIdController.clear();
-        // fssaiLicenseNoController.clear();
-        // addressController.clear();
-        // bankAccountController.clear();
-
-        // Optionally, show a success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Seller details saved successfully!'),
@@ -375,68 +331,3 @@ class _SellerDetailsState extends State<SellerDetails> {
 
 
 
-
-
-// Padding(
-//   padding: const EdgeInsets.all(10),
-//   child: TextField(
-//     controller: individualController,
-//     decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)
-//     ),
-//       labelText: "Individual",
-//     ),
-//   ),
-// ),
-// Padding(
-//   padding: const EdgeInsets.all(10),
-//   child: TextField(
-//     controller: gstNumberController,
-//     decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)
-//     ),
-//       labelText: "GST Number",
-//     ),
-//   ),
-// ),
-// Padding(
-//   padding: const EdgeInsets.all(10),
-//   child: TextField(
-//     controller: upiIdController,
-//     decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)
-//     ),
-//       labelText: "UPI Id",
-//     ),
-//   ),
-// ),
-//
-// Padding(
-//   padding: const EdgeInsets.all(10),
-//   child: TextField(
-//     controller: fssaiLicenseNoController,
-//     decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)
-//     ),
-//       labelText: "Fssai License No",
-//     ),
-//   ),
-// ),
-//
-// Padding(
-//   padding: const EdgeInsets.all(10),
-//   child: TextField(
-//     controller: addressController,
-//     decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)
-//     ),
-//       labelText: "Address",
-//     ),
-//   ),
-// ),
-//
-// Padding(
-//   padding: const EdgeInsets.all(10),
-//   child: TextField(
-//     controller: bankAccountController,
-//     decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)
-//     ),
-//       labelText: "Bank Details",
-//     ),
-//   ),
-// ),
