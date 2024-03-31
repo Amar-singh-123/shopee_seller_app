@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shopee_seller_app/model/seller_details_model.dart';
 import 'dart:io';
 
-import 'package:shopee_seller_app/views/screen/setting_screen.dart';
+import 'package:shopee_seller_app/views/screens/shop_details/setting_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 class SellerDetails extends StatefulWidget {
