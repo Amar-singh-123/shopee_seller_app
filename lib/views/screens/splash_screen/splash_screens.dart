@@ -7,6 +7,7 @@ import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart
 
 import '../../screens/auth/phone_auth_screen.dart';
 import '../../screens/home/home_screen.dart';
+import '../caustomers/caustomer_home/caustome_home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (user != null) {
         context.pushReplace(HomeScreen());
       } else {
-        context.pushReplace(PhoneAuthScreen());
+        context.pushReplace(Caustomer_Home());
       }
     });
     return Scaffold(

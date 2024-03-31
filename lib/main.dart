@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shopee_seller_app/views/screens/home/profile/registration_screen.dart';
+import 'package:shopee_seller_app/views/screens/splash_screen/splash_screens.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -23,8 +24,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: RegistrationScreen(),
+      debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const SplashScreen(),
+
     );
     }
 }
