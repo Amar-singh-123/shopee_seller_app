@@ -13,20 +13,26 @@ class AuthController {
       verificationCompleted: (c) {},
       verificationFailed: (f) {},
       codeSent: (verificationId, forceResendingToken) {
-        context.pushReplace(OtpVerificationScreen(verificationId: verificationId));
+        context
+            .pushReplace(OtpVerificationScreen(verificationId: verificationId));
       },
       codeAutoRetrievalTimeout: (v) {},
     );
   }
 
   static otpVerification(
-      {required BuildContext context, required String smsCode, required String verificationId}) {
+      {required BuildContext context,
+      required String smsCode,
+      required String verificationId}) {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: smsCode);
     FirebaseAuth.instance.signInWithCredential(credential).whenComplete(() {
-      if(FirebaseAuth.instance.currentUser?.uid != null){
-       context.pushReplace(HomeScreen());
-        context.showSnackBar(title: "Otp: ", message: ' verification completed', color: AppColor.dark);
+      if (FirebaseAuth.instance.currentUser?.uid != null) {
+        context.pushReplace(HomeScreen());
+        context.showSnackBar(
+            title: "Otp: ",
+            message: ' verification completed',
+            color: AppColor.dark);
       }
     });
   }

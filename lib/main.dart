@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shopee_seller_app/views/screens/home/profile/registration_screen.dart';
+import 'package:shopee_seller_app/views/screens/auth/otp_verification_screen.dart';
+import 'package:shopee_seller_app/views/screens/auth/phone_auth_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -24,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: RegistrationScreen(),
+        home: OtpVerificationScreen(verificationId: '53',),
     );
     }
 }

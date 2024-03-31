@@ -15,4 +15,5 @@ class AppColor{
   static Color white =const Color(0xffFFFFFF);
   static Color whiteGray =const Color(0xffF1F1F5);
   static Color lineDark =const Color(0xffEAEAEA);
+  static Color deepPurple =Colors.deepPurpleAccent;
 }
