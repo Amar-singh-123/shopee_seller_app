@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shopee_seller_app/models/order_model.dart';
+import 'package:shopee_seller_app/models/orders/order_model.dart';
+import 'package:shopee_seller_app/views/utils/app_constants/image_constants.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 class NewScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class NewScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(constraints: BoxConstraints(maxHeight: 200, maxWidth: 200),child: Image.asset('assets/images/cards.png', width: context.screenWidth*0.48)),
+               // Container(constraints: BoxConstraints(maxHeight: 200, maxWidth: 200),child: Image.asset('assets/images/cards.png', width: context.screenWidth*0.48)),
                 const Text(
                   'No orders in the section.',
                   style: TextStyle(fontSize: 13, color: Colors.black45),
@@ -116,16 +117,17 @@ class NewScreen extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Image.asset(
-                      'assets/images/whatsapp.png',
+                    icon: Image.network(
+                      whatsapp,
                       width: 19,
                     ),
+
                   ),
                   Text(
                     "${orderModel.customerPhone}",
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 15,
+                      fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'Product_model.dart';
+import '../../../../models/products/Product_model.dart';
 import 'add_product.dart';
 
 class ViewProducts extends StatelessWidget {
@@ -12,17 +12,6 @@ class ViewProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        leading: Icon(
-          Icons.arrow_back_sharp,
-          color: Colors.white,
-        ),
-        title: const Text(
-          "View All Products",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -115,7 +104,10 @@ class ViewProducts extends StatelessWidget {
                             ),
                             Text(
                               '${product.productDetail}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                               style: TextStyle(
+
                                   fontSize: 15, fontWeight: FontWeight.w400),
                             ),
                             Text(

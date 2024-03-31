@@ -42,11 +42,15 @@ class PhoneAuthScreen extends StatelessWidget {
                 onPressed: () {
                   AuthController.phoneAuth(phoneController, context);
                 },
-                child: Text(
-                  "Send otp",
-                  style: defaultTextStyle,
-                )),
-          )
+                child:  Text("Send otp", style: defaultTextStyle,)),
+          ),
+          20.height,
+          Text("Or,"),
+          30.height,
+         OutlinedButton(onPressed: () {
+           AuthController.signInWithGoogle(context);
+         }, child: const Text('Continue With Google'))
+
         ],
       ),
     );

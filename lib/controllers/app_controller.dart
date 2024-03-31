@@ -1,14 +1,14 @@
-import 'dart:io';
 
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shopee_seller_app/views/screens/home/profile/profile_screen.dart';
+import 'package:get/get.dart';
+import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
-
-import '../models/profile_model.dart';
+import '../models/profile/profile_model.dart';
+import '../views/screens/profile/profile_screen.dart';
 
 class AppController{
   BuildContext context;
@@ -72,7 +72,7 @@ class AppController{
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Registration Successful')),
         );
-        context.pushReplace(const ProfileScreen());
+        Get.offAll(()=>const HomeScreen());
       } catch (ex) {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
