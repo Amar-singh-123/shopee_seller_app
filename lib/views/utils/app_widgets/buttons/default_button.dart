@@ -9,7 +9,6 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(onPressed: onPress, child: Text(text),style:ElevatedButton.styleFrom(
-
     ),);
   }
 }

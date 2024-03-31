@@ -9,19 +9,15 @@
 .history
 .svn/
 migrate_working_dir/
-
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
-pubspec.yaml
-
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 #.vscode/
-
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -31,7 +27,8 @@ pubspec.yaml
 .pub-cache/
 .pub/
 /build/
-
+pubspec.lock
+pubspec.yaml
 # Symbolication related
 app.*.symbols
 
