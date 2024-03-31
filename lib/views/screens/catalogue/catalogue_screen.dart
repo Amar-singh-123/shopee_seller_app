@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/product/view_product.dart';
 
+import 'category/show_category.dart';
+
 class CatalogueScreen extends StatefulWidget {
   const CatalogueScreen({super.key});
 
@@ -26,7 +28,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
       body: TabBarView(
         children: [
           ViewProducts(),
-          Center(child: Text('category'),),
+          ShowCategory(),
         ],
       ),
     ),

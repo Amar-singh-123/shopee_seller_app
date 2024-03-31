@@ -23,10 +23,6 @@ class _ShowCategoryState extends State<ShowCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text("Categories"),
-      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('shoppe_category')
