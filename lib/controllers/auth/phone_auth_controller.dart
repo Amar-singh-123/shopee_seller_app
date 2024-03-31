@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shopee_seller_app/views/screens/auth/otp_verification_screen.dart';
 import 'package:get/get.dart';
 import 'package:shopee_seller_app/views/screens/auth/otp_verification_screen.dart';
 import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
@@ -14,17 +15,37 @@ class AuthController {
   static phoneAuth(String number, BuildContext context) {
     FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: number,
-      verificationCompleted: (c) {},
-      verificationFailed: (f) {},
-      codeSent: (verificationId, forceResendingToken) {
-        context.pushReplace(OtpVerificationScreen(verificationId: verificationId));
+      verificationCompleted: (c) {
+        context.showSnackBar(
+            title: "Otp: ",
+            message: 'verificationCompleted',
+            color: AppColor.dark);
       },
-      codeAutoRetrievalTimeout: (v) {},
+      verificationFailed: (f) {
+        context.showSnackBar(
+            title: "Otp: ",
+            message: 'verificationFailed',
+            color: AppColor.dark);
+      },
+      codeSent: (verificationId, forceResendingToken) {
+        context.showSnackBar(
+            title: "Otp: ", message: 'otp sent', color: AppColor.dark);
+        context
+            .pushReplace(OtpVerificationScreen(verificationId: verificationId));
+      },
+      codeAutoRetrievalTimeout: (v) {
+        context.showSnackBar(
+            title: "Otp: ",
+            message: 'codeAutoRetrievalTimeout',
+            color: AppColor.dark);
+      },
     );
   }
 
   static otpVerification(
-      {required BuildContext context, required String smsCode, required String verificationId}) {
+      {required BuildContext context,
+      required String smsCode,
+      required String verificationId}) {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: smsCode);
     FirebaseAuth.instance.signInWithCredential(credential).whenComplete(() {

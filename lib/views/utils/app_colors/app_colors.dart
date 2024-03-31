@@ -19,6 +19,7 @@ class AppColor{
   static Color screenBg = const Color(0xfff2f2f2);
   static Color whiteGray =const Color(0xffF1F1F5);
   static Color lineDark =const Color(0xffEAEAEA);
+  static Color deepPurple =Colors.deepPurpleAccent;
   // static Color lineDark =const Color(0xffe7e7e7);
   static Color bluesGray =const Color(0xff9FACDC);
   // static Color shadowColor =const Color(0xff9FACDC);
