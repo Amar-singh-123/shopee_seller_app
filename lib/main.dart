@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:shopee_seller_app/views/screens/splash_screen/splash_screens.dart';
 import 'firebase_options.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
@@ -22,6 +24,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
         theme: ThemeData(
