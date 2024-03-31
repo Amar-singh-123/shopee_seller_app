@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopee_seller_app/views/screens/home/profile/profile_update_screen.dart';
+import 'package:shopee_seller_app/views/screens/profile/profile_update_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 class ProfileScreen extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopee_seller_app/views/screens/home/profile/profile_screen.dart';
+import 'package:shopee_seller_app/views/screens/profile/profile_screen.dart';
 
 class UpdateScreens extends StatefulWidget {
   final String id;
@@ -240,14 +240,14 @@ class _UpdateScreensState extends State<UpdateScreens> {
     if (pickedImage != null) {
       // Upload new image to Firebase Storage
       UploadTask uploadTask = FirebaseStorage.instance
-          .ref('profile_picks')
+          .ref('profile_pics')
           .child(widget.id)
           .putFile(pickedImage!);
       TaskSnapshot taskSnapshot = await uploadTask;
       String url = await taskSnapshot.ref.getDownloadURL();
 
       // Update Firestore document with new data including image URL
-      await FirebaseFirestore.instance.collection("users").doc(widget.id).update({
+      await FirebaseFirestore.instance.collection("Seller_Profile").doc(widget.id).update({
         "Username": username,
         "Address": address,
         "Age": age,
@@ -256,7 +256,7 @@ class _UpdateScreensState extends State<UpdateScreens> {
       });
     } else {
       // Update Firestore document without image URL
-      await FirebaseFirestore.instance.collection("users").doc(widget.id).update({
+      await FirebaseFirestore.instance.collection("Seller_Profile").doc(widget.id).update({
         "Username": username,
         "Address": address,
         "Age": age,

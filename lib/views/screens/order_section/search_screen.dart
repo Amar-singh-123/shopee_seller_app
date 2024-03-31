@@ -26,7 +26,7 @@ class SearchScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/cards.png', width: context.screenWidth*0.48,),
+            //Image.asset('assets/images/cards.png', width: context.screenWidth*0.48,),
             const Text('No orders in the section.', style: TextStyle(fontSize: 13, color: Colors.black45),),
             SizedBox(height: context.screenHeight*0.2,)
           ],

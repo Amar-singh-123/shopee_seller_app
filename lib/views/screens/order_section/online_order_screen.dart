@@ -44,10 +44,7 @@ class _OnlineOrdersScreenState extends State<OnlineOrdersScreen>
             },
           ),
           IconButton(
-            icon: Image.asset(
-              'assets/images/menu.png',
-              width: 30,
-            ),
+            icon: Icon(Icons.more_vert),
             onPressed: () {},
           ),
         ],
