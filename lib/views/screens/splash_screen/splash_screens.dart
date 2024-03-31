@@ -3,10 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shopee_seller_app/controllers/auth/phone_auth_controller.dart';
+import 'package:shopee_seller_app/views/screens/auth/email_auth/signing_with_email.dart';
 import 'package:shopee_seller_app/views/utils/app_constants/image_constants.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
-import '../../screens/auth/phone_auth_screen.dart';
+import '../auth/phone_auth/phone_auth_screen.dart';
 import '../../screens/home/home_screen.dart';
 import '../caustomers/caustomer_home/caustome_home.dart';
 
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (user != null) {
         AuthController.navigateUser(uid: user);
       } else {
-        context.pushReplace(PhoneAuthScreen());
+        context.pushReplace(SigningWithEmail());
       }
     });
     return Scaffold(
