@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shopee_seller_app/controllers/banner_controller.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
-import '../../../../screens/shopee_ui/store_banner/edit_screen.dart';
+
+import '../../../../screens/store_banner/edit_screen.dart';
 
 class PopUpMenuButtonWidget extends StatelessWidget {
    PopUpMenuButtonWidget({super.key,required this.id,required this.data});

@@ -5,8 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopee_seller_app/models/banner_model/banner_model.dart';
-import 'package:shopee_seller_app/views/screens/shopee_ui/store_banner/store_banner_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
+
+import '../views/screens/store_banner/store_banner_screen.dart';
 
 class BannerController {
   BuildContext context;
