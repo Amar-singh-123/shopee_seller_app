@@ -150,7 +150,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                       child: CustomButtonWidget(
                         text: "Save",
                         onTap: () {
-                          BannerController(context: context).uploadBanner(_imageForMobile!);
+                          BannerController(context: context).uploadBanner(image : _imageForMobile!,link: _navigateToLinkMobile.text.toString(),uploadType: "Mobile");
                         },
                       ),
                     ),
@@ -235,7 +235,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                       child: CustomButtonWidget(
                         text: "Save",
                         onTap: () {
-                          BannerController(context: context).uploadBanner(_imageForDesktop!);
+                          BannerController(context: context).uploadBanner(image : _imageForDesktop!,link: _navigateToLinkDesktop.text.toString(),uploadType: "Desktop");
                         },
                       ),
                     ),
@@ -349,8 +349,6 @@ class _TabBarWidgetState extends State<TabBarWidget> {
               TextFormFieldWidget(validator: (value){}, controller: _searchBannerItemsForMobile, keyboardType: TextInputType.text, labelText: "Search images", textInputAction: TextInputAction.next, obscureText: false),
               const SizedBox(height: 20,),
               CustomButtonWidget(text: "Search", onTap: (){})
-
-              // Text("")
             ],
           ),
         );

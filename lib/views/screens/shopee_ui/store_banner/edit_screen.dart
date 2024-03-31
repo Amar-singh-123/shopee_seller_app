@@ -9,27 +9,28 @@ import '../../../../controllers/banner_controller.dart';
 import '../../../screens/shopee_ui/store_banner/banner_library_screen.dart';
 
 class UpdateTabBarWidget extends StatefulWidget {
-  const UpdateTabBarWidget({Key? key}) : super(key: key);
+  var data;
+   UpdateTabBarWidget({Key? key, required this.data}) : super(key: key);
 
   @override
   _UpdateTabBarWidgetState createState() => _UpdateTabBarWidgetState();
 }
 
 class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
-  File? _imageForMobile;
-  File? _imageForDesktop;
-  final TextEditingController _navigateToLinkMobile = TextEditingController();
-  final TextEditingController _navigateToLinkDesktop = TextEditingController();
-  final TextEditingController _searchBannerItemsForMobile = TextEditingController();
+  File? _updateImageForMobile;
+  File? _updateImageForDesktop;
+  final TextEditingController _updateNavigateToLinkMobile = TextEditingController();
+  final TextEditingController _updateNavigateToLinkDesktop = TextEditingController();
+  final TextEditingController _updateSearchBannerItemsForMobile = TextEditingController();
   final TextEditingController _searchBannerItemsForDesktop = TextEditingController();
-  bool _switchValueForMobile = false;
-  bool _switchValueForDesktop = false;
+  bool _updateSwitchValueForMobile = false;
+  bool _updateSwitchValueForDesktop = false;
 
   Future<void> _pickImageForMobile(ImageSource source) async {
     final pickedImage = await ImagePicker().pickImage(source: source);
     if (pickedImage != null) {
       setState(() {
-        _imageForMobile = File(pickedImage.path);
+        _updateImageForMobile = File(pickedImage.path);
       });
     }
   }
@@ -38,9 +39,14 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
     final pickedImage = await ImagePicker().pickImage(source: source);
     if (pickedImage != null) {
       setState(() {
-        _imageForDesktop = File(pickedImage.path);
+        _updateImageForDesktop = File(pickedImage.path);
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -49,7 +55,7 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Banner',
+          title: const Text('Update',
               style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,
           elevation: 0,
@@ -82,7 +88,7 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () {
-                      _bottomSheetForMobile();
+                      // _bottomSheetForMobile();
                     },
                     child: Container(
                       width: context.screenWidth,
@@ -91,12 +97,12 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                         border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: _imageForMobile == null
+                      child: _updateImageForMobile == null
                           ? const Center(child: Text("No Image Selected"))
                           : ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.file(
-                            _imageForMobile!,
+                            _updateImageForMobile!,
                             fit: BoxFit.cover,
                           )),
                     ),
@@ -110,17 +116,17 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                         style: TextStyle(fontSize: 20),
                       ),
                       CupertinoSwitch(
-                        value: _switchValueForMobile,
+                        value: _updateSwitchValueForMobile,
                         onChanged: (value) {
                           setState(() {
-                            _switchValueForMobile = value;
+                            _updateSwitchValueForMobile = value;
                           });
                         },
                       ),
                     ],
                   ),
                   20.height,
-                  _switchValueForMobile
+                  _updateSwitchValueForMobile
                       ? Column(
                     children: [
                       TextFormFieldWidget(
@@ -131,7 +137,7 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                             return "Please Add Link";
                           }
                         },
-                        controller: _navigateToLinkMobile,
+                        controller: _updateNavigateToLinkMobile,
                         keyboardType: TextInputType.text,
                         labelText: "Navigate to link",
                         obscureText: false,
@@ -150,7 +156,7 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                       child: CustomButtonWidget(
                         text: "Save",
                         onTap: () {
-                          BannerController(context: context).uploadBanner(_imageForMobile!);
+
                         },
                       ),
                     ),
@@ -167,7 +173,7 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () {
-                      _bottomSheetForDesktop();
+                      // _bottomSheetForDesktop();
                     },
                     child: Container(
                       width: context.screenWidth,
@@ -176,12 +182,12 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                         border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: _imageForDesktop == null
+                      child: _updateImageForDesktop == null
                           ? const Center(child: Text("No Image Selected"))
                           : ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.file(
-                            _imageForDesktop!,
+                            _updateImageForDesktop!,
                             fit: BoxFit.cover,
                           )),
                     ),
@@ -195,17 +201,17 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                         style: TextStyle(fontSize: 20),
                       ),
                       CupertinoSwitch(
-                        value: _switchValueForDesktop,
+                        value: _updateSwitchValueForDesktop,
                         onChanged: (value) {
                           setState(() {
-                            _switchValueForDesktop = value;
+                            _updateSwitchValueForDesktop = value;
                           });
                         },
                       ),
                     ],
                   ),
                   20.height,
-                  _switchValueForDesktop
+                  _updateSwitchValueForDesktop
                       ? Column(
                     children: [
                       TextFormFieldWidget(
@@ -216,7 +222,7 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                             return "Please Add Link";
                           }
                         },
-                        controller: _navigateToLinkDesktop,
+                        controller: _updateNavigateToLinkDesktop,
                         keyboardType: TextInputType.text,
                         labelText: "Navigate to link",
                         obscureText: false,
@@ -235,7 +241,7 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
                       child: CustomButtonWidget(
                         text: "Save",
                         onTap: () {
-                          BannerController(context: context).uploadBanner(_imageForDesktop!);
+                          // BannerController(context: context).uploadBanner(_imageForDesktop!);
                         },
                       ),
                     ),
@@ -249,110 +255,110 @@ class _UpdateTabBarWidgetState extends State<UpdateTabBarWidget> {
     );
   }
 
-  void _bottomSheetForMobile() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              onTap: () => _searchMobileBottomSheet(),
-              leading: const Icon(Icons.search),
-              title: const Text("Search Images"),
-            ),
-            ListTile(
-              onTap: () => context.push(BannerLibraryScreen()),
-              leading: Icon(Icons.library_add),
-              title: Text("Banner Library"),
-            ),
-
-            ListTile(
-              onTap: () => _pickImageForMobile(ImageSource.camera),
-              leading: const Icon(Icons.camera_alt_outlined),
-              title: const Text("Camera"),
-            ),
-            ListTile(
-              onTap: () => _pickImageForMobile(ImageSource.gallery),
-              leading: const Icon(Icons.photo_library_outlined),
-              title: const Text("Gallery"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  void _bottomSheetForDesktop() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              onTap: () => _searchDesktopBottomSheet(),
-              leading: const Icon(Icons.search),
-              title: const Text("Search Images"),
-            ),
-            ListTile(
-              onTap: () => context.push(BannerLibraryScreen()),
-              leading: const Icon(Icons.library_add),
-              title: const Text("Banner Library"),
-            ),
-
-            ListTile(
-              onTap: () => _pickImageForDesktop(ImageSource.camera),
-              leading: const Icon(Icons.camera_alt_outlined),
-              title: const Text("Camera"),
-            ),
-            ListTile(
-              onTap: () => _pickImageForDesktop(ImageSource.gallery),
-              leading: const Icon(Icons.photo_library_outlined),
-              title: const Text("Gallery"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  void _searchMobileBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 18.0,bottom: 20,left: 10,right: 10),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const Text("Search images"),
-              const SizedBox(height: 20,),
-              TextFormFieldWidget(validator: (value){}, controller: _searchBannerItemsForMobile, keyboardType: TextInputType.text, labelText: "Search images", textInputAction: TextInputAction.next, obscureText: false),
-              const SizedBox(height: 20,),
-              CustomButtonWidget(text: "Search", onTap: (){})
-            ],
-          ),
-        );
-      },
-    );
-  }
-  void _searchDesktopBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 18.0,bottom: 20,left: 10,right: 10),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const Text("Search images"),
-              const SizedBox(height: 20,),
-              TextFormFieldWidget(validator: (value){}, controller: _searchBannerItemsForMobile, keyboardType: TextInputType.text, labelText: "Search images", textInputAction: TextInputAction.next, obscureText: false),
-              const SizedBox(height: 20,),
-              CustomButtonWidget(text: "Search", onTap: (){})
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // void _bottomSheetForMobile() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) {
+  //       return Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           ListTile(
+  //             onTap: () => _searchMobileBottomSheet(),
+  //             leading: const Icon(Icons.search),
+  //             title: const Text("Search Images"),
+  //           ),
+  //           ListTile(
+  //             onTap: () => context.push(BannerLibraryScreen()),
+  //             leading: Icon(Icons.library_add),
+  //             title: Text("Banner Library"),
+  //           ),
+  //
+  //           ListTile(
+  //             onTap: () => _pickImageForMobile(ImageSource.camera),
+  //             leading: const Icon(Icons.camera_alt_outlined),
+  //             title: const Text("Camera"),
+  //           ),
+  //           ListTile(
+  //             onTap: () => _pickImageForMobile(ImageSource.gallery),
+  //             leading: const Icon(Icons.photo_library_outlined),
+  //             title: const Text("Gallery"),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+  // void _bottomSheetForDesktop() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) {
+  //       return Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           ListTile(
+  //             onTap: () => _searchDesktopBottomSheet(),
+  //             leading: const Icon(Icons.search),
+  //             title: const Text("Search Images"),
+  //           ),
+  //           ListTile(
+  //             onTap: () => context.push(BannerLibraryScreen()),
+  //             leading: const Icon(Icons.library_add),
+  //             title: const Text("Banner Library"),
+  //           ),
+  //
+  //           ListTile(
+  //             onTap: () => _pickImageForDesktop(ImageSource.camera),
+  //             leading: const Icon(Icons.camera_alt_outlined),
+  //             title: const Text("Camera"),
+  //           ),
+  //           ListTile(
+  //             onTap: () => _pickImageForDesktop(ImageSource.gallery),
+  //             leading: const Icon(Icons.photo_library_outlined),
+  //             title: const Text("Gallery"),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+  // void _searchMobileBottomSheet() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) {
+  //       return Padding(
+  //         padding: const EdgeInsets.only(top: 18.0,bottom: 20,left: 10,right: 10),
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.max,
+  //           children: [
+  //             const Text("Search images"),
+  //             const SizedBox(height: 20,),
+  //             TextFormFieldWidget(validator: (value){}, controller: _searchBannerItemsForMobile, keyboardType: TextInputType.text, labelText: "Search images", textInputAction: TextInputAction.next, obscureText: false),
+  //             const SizedBox(height: 20,),
+  //             CustomButtonWidget(text: "Search", onTap: (){})
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+  // void _searchDesktopBottomSheet() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) {
+  //       return Padding(
+  //         padding: const EdgeInsets.only(top: 18.0,bottom: 20,left: 10,right: 10),
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.max,
+  //           children: [
+  //             const Text("Search images"),
+  //             const SizedBox(height: 20,),
+  //             TextFormFieldWidget(validator: (value){}, controller: _searchBannerItemsForMobile, keyboardType: TextInputType.text, labelText: "Search images", textInputAction: TextInputAction.next, obscureText: false),
+  //             const SizedBox(height: 20,),
+  //             CustomButtonWidget(text: "Search", onTap: (){})
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }

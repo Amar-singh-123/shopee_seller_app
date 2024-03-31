@@ -11,6 +11,7 @@ class BannerModel {
   String? couponCode;
   String? link;
   bool? isEnable;
+  String? uploadType;
 
   BannerModel({
     this.bannerId,
@@ -19,6 +20,7 @@ class BannerModel {
     this.couponCode,
     this.link,
     this.isEnable,
+    this.uploadType,
   });
 
   factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
@@ -28,6 +30,7 @@ class BannerModel {
     couponCode: json["couponCode"],
     link: json["link"],
     isEnable: json["isEnable"],
+    uploadType: json["uploadType"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +40,6 @@ class BannerModel {
     "couponCode": couponCode,
     "link": link,
     "isEnable": isEnable,
+    "uploadType": uploadType,
   };
 }

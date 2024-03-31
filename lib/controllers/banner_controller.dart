@@ -16,13 +16,13 @@ class BannerController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  uploadBanner(bannerModel, {File? image})async{
+  uploadBanner({File? image,String? link,String? uploadType})async{
     var imageName = DateTime.now().microsecondsSinceEpoch.toString();
     var storageRef = _firebaseStorage.ref().child("BannerImages/$imageName.jpg");
     var uploadTask = storageRef.putFile(image!);
     var downloadUrl = await (await uploadTask).ref.getDownloadURL();
 
-    var data = BannerModel(bannerImage: downloadUrl.toString());
+    var data = BannerModel(bannerImage: downloadUrl.toString(),link: link,uploadType: uploadType);
 
     _firebaseFireStore.collection("Banners").add(data.toJson()).then((value) {
       var id = value.id;
@@ -33,22 +33,22 @@ class BannerController {
     });
   }
 
-  uploadLibraryBanner(File image)async{
-    var imageName = DateTime.now().microsecondsSinceEpoch.toString();
-    var storageRef = _firebaseStorage.ref().child("BannerImages/$imageName.jpg");
-    var uploadTask = storageRef.putFile(image);
-    var downloadUrl = await (await uploadTask).ref.getDownloadURL();
-
-    var data = BannerModel(bannerImage: downloadUrl.toString());
-
-    _firebaseFireStore.collection("BannersLibrary").add(data.toJson()).then((value) {
-      var id = value.id;
-      _firebaseFireStore.collection("BannersLibrary").doc(id).update({"bannerId": id}).then((value) {
-        Fluttertoast.showToast(msg: "Data Insert Successfully");
-        context.pushReplace(StoreBannerScreen());
-      });
-    });
-  }
+  // uploadLibraryBanner(File image)async{
+  //   var imageName = DateTime.now().microsecondsSinceEpoch.toString();
+  //   var storageRef = _firebaseStorage.ref().child("BannerImages/$imageName.jpg");
+  //   var uploadTask = storageRef.putFile(image);
+  //   var downloadUrl = await (await uploadTask).ref.getDownloadURL();
+  //
+  //   var data = BannerModel(bannerImage: downloadUrl.toString());
+  //
+  //   _firebaseFireStore.collection("BannersLibrary").add(data.toJson()).then((value) {
+  //     var id = value.id;
+  //     _firebaseFireStore.collection("BannersLibrary").doc(id).update({"bannerId": id}).then((value) {
+  //       Fluttertoast.showToast(msg: "Data Insert Successfully");
+  //       context.pushReplace(StoreBannerScreen());
+  //     });
+  //   });
+  // }
   deleteBanner({required String id}){
     _firebaseFireStore.collection("Banners").doc(id).delete().then((value){
       Fluttertoast.showToast(msg: "Delete Successfully");
