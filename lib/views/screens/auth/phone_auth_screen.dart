@@ -111,6 +111,15 @@ class PhoneAuthScreen extends StatelessWidget {
             )
           ],
         ),
+          ),
+          20.height,
+          Text("Or,"),
+          30.height,
+         OutlinedButton(onPressed: () {
+           AuthController.signInWithGoogle(context);
+         }, child: const Text('Continue With Google'))
+
+        ],
       ),
     );
   }
