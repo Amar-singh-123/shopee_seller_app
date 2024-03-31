@@ -46,6 +46,8 @@ dependencies:
   pinput: ^4.0.0
   get: ^4.6.6
   lottie: ^2.6.0
+  dropdown_button2: ^2.3.9
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
