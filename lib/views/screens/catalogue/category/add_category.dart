@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopee_seller_app/views/screens/add_category/show_category.dart';
+import 'package:shopee_seller_app/views/screens/catalogue/category/show_category.dart';
 
-import '../../../models/category_model.dart';
+import '../../../../models/category_model.dart';
 
 class AddCategoriesScreen extends StatefulWidget {
   const AddCategoriesScreen({Key? key}) : super(key: key);

@@ -52,7 +52,6 @@ dependencies:
   firebase_auth: ^4.17.9
   intl_phone_number_input: ^0.7.4
   awesome_snackbar_content: ^0.1.3
-  share_plus: ^8.0.2
 
 
 dev_dependencies:
