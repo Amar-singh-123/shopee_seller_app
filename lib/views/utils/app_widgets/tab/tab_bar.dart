@@ -6,7 +6,7 @@ import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart
 import 'package:shopee_seller_app/views/utils/app_widgets/buttons/custome_button/custome_button.dart';
 import 'package:shopee_seller_app/views/utils/app_widgets/text_form_field/text_form_filed.dart';
 import '../../../../controllers/banner_controller.dart';
-import '../../../screens/shopee_ui/store_banner/banner_library_screen.dart';
+import '../../../screens/store_banner/banner_library_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
   const TabBarWidget({Key? key}) : super(key: key);

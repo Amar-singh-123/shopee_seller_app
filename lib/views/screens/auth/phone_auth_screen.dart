@@ -15,112 +15,110 @@ class PhoneAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding:
-            const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 50),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Register using\n',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: Colors.black87),
-                      ),
-                      TextSpan(
-                        text: 'your mobile number\n',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: Colors.black87),
-                      ),
-                      TextSpan(
-                        text: "We'll send OTP on this number",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: Colors.black87),
-                      ),
-                    ],
-                  ),
-                ),
-                30.height,
-                IntlPhoneField(
-                  flagsButtonPadding: const EdgeInsets.all(8),
-                  dropdownIconPosition: IconPosition.trailing,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                    ),
-                  ),
-                  initialCountryCode: 'IN',
-                  onChanged: (phone) {
-                    phoneController = phone.completeNumber;
-                  },
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  width: context.screenWidth,
-                  height: context.screenHeight * 0.06,
-                  child: ElevatedButton(
-                      style: elevatedButtonStyle,
-                      onPressed: () {
-                        AuthController.phoneAuth(phoneController, context);
-                      },
-                      child: Text(
-                        "Get OTP",
-                        style: defaultTextStyle,
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10, top: 18),
-                  child: RichText(
+        body: Padding(
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 50),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
                     text: const TextSpan(
-                      children: <TextSpan>[
+                      children: [
                         TextSpan(
-                          text: "Don't have an account? ",
+                          text: 'Register using\n',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.black87),
+                        ),
+                        TextSpan(
+                          text: 'your mobile number\n',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.black87),
+                        ),
+                        TextSpan(
+                          text: "We'll send OTP on this number",
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                               color: Colors.black87),
                         ),
-                        TextSpan(
-                          text: "Register",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.deepPurpleAccent),
-                        ),
                       ],
                     ),
                   ),
-                )
-              ],
-            )
-          ],
-        ),
+                  30.height,
+                  IntlPhoneField(
+                    flagsButtonPadding: const EdgeInsets.all(8),
+                    dropdownIconPosition: IconPosition.trailing,
+                    decoration: const InputDecoration(
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    initialCountryCode: 'IN',
+                    onChanged: (phone) {
+                      phoneController = phone.completeNumber;
+                    },
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: context.screenWidth,
+                    height: context.screenHeight * 0.06,
+                    child: ElevatedButton(
+                        style: elevatedButtonStyle,
+                        onPressed: () {
+                          AuthController.phoneAuth(phoneController, context);
+                        },
+                        child: Text(
+                          "Get OTP",
+                          style: defaultTextStyle,
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10, top: 18),
+                    child: RichText(
+                      text: const TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Don't have an account? ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black87),
+                          ),
+                          TextSpan(
+                            text: "Register",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Colors.deepPurpleAccent),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              20.height,
+              Text("Or,"),
+              30.height,
+              OutlinedButton(
+                  onPressed: () {
+                    AuthController.signInWithGoogle(context);
+                  },
+                  child: const Text('Continue With Google')),
+            ],
           ),
-          20.height,
-          Text("Or,"),
-          30.height,
-         OutlinedButton(onPressed: () {
-           AuthController.signInWithGoogle(context);
-         }, child: const Text('Continue With Google'))
-
-        ],
-      ),
-    );
+        ),);
   }
 }
