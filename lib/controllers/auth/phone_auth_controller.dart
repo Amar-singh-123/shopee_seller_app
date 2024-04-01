@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shopee_seller_app/views/screens/shop_details/setting_screen.dart';
 import 'package:shopee_seller_app/views/screens/auth/phone_auth/otp_verification_screen.dart';
 import 'package:get/get.dart';
 import 'package:shopee_seller_app/views/screens/auth/phone_auth/otp_verification_screen.dart';
