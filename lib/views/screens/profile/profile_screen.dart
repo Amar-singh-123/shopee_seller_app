@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopee_seller_app/views/screens/auth/email_auth/signing_with_email.dart';
 import 'package:shopee_seller_app/views/screens/profile/profile_update_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
@@ -94,7 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       ElevatedButton.icon(
                         onPressed: () {
-                          // Add logout functionality
+                          FirebaseAuth.instance.signOut();
+                          Get.offAll(SigningWithEmail());
+                          //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SigningWithEmail(),));
                         },
                         icon: Icon(Icons.logout),
                         label: Text('Logout'),
