@@ -1,14 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shopee_seller_app/views/screens/home/home_ui_screen.dart';
 import 'package:shopee_seller_app/views/screens/order_section/online_order_screen.dart';
-import 'package:shopee_seller_app/views/screens/settings/setting_screen.dart';
-import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
+import 'package:shopee_seller_app/views/screens/settings/manage_screen.dart';
 import '../../utils/app_colors/app_colors.dart';
-import '../auth/phone_auth_screen.dart';
 import '../catalogue/catalogue_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,6 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeUiScreen(),
     OnlineOrdersScreen(),
     CatalogueScreen(),
-    SettingScreen(),
+    ManageScreen(),
   ];
 }
