@@ -8,7 +8,7 @@ import 'package:shopee_seller_app/views/screens/order_section/online_order_scree
 import 'package:shopee_seller_app/views/screens/settings/setting_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import '../../utils/app_colors/app_colors.dart';
-import '../auth/phone_auth_screen.dart';
+import '../auth/phone_auth/phone_auth_screen.dart';
 import '../catalogue/catalogue_screen.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shopee_seller_app/controllers/auth/phone_auth_controller.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
-import '../../utils/app_styles/app_styles.dart';
+import '../../../utils/app_styles/app_styles.dart';
 
 class PhoneAuthScreen extends StatelessWidget {
   PhoneAuthScreen({super.key});

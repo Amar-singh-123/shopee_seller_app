@@ -7,7 +7,7 @@ import 'package:shopee_seller_app/views/screens/profile/profile_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 import '../../utils/app_colors/app_colors.dart';
-import '../auth/phone_auth_screen.dart';
+import '../auth/phone_auth/phone_auth_screen.dart';
 
 class HomeUiScreen extends StatefulWidget {
   const HomeUiScreen({super.key});
