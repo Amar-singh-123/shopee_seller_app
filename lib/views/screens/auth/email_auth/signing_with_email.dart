@@ -7,7 +7,6 @@ import 'package:shopee_seller_app/controllers/auth/phone_auth_controller.dart';
 import 'package:shopee_seller_app/views/screens/auth/email_auth/signup_with_email.dart';
 import 'package:shopee_seller_app/views/screens/auth/phone_auth/phone_auth_screen.dart';
 import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
-import 'package:shopee_seller_app/views/screens/profile/registration_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 class SigningWithEmail extends StatelessWidget {
