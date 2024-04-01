@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:shopee_seller_app/views/screens/shop_details/shop_details.dart';
+import 'package:shopee_seller_app/views/screens/shop/shop_details.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 class SettingScreen extends StatefulWidget {

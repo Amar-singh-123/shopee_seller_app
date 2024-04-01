@@ -45,10 +45,16 @@ dependencies:
   pinput: ^4.0.0
   get: ^4.6.6
   lottie: ^2.6.0
+  flutter_switch: ^0.3.2
+  share_plus: ^8.0.2
   dropdown_button2: ^2.3.9
   google_sign_in: ^6.2.1
   firebase_auth: ^4.17.9
   animate_do: ^3.3.4
+  intl_phone_number_input: ^0.7.4
+  awesome_snackbar_content: ^0.1.3
+
+
 
 dev_dependencies:
   flutter_test:
