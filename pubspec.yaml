@@ -54,8 +54,6 @@ dependencies:
   intl_phone_number_input: ^0.7.4
   awesome_snackbar_content: ^0.1.3
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
