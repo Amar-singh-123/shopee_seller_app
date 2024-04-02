@@ -8,6 +8,7 @@ import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart
 
 import '../../utils/app_colors/app_colors.dart';
 import '../auth/phone_auth/phone_auth_screen.dart';
+import '../seller_profile/manage_seller_profile.dart';
 
 class HomeUiScreen extends StatefulWidget {
   const HomeUiScreen({super.key});
@@ -55,7 +56,7 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                       title: Text('profile'),
                       onTap: () {
                         context.pop;
-                         Get.to(() => ProfileScreen());
+                         Get.to(() => ManageProfileScreen());
                       },
                       horizontalTitleGap: 50,
                       shape: 10.shapeBorderRadius,

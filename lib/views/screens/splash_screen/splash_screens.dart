@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shopee_seller_app/controllers/auth/phone_auth_controller.dart';
 import 'package:shopee_seller_app/views/screens/auth/email_auth/signing_with_email.dart';
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (user != null) {
         AuthController.navigateUser(uid: user);
       } else {
-        context.pushReplace(SigningWithEmail());
+        Get.off(()=>SigningWithEmail());
       }
     });
     return Scaffold(

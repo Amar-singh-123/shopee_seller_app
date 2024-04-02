@@ -6,6 +6,11 @@ class ManageScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Manage",
+        ),
+      ),
       body: ListView(
         children: const <Widget>[
           ListTile(
