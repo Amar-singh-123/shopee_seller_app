@@ -25,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {});
         },
         showUnselectedLabels: true,
+        backgroundColor: AppColor.white,
+        elevation: 25,
         type: BottomNavigationBarType.shifting,
         selectedItemColor: AppColor.inActiveColor,
         unselectedItemColor: AppColor.gray,
