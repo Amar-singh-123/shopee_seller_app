@@ -72,7 +72,7 @@ extension CustomWidgets on StatelessWidget {
         color: AppColor.darkGray,
       );
   showSnackBar({required String title, required String message, Color? color}) {
-    Get.snackbar(title, message,backgroundColor: color);
+    Get.snackbar(title, message,colorText: color);
   }
 
   Text textView({required String text, TextStyle? textStyle}) {

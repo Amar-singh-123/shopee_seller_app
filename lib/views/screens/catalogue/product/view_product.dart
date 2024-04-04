@@ -16,7 +16,7 @@ class ViewProducts extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddProduct()),
+            MaterialPageRoute(builder: (context) => const AddProductScreen()),
           );
           FloatingActionButtonLocation.startDocked;
         },

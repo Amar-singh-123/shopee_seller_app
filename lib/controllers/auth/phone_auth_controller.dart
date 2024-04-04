@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopee_seller_app/views/screens/auth/phone_auth/otp_verification_screen.dart';
 import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
-import 'package:shopee_seller_app/views/screens/profile/registration_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_colors/app_colors.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../views/screens/seller_profile/manage_seller_profile.dart';
 
 class AuthController {
   static phoneAuth(String number, BuildContext context) {
@@ -56,11 +56,11 @@ class AuthController {
   }
 
   static void navigateUser({String? uid}) async{
-   var data = await FirebaseFirestore.instance.collection('Seller_Profile').doc(uid).get();
+   var data = await FirebaseFirestore.instance.collection('seller_profile').doc(uid).get();
    if(data.exists){
      Get.offAll(()=>HomeScreen());
    }else{
-     Get.offAll(()=>RegistrationScreen());
+     Get.offAll(()=>ManageProfileScreen());
     }
   }
 

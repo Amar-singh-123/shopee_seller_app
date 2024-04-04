@@ -7,15 +7,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shopee_seller_app/views/utils/app_widgets/textfield/widget_class.dart';
 import '../../../../models/products/Product_model.dart';
-
-class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
-
+class AddProductScreen extends StatefulWidget {
+  const AddProductScreen({Key? key}) : super(key: key);
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<AddProductScreen> createState() => _AddProductScreenState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _AddProductScreenState extends State<AddProductScreen> {
   var nameController = TextEditingController();
   var categoryController = TextEditingController();
   var priceController = TextEditingController();

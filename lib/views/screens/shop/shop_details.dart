@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
-import 'package:shopee_seller_app/models/shopModel/shop_model.dart';
+import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
 import 'dart:io';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
-import '../settings/setting_screen.dart';
+import 'package:shopee_seller_app/models/shopModel/shop_model.dart';
 
 class ShopDetailsScreen extends StatefulWidget {
   const ShopDetailsScreen({Key? key});
@@ -306,7 +306,7 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
             content: Text('Seller details saved successfully!'),
           ),
         );
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SettingScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       // } else {
       //   print('User is not authenticated');
       //   // Handle the case where the user is not authenticated

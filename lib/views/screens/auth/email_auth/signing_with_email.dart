@@ -7,6 +7,7 @@ import 'package:shopee_seller_app/controllers/auth/phone_auth_controller.dart';
 import 'package:shopee_seller_app/views/screens/auth/email_auth/signup_with_email.dart';
 import 'package:shopee_seller_app/views/screens/auth/phone_auth/phone_auth_screen.dart';
 import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
+import 'package:shopee_seller_app/views/utils/app_colors/app_colors.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 class SigningWithEmail extends StatelessWidget {
@@ -120,7 +121,7 @@ class SigningWithEmail extends StatelessWidget {
                                     controller: signingEmailController,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Email or Phone number",
+                                        hintText: "Enter Email",
                                         hintStyle:
                                             TextStyle(color: Colors.grey[700])),
                                   ),
@@ -253,24 +254,30 @@ class SigningWithEmail extends StatelessWidget {
   }
 
    void signingWithEmail(BuildContext context) async {
+    if(signingEmailController.text.trim().isEmpty){
+      showSnackBar(title: "Please fill Email", message: "");
+    }else if(signingPasswordController.text.trim().isEmpty){
+      showSnackBar(title: "Please fill Password", message: "");
+
+    }
+    else if(signingPasswordController.text.trim().length <=6){
+      showSnackBar(title: "Password should be at least 7 characters", message: "");
+    }
+    else{
      try {
        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
          email: signingEmailController.text.trim(),
          password: signingPasswordController.text.trim(),
        );
-       // Navigate to home screen or dashboard after successful sign-in
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-         content: Text('SuccessFully login with email'),
-       ));
+       showSnackBar(title: 'SuccessFully login with email',message: "",color: AppColor.green );
        AuthController.navigateUser(uid: userCredential.user?.uid);
      } catch (e) {
        // Handle sign-in errors
        print('Error signing in: $e');
        // You can provide feedback to the user here (e.g., show a snackbar)
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-         content: Text('Failed to sign in. Please check your credentials.'),
-       ));
+       showSnackBar(title: 'Failed to sign in. Please check your credentials.',message: "",color: AppColor.red );
      }
+    }
    }
 
    Future<UserCredential> signInWithGoogle() async {
@@ -285,10 +292,9 @@ class SigningWithEmail extends StatelessWidget {
        accessToken: googleAuth?.accessToken,
        idToken: googleAuth?.idToken,
      );
-
      // Once signed in, return the UserCredential
      UserCredential userCredential =  await FirebaseAuth.instance.signInWithCredential(credential);
-     Get.off(HomeScreen());
+     Get.offAll(()=>HomeScreen());
      return userCredential;
    }
 }

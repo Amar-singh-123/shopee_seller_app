@@ -12,6 +12,8 @@ import 'package:shopee_seller_app/views/screens/profile/registration_screen.dart
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../utils/app_colors/app_colors.dart';
+
 class SignupWithEmail extends StatelessWidget {
    SignupWithEmail({super.key});
   TextEditingController emailSignupController = TextEditingController();
@@ -123,7 +125,7 @@ class SignupWithEmail extends StatelessWidget {
                                     controller: emailSignupController,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Email or Phone number",
+                                        hintText: " Enter Email",
                                         hintStyle:
                                         TextStyle(color: Colors.grey[700])),
                                   ),
@@ -214,23 +216,28 @@ class SignupWithEmail extends StatelessWidget {
         ));
   }
    void signingWithEmail(BuildContext context) async {
-     try {
-       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-         email: emailSignupController.text.trim(),
-         password: passwordSignupController.text.trim(),
-       );
-       // Navigate to home screen or dashboard after successful sign-in
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-         content: Text('SuccessFully Signup with email'),
-       ));
-       AuthController.navigateUser(uid: userCredential.user?.uid);
-     } catch (e) {
-       // Handle sign-in errors
-       print('Error signing in: $e');
-       // You can provide feedback to the user here (e.g., show a snackbar)
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-         content: Text('Failed to sign in. Please check your credentials.'),
-       ));
+     if(emailSignupController.text.trim().isEmpty){
+       showSnackBar(title: "Please fill Email", message: "");
+     }else if(passwordSignupController.text.trim().isEmpty){
+       showSnackBar(title: "Please fill Password", message: "");
+     }
+     else if(passwordSignupController.text.trim().length <=6){
+       showSnackBar(title: "Password should be at least 7 characters", message: "");
+     }
+     else{
+       try {
+         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+           email: emailSignupController.text.trim(),
+           password: passwordSignupController.text.trim(),
+         );
+         showSnackBar(title: 'SuccessFully Signup with email',message: "",color: AppColor.green );
+         AuthController.navigateUser(uid: userCredential.user?.uid);
+       } catch (e) {
+         // Handle sign-in errors
+         print('Error signing Up: $e');
+         // You can provide feedback to the user here (e.g., show a snackbar)
+         showSnackBar(title: 'Failed to sign Up. Please check your credentials.',message: "",color: AppColor.red );
+       }
      }
    }
 
