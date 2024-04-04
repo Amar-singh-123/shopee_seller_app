@@ -18,7 +18,6 @@ class HomeUiScreen extends StatefulWidget {
   @override
   State<HomeUiScreen> createState() => _HomeUiScreenState();
 }
-
 class _HomeUiScreenState extends State<HomeUiScreen> {
   var _isOnline = true;
   final _businessSummeryList = ['sell', 'orders', 'to pay', 'to collect'];
