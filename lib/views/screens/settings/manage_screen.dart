@@ -60,7 +60,7 @@ class ManageScreen extends StatelessWidget {
             },
             child: const ListTile(
               leading: Icon(Icons.production_quantity_limits_sharp),
-              title: Text('Promote Shoopy & Earn'),
+              title: Text('Add Products'),
               subtitle: Text('Promote and unlock more features & reports'),
               trailing: Icon(Icons.arrow_forward_ios, size: 13),
             ),
