@@ -56,7 +56,7 @@ class ViewProducts extends StatelessWidget {
                               fit: BoxFit.cover,
                               height: 100,
                               width: 100,
-                              imageUrl: product.imageUrl,
+                              imageUrl: product.imageUrl?.first ?? "",
                               placeholder: (context, url) =>
                                   const CupertinoActivityIndicator(),
                               errorWidget: (context, url, error) =>
@@ -71,14 +71,9 @@ class ViewProducts extends StatelessWidget {
                         Column(
                           children: [
                             Text(
-                              product.name,
+                              product.name ?? "",
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '${product.category}',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w400),
                             ),
                             Text(
                               '${product.price.toString()}',
@@ -103,7 +98,7 @@ class ViewProducts extends StatelessWidget {
                                   fontSize: 15, fontWeight: FontWeight.w400),
                             ),
                             Text(
-                              '${product.productDetail}',
+                              '${product?.description ?? ""}',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
@@ -111,7 +106,7 @@ class ViewProducts extends StatelessWidget {
                                   fontSize: 15, fontWeight: FontWeight.w400),
                             ),
                             Text(
-                              ' ${product.piece.toString()}',
+                              ' ${product.qty.toString()}',
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w400),
                             ),
