@@ -55,7 +55,6 @@ class ManageScreen extends StatelessWidget {
           const Divider(),
           GestureDetector(
             onTap: () {
-
               Get.to(AddProductScreen());
             },
             child: const ListTile(
