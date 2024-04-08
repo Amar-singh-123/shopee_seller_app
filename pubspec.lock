@@ -57,7 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-<<<<<<< Updated upstream
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -82,8 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.11.0"
-=======
->>>>>>> Stashed changes
   collection:
     dependency: transitive
     description:
@@ -171,8 +168,31 @@ packages:
       sha256: "28e30e00748497b9a70db2025942a42c5d752534eb678e9b9b98db056cf404ba"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< Updated upstream
     version: "2.14.0"
+  firebase_database:
+    dependency: "direct main"
+    description:
+      name: firebase_database
+      sha256: e5f45b5e1b879ccd4c930c3abd78ee4caa203190eaccfd23deabb3399fa247ec
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.5.0"
+  firebase_database_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_database_platform_interface
+      sha256: "91e8c4568038c3a9904c7a5a90b1dcf8ecfa01879fd6ee33145797d42414c4cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5+28"
+  firebase_database_web:
+    dependency: transitive
+    description:
+      name: firebase_database_web
+      sha256: e76804470d7927dae8d589b404cd713aef6cb051288edc9c922a37c5e8a1d9b0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -204,10 +224,23 @@ packages:
       sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
-=======
     version: "2.13.0"
->>>>>>> Stashed changes
+  flex_color_picker:
+    dependency: "direct main"
+    description:
+      name: flex_color_picker
+      sha256: "5c846437069fb7afdd7ade6bf37e628a71d2ab0787095ddcb1253bf9345d5f3a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.1"
+  flex_seed_scheme:
+    dependency: transitive
+    description:
+      name: flex_seed_scheme
+      sha256: "4cee2f1d07259f77e8b36f4ec5f35499d19e74e17c7dce5b819554914082bc01"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -221,6 +254,43 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_material_color_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_material_color_picker
+      sha256: ca1e7749d228c9155ea24bce98e647cdbffa350e6f334f6c001f841cd3d9c987
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: b068ffc46f82a55844acfa4fdbb61fad72fa2aef0905548419d97f0f95c456da
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.17"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      sha256: "7b4ca6cf3304575fe9c8ec64813c8d02ee41d2afe60bcfe0678bcb5375d596a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.10+1"
+  flutter_switch:
+    dependency: "direct main"
+    description:
+      name: flutter_switch
+      sha256: b91477f926bba135d2d203d7b24367492662d8d9c3aa6adb960b14c1087d3c41
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -334,7 +404,6 @@ packages:
       sha256: "70fe966348fe08c34bf929582f1d8247d9d9408130723206472b4687227e4333"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< Updated upstream
     version: "3.8.0"
   rxdart:
     dependency: transitive
@@ -359,10 +428,7 @@ packages:
       sha256: "251eb156a8b5fa9ce033747d73535bf53911071f8d3b6f4f0b578505ce0d4496"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.0"
-=======
     version: "3.7.4"
->>>>>>> Stashed changes
   sky_engine:
     dependency: transitive
     description: flutter
@@ -376,7 +442,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
-<<<<<<< Updated upstream
   sprintf:
     dependency: transitive
     description:
@@ -401,8 +466,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.4"
-=======
->>>>>>> Stashed changes
   stack_trace:
     dependency: transitive
     description:
@@ -475,7 +538,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-<<<<<<< Updated upstream
   win32:
     dependency: transitive
     description:
@@ -500,8 +562,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.5.0"
-=======
->>>>>>> Stashed changes
 sdks:
   dart: ">=3.3.0 <4.0.0"
-  flutter: ">=3.13.0"
+  flutter: ">=3.19.0"

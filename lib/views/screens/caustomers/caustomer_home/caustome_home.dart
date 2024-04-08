@@ -3,16 +3,16 @@ import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart
 
 import 'caustomer_form.dart';
 
-class Caustomer_Home extends StatefulWidget {
-  const Caustomer_Home({Key? key}) : super(key: key);
+class CustomerHome extends StatefulWidget {
+  const CustomerHome({super.key});
 
   @override
-  State<Caustomer_Home> createState() => _Caustomer_HomeState();
+  State<CustomerHome> createState() => _CustomerHomeState();
 }
 
 bool _switchValue = true;
 
-class _Caustomer_HomeState extends State<Caustomer_Home> {
+class _CustomerHomeState extends State<CustomerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
