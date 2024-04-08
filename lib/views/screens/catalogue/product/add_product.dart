@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
@@ -12,6 +13,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/storage_db.dart';
 import 'package:shopee_seller_app/models/category/category_model.dart';
 import 'package:shopee_seller_app/models/products/product_model.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
@@ -42,7 +44,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool _loading = false;
   Color screenPickerColor = Colors.white;
-  List<Color> productColor = [];
+  List<int> productColor = [];
 
   @override
   Widget build(BuildContext context) {
@@ -96,43 +98,43 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         child: productImages.isEmpty
                             ? Icon(CupertinoIcons.camera)
                             : ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.file(
-                            productImages.first,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  productImages.first,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                       ),
                     ),
                     productImages.isNotEmpty
                         ? Wrap(
-                      children: List.generate(
-                        productImages.length,
-                            (index) => Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.blue,
+                            children: List.generate(
+                              productImages.length,
+                              (index) => Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                child: productImages.isEmpty
+                                    ? Icon(CupertinoIcons.camera)
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.file(
+                                          productImages[index],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                              ),
                             ),
-                          ),
-                          child: productImages.isEmpty
-                              ? Icon(CupertinoIcons.camera)
-                              : ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.file(
-                              productImages[index],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
+                          )
                         : Center(
-                      child: Text("No images selected"),
-                    )
+                            child: Text("No images selected"),
+                          )
                   ],
                 ),
               ),
@@ -209,7 +211,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: MaterialColorPicker(
                         onColorChange: (Color color) {
-                          productColor.add(color);
+                          productColor.add(color.value);
                           setState(() {});
                         },
                         selectedColor: Colors.red,
@@ -231,22 +233,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
             SizedBox(height: 20),
             productColor.isNotEmpty
                 ? Wrap(
-              children: List.generate(
-                productColor.length,
-                    (index) => Container(
-                  height: 40,
-                  width: 40,
-                  margin: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: productColor[index],
-                  ),
-                ),
-              ),
-            )
+                    children: List.generate(
+                      productColor.length,
+                      (index) => Container(
+                        height: 40,
+                        width: 40,
+                        margin: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(productColor[index]),
+                        ),
+                      ),
+                    ),
+                  )
                 : Center(
-              child: Text("No color selected"),
-            ),
+                    child: Text("No color selected"),
+                  ),
             ElevatedButton(
               onPressed: () {
                 showModalBottomSheet<void>(
@@ -291,28 +293,28 @@ class _AddProductScreenState extends State<AddProductScreen> {
             SizedBox(height: 20),
             productSize.isNotEmpty
                 ? Wrap(
-              children: List.generate(
-                productSize.length,
-                    (index) => Container(
-                  height: 40,
-                  width: 40,
-                  margin: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    productSize[index],
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w300,
+                    children: List.generate(
+                      productSize.length,
+                      (index) => Container(
+                        height: 40,
+                        width: 40,
+                        margin: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          productSize[index],
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            )
+                  )
                 : Center(
-              child: Text("No size selected"),
-            ),
+                    child: Text("No size selected"),
+                  ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
@@ -333,66 +335,58 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() {
       _loading = true;
     });
-
-    try {
-      List<String> imageUrl =
-      await uploadImageToFirebaseStorage(productImages);
-
-      String productId = await firestore.collection('products').doc().id;
-print(imageUrl);
-      Product product = Product(
-        productId: productId,
-        name: nameController.text,
-        categoryId: selectedCategory.categoryId,
-        price: priceController.text,
-        discount: discountController.text,
-        unit: unitController.text,
-        description: productDetailController.text,
-        qty: int.tryParse(pieceController.text) ?? 0,
-        imageUrl: imageUrl.toList(),
-        sellerId: AppAuth.userId,
-        colors: productColor,
-        createdAt: DateTime.now(),
-        paymentMethod: [
-          "CASH ON DELIVERY",
-          "UPI",
-        ],
-        ratting: 0,
-        status: Status(
-          available: true,
-          blocked: false,
-          outOfStock: false,
-        ),
-        subCategoryId: "",
-        title: "",
-        updatedAt: DateTime.now(),
-        totalSoldItem: 0,
-        variants: productSize,
-        brandId: "",
-        shopId: "",
-      );
-      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('products').child(productId).set(product.toJson());
-    _clearControllers();
-
+    String productId = await firestore.collection('products').doc().id;
+    Product product = Product(
+      productId: productId,
+      name: nameController.text,
+      categoryId: selectedCategory.categoryId,
+      price: priceController.text,
+      discount: discountController.text,
+      unit: unitController.text,
+      description: productDetailController.text,
+      qty: int.tryParse(pieceController.text) ?? 0,
+      imageUrl: [],
+      sellerId: AppAuth.userId,
+      colors: productColor,
+      createdAt: DateTime.now(),
+      paymentMethod: [
+        "CASH ON DELIVERY",
+        "UPI",
+      ],
+      ratting: 0,
+      status: Status(
+        available: true,
+        blocked: false,
+        outOfStock: false,
+      ),
+      subCategoryId: "",
+      title: "",
+      updatedAt: DateTime.now(),
+      totalSoldItem: 0,
+      variants: productSize,
+      brandId: "",
+      shopId: "",
+    );
+    var resp = await AppFireStoreDatabase(collection: 'products')
+        .set(data: product.toJson(), doc: productId);
+    if (resp.success) {
+   await uploadImageToFirebaseStorage(productImages,doc:productId);
+      _clearControllers();
       Fluttertoast.showToast(
         msg: "Product added successfully!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
       );
-
       setState(() {
         _loading = false;
       });
       Navigator.pop(context);
-    } catch (e) {
-      print('Error: $e');
+    } else {
       Fluttertoast.showToast(
-        msg: "An error occurred. Please try again later.",
+        msg: "Product added failed! : ${resp.error}",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
       );
-
       setState(() {
         _loading = false;
       });
@@ -410,20 +404,18 @@ print(imageUrl);
   }
 
   Future<List<String>> uploadImageToFirebaseStorage(
-      List<File> productImages) async {
+      List<File> productImages, {required String doc}) async {
     try {
       List<String> productImageDownloadUrl = [];
-
-      for (int i = 0; i < productImages.length; i++) {
-        String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-        final firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('product_images/$fileName');
-
-        await firebaseStorageRef.putFile(productImages[i]);
-        String imageUrl = await firebaseStorageRef.getDownloadURL();
-        productImageDownloadUrl.add(imageUrl.toString());
-      }
-
+     productImages.forEach((element) async{
+       var resp = await AppFirebaseStorage(storageCollection: 'product_images').insertFile(file: element, filename: "${DateTime.now().microsecond}.jpeg");
+       if(resp.success){
+         productImageDownloadUrl.add(resp.url ?? "");
+         await AppFireStoreDatabase(collection: 'products').update(data: {"imageUrl":productImageDownloadUrl}, doc: doc);
+       }else{
+         productImageDownloadUrl.add(resp.url ?? "");
+       }
+      });
       return productImageDownloadUrl;
     } catch (e) {
       print('Error uploading image to Firebase Storage: $e');
@@ -454,7 +446,7 @@ print(imageUrl);
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 var category =
-                CategoryModel.fromJson(snapshot.data!.docs[index].data());
+                    CategoryModel.fromJson(snapshot.data!.docs[index].data());
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(

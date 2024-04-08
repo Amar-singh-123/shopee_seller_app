@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 Product productModelFromJson(String str) => Product.fromJson(json.decode(str));
 
 String productModelToJson(Product data) => json.encode(data.toJson());
@@ -12,8 +14,8 @@ class Product {
   String? description;
   String? categoryId;
   String? subCategoryId;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
   String? discount;
   String? unit;
   int? qty;
@@ -112,9 +114,9 @@ class Status {
   bool? blocked;
 
   Status({
-    this.available,
-    this.outOfStock,
-    this.blocked,
+    this.available = true,
+    this.outOfStock = false,
+    this.blocked = false,
   });
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
