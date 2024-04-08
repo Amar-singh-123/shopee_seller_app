@@ -1,23 +1,16 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/storage_db.dart';
 import 'package:shopee_seller_app/models/category/category_model.dart';
 import 'package:shopee_seller_app/models/products/product_model.dart';
-import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import 'package:shopee_seller_app/views/utils/app_widgets/textfield/widget_class.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -51,15 +44,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.blue,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_outlined),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "Add Products",
           style: TextStyle(color: Colors.white),
         ),
@@ -79,10 +72,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         final pickedImage = await ImagePicker().pickImage(
                           source: ImageSource.gallery,
                         );
+
                         if (pickedImage != null) {
                           var file = File(pickedImage.path);
-                          productImages.add(file);
-                          setState(() {});
+                          if (productImages.length < 5) {
+                            productImages.add(file);
+                            setState(() {});
+                          } else {
+                            // Handle if the maximum number of images (5) is reached
+                            // You can show a toast, snackbar, or any other form of notification
+                            print('Maximum number of images reached');
+                          }
                         }
                       },
                       child: Container(
@@ -112,6 +112,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             children: List.generate(
                               productImages.length,
                               (index) => Container(
+                                margin: const EdgeInsets.all(5),
                                 height: 100,
                                 width: 100,
                                 decoration: BoxDecoration(
@@ -122,7 +123,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   ),
                                 ),
                                 child: productImages.isEmpty
-                                    ? Icon(CupertinoIcons.camera)
+                                    ? const Icon(CupertinoIcons.camera)
                                     : ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
                                         child: Image.file(
@@ -133,20 +134,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               ),
                             ),
                           )
-                        : Center(
+                        : const Center(
                             child: Text("No images selected"),
                           )
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextcustomField(
               controller: nameController,
               labelText: 'Product Name *',
               keyboardType: TextInputType.text,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextcustomField(
               controller: categoryController,
               labelText: 'Product Category',
@@ -156,7 +157,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 selectCategory(context);
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -166,7 +167,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextcustomField(
                     controller: discountController,
@@ -176,7 +177,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -186,7 +187,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextcustomField(
                     controller: pieceController,
@@ -196,42 +197,51 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextcustomField(
               controller: productDetailController,
               labelText: 'Product Details',
               keyboardType: TextInputType.text,
             ),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    title: Text('Select Color'),
-                    content: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MaterialColorPicker(
-                        onColorChange: (Color color) {
-                          productColor.add(color.value);
-                          setState(() {});
-                        },
-                        selectedColor: Colors.red,
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: const Text(
+                        'Select Color',
                       ),
+                      content: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MaterialColorPicker(
+                          onColorChange: (Color color) {
+                            productColor.add(color.value);
+                            setState(() {});
+                          },
+                          selectedColor: Colors.red,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Close'),
+                        ),
+                      ],
                     ),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Close'),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              child: Text("Select Color"),
+                  );
+                },
+                child: Text("Select Color",
+                    style: TextStyle(color: Colors.white, fontSize: 17)),
+              ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             productColor.isNotEmpty
                 ? Wrap(
                     children: List.generate(
@@ -239,7 +249,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       (index) => Container(
                         height: 40,
                         width: 40,
-                        margin: EdgeInsets.all(4),
+                        margin: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Color(productColor[index]),
@@ -247,51 +257,90 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       ),
                     ),
                   )
-                : Center(
+                : const Center(
                     child: Text("No color selected"),
                   ),
-            ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Container(
-                      color: Colors.amber,
-                      child: Column(
-                        children: [
-                          Container(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
+            Container(
+              margin: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+              ),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        color: Colors.white70,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                           Container(margin: const EdgeInsets.all(10),child:IconButton(onPressed: () {
+                             Navigator.pop(context);
+                           }, icon: const Icon(Icons.close)),),
+                            Column(
                                 children: <Widget>[
-                                  const Text('Select Product Size'),
+                                  const Text(
+                                    'Select Product Size',
+                                  ),
                                   TextcustomField(
                                     controller: sizeController,
                                     labelText: 'Product Size',
                                     keyboardType: TextInputType.text,
                                   ),
                                   ElevatedButton(
-                                    child: const Text('Close BottomSheet'),
+                                    child: const Text(
+                                      'Add size',
+                                    ),
                                     onPressed: () {
-                                      productSize.add(sizeController.text);
                                       setState(() {});
-                                      Navigator.pop(context);
+                                      productSize.add(sizeController.text);
                                     },
                                   ),
+                                  const SizedBox(height: 20),
+                                  productSize.isNotEmpty
+                                      ? Wrap(
+                                    children: List.generate(
+                                      productSize.length,
+                                          (index) => Container(
+                                        height: 40,
+                                        width: 40,
+                                        margin: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Text(
+                                          productSize[index],
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                      : const Center(
+                                    child: Text(
+                                      "No size selected",
+                                    ),
+                                  ),
+
                                 ],
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Text("Select Size"),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: const Text("Select Size",
+                    style: TextStyle(color: Colors.white, fontSize: 17)),
+              ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             productSize.isNotEmpty
                 ? Wrap(
                     children: List.generate(
@@ -299,30 +348,35 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       (index) => Container(
                         height: 40,
                         width: 40,
-                        margin: EdgeInsets.all(4),
+                        margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                         ),
                         child: Text(
                           productSize[index],
                           style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w300,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   )
-                : Center(
-                    child: Text("No size selected"),
+                : const Center(
+                    child: Text(
+                      "No size selected",
+                    ),
                   ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
                 onPressed: _addProduct,
-                child: Text(
+                child: const Text(
                   "Add Product",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
               ),
             ),
@@ -336,7 +390,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() {
       _loading = true;
     });
-    String productId = await firestore.collection('products').doc().id;
+    String productId = firestore.collection('products').doc().id;
     Product product = Product(
       productId: productId,
       name: nameController.text,
@@ -371,7 +425,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     var resp = await AppFireStoreDatabase(collection: 'products')
         .set(data: product.toJson(), doc: productId);
     if (resp.success) {
-   await uploadImageToFirebaseStorage(productImages,doc:productId);
+      await uploadImageToFirebaseStorage(productImages, doc: productId);
       _clearControllers();
       Fluttertoast.showToast(
         msg: "Product added successfully!",
@@ -404,18 +458,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
     pieceController.clear();
   }
 
-  Future<List<String>> uploadImageToFirebaseStorage(
-      List<File> productImages, {required String doc}) async {
+  Future<List<String>> uploadImageToFirebaseStorage(List<File> productImages,
+      {required String doc}) async {
     try {
       List<String> productImageDownloadUrl = [];
-     productImages.forEach((element) async{
-       var resp = await AppFirebaseStorage(storageCollection: 'product_images').insertFile(file: element, filename: "${DateTime.now().microsecond}.jpeg");
-       if(resp.success){
-         productImageDownloadUrl.add(resp.url ?? "");
-         await AppFireStoreDatabase(collection: 'products').update(data: {"imageUrl":productImageDownloadUrl}, doc: doc);
-       }else{
-         productImageDownloadUrl.add(resp.url ?? "");
-       }
+      productImages.forEach((element) async {
+        var resp = await AppFirebaseStorage(storageCollection: 'product_images')
+            .insertFile(
+                file: element, filename: "${DateTime.now().microsecond}.jpeg");
+        if (resp.success) {
+          productImageDownloadUrl.add(resp.url ?? "");
+          await AppFireStoreDatabase(collection: 'products')
+              .update(data: {"imageUrl": productImageDownloadUrl}, doc: doc);
+        } else {
+          productImageDownloadUrl.add(resp.url ?? "");
+        }
       });
       return productImageDownloadUrl;
     } catch (e) {
