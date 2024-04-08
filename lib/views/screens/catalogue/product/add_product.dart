@@ -2,13 +2,18 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shopee_seller_app/views/screens/catalogue/catalogue_screen.dart';
+import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import 'package:shopee_seller_app/views/utils/app_widgets/textfield/widget_class.dart';
 import '../../../../models/products/Product_model.dart';
+
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({Key? key}) : super(key: key);
+
   @override
   State<AddProductScreen> createState() => _AddProductScreenState();
 }
@@ -21,7 +26,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   var unitController = TextEditingController();
   var productDetailController = TextEditingController();
   var pieceController = TextEditingController();
-
   final firestore = FirebaseFirestore.instance;
   File? _image;
   bool _loading = false;
@@ -201,12 +205,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.BOTTOM,
                                 );
-
                                 setState(() {
                                   _loading = false;
                                 });
-
-                                Navigator.pop(context);
+                              Navigator.pop(context);
                               } catch (e) {
                                 print('Error: $e');
                                 Fluttertoast.showToast(

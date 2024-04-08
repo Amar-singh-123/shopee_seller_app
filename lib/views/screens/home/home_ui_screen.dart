@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:shopee_seller_app/controllers/home/home_controller.dart';
 import 'package:shopee_seller_app/views/screens/profile/profile_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
@@ -18,11 +19,11 @@ class HomeUiScreen extends StatefulWidget {
   @override
   State<HomeUiScreen> createState() => _HomeUiScreenState();
 }
+
 class _HomeUiScreenState extends State<HomeUiScreen> {
   var _isOnline = true;
-  final _businessSummeryList = ['sell', 'orders', 'to pay', 'to collect'];
-  final _manageBusinessList = ['customers', 'orders', 'products', 'categories','invoices','Wallet'];
-  final _growBusinessList = ['collections', 'coupons', 'Store Banners','Marketing banners','Refer And Earn'];
+  var homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,11 +102,13 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () async{
-          Future.delayed(Duration(seconds: 2),() {
-            setState(() {
-            });
-          },);
+        onRefresh: () async {
+          await Future.delayed(
+            Duration(seconds: 2),
+            () {
+              setState(() {});
+            },
+          );
         },
         child: ListView(
           shrinkWrap: true,
@@ -152,9 +155,10 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                               children: [
                                 5.width,
                                 Text(
-                                  "today",
+                                  "view",
                                   style: TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w400),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400),
                                 ),
                                 5.width,
                                 Icon(
@@ -170,7 +174,7 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                     GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: _businessSummeryList.length,
+                      itemCount: homeController.businessSummeryList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
@@ -178,11 +182,12 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                               crossAxisSpacing: 20,
                               mainAxisSpacing: 20),
                       itemBuilder: (context, index) {
+                        var currentItem = homeController.businessSummeryList[index];
                         return InkWell(
                           borderRadius: 8.borderRadius,
                           splashColor: AppColor.lightBlue,
                           highlightColor: AppColor.lightBlue,
-                          onTap: () {},
+                          onTap: currentItem.onTap,
                           child: Container(
                             padding: 5.allPadding,
                             decoration: BoxDecoration(
@@ -198,16 +203,17 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                                   decoration: BoxDecoration(
                                       color: AppColor.lightGreen,
                                       borderRadius: 5.borderRadius),
-                                  child: const Center(
-                                    child: Icon(Icons.line_axis),
+                                  child:  Center(
+                                    child: Icon(currentItem.icon,color: AppColor.darkPurple,),
                                   ),
                                 ),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Text('0'),
-                                      Text(_businessSummeryList[index])
+                                      Text(currentItem.amount),
+                                      Text(currentItem.title)
                                     ],
                                   ),
                                 )
@@ -264,7 +270,8 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                                 Text(
                                   "view all",
                                   style: TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w400),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400),
                                 ),
                                 5.width,
                               ],
@@ -276,7 +283,7 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                     GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: _manageBusinessList.length,
+                      itemCount: homeController.manageBusinessList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
@@ -284,11 +291,12 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10),
                       itemBuilder: (context, index) {
+                        var currentItem = homeController.manageBusinessList[index];
                         return InkWell(
                           borderRadius: 8.borderRadius,
                           splashColor: AppColor.lightBlue,
                           highlightColor: AppColor.lightBlue,
-                          onTap: () {},
+                          onTap: currentItem.onTap,
                           child: Container(
                             padding: 5.allPadding,
                             decoration: BoxDecoration(
@@ -310,12 +318,15 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                                       borderRadius: 5.borderRadius),
                                   child: Center(
                                     child: Icon(
-                                      Icons.line_axis,
+                                      currentItem.icon,
                                       color: AppColor.white,
                                     ),
                                   ),
                                 ),
-                                Text(_manageBusinessList[index],style: TextStyle(fontSize: 12),),
+                                Text(
+                                  currentItem.title,
+                                  style: TextStyle(fontSize: 12),
+                                ),
                               ],
                             ),
                           ),
@@ -369,7 +380,8 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                                 Text(
                                   "view all",
                                   style: TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w400),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400),
                                 ),
                                 5.width,
                               ],
@@ -381,19 +393,20 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                     GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: _growBusinessList.length,
+                      itemCount: homeController.growBusinessList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
                               crossAxisSpacing: 5,
-                              childAspectRatio: 80/100,
+                              childAspectRatio: 80 / 100,
                               mainAxisSpacing: 10),
                       itemBuilder: (context, index) {
+                        var currentItem = homeController.growBusinessList[index];
                         return InkWell(
                           borderRadius: 8.borderRadius,
                           splashColor: AppColor.lightBlue,
                           highlightColor: AppColor.lightBlue,
-                          onTap: () {},
+                          onTap: currentItem.onTap,
                           child: Container(
                             padding: 4.allPadding,
                             decoration: BoxDecoration(
@@ -414,13 +427,16 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                                       borderRadius: 5.borderRadius),
                                   child: Center(
                                     child: Icon(
-                                      Icons.line_axis,
+                                      currentItem.icon,
                                       color: AppColor.white,
                                     ),
                                   ),
                                 ),
-
-                                Text(_growBusinessList[index],style: TextStyle(fontSize: 13),),
+                                Text(
+                                  currentItem.title,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 13),
+                                ),
                               ],
                             ),
                           ),

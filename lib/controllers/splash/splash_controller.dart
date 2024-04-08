@@ -12,7 +12,7 @@ class SplashController {
 
   void navigateToAnotherPage(Widget screen) {
     Timer(
-       const Duration(seconds: 5),
+       const Duration(seconds: 2),
       () {
         Get.off(()=>screen);
       },
