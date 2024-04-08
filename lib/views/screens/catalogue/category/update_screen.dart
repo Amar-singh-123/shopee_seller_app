@@ -50,8 +50,8 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
         backgroundColor: Colors.green,
         textColor: Colors.white,
       );
+      Navigator.pop(context);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ShowCategory()));
     } catch (e) {
       Fluttertoast.showToast(
         msg: "Failed to update category: $e",

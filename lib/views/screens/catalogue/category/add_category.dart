@@ -21,7 +21,6 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
   File? _image;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   bool _uploadingData = false;
-
   @override
   void initState() {
     super.initState();
@@ -48,11 +47,7 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
         backgroundColor: Colors.green,
         textColor: Colors.white,
       );
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ShowCategory(),
-          ));
+      Navigator.pop(context);
     } catch (e) {
       Fluttertoast.showToast(
         msg: "Failed to add category: $e",
