@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -17,15 +19,14 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  String? imageUrl; // Variable to store the image URL
-  String? storeName; // Variable to store the image URL
+  String? imageUrl;
+  String? storeName;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getCurrentUserImage();
     getName();
-
   }
 
 
@@ -41,9 +42,9 @@ class _SettingScreenState extends State<SettingScreen> {
            storeName = data?['storeName'];
          });
           print('Store Name: $storeName');
-          // You can use storeName as needed, such as displaying it in your UI
         } else {
           print('Document does not exist');
+
         }
       }
     } catch (e) {

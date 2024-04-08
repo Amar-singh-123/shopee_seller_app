@@ -37,8 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Lottie.asset(
               "assets/images/splash_animation.json",
-              height: context.screenHeight * 0.1,
-              width: double.infinity,
+              height: context.screenHeight * 0.1, width: double.infinity,
             ),
             60.height,
             const CircularProgressIndicator(

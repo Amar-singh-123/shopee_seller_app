@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopee_seller_app/model/seller_details_model.dart';
 import 'dart:io';
@@ -302,11 +304,13 @@ class _SellerDetailsState extends State<SellerDetails> {
         businessCategoryController.clear();
         businessNameController.clear();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Seller details saved successfully!'),
-          ),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text('Seller details saved successfully!'),
+        //   ),
+        // );
+
+      Get.snackbar("Seller Details", "Seller details saved successfully!",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SettingScreen()));
       // } else {
       //   print('User is not authenticated');
