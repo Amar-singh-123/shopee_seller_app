@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopee_seller_app/models/orders/order_model.dart';
+import 'package:shopee_seller_app/views/screens/catalogue/catalogue_screen.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/product/add_product.dart';
+import 'package:shopee_seller_app/views/screens/order_section/online_order_screen.dart';
 import 'package:shopee_seller_app/views/screens/seller_profile/manage_seller_profile.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
@@ -33,14 +35,14 @@ class ManageScreen extends StatelessWidget {
           const Divider(),
           GestureDetector(
             onTap: () {
-              Get.to(OrderStatus());
+              Get.to(()=>OnlineOrdersScreen());
             },
             child: const ListTile(
               leading: Icon(Icons.production_quantity_limits),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Order'),
+                  Text('Orders'),
                   Icon(
                     CupertinoIcons.heart_fill,
                     size: 15,
@@ -55,11 +57,11 @@ class ManageScreen extends StatelessWidget {
           const Divider(),
           GestureDetector(
             onTap: () {
-              Get.to(AddProductScreen());
+              Get.to(()=>CatalogueScreen(selectedTab: 0,));
             },
             child: const ListTile(
               leading: Icon(Icons.production_quantity_limits_sharp),
-              title: Text('Add Products'),
+              title: Text('Products'),
               subtitle: Text('Promote and unlock more features & reports'),
               trailing: Icon(Icons.arrow_forward_ios, size: 13),
             ),
