@@ -8,7 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:shopee_seller_app/views/screens/shop_details/shop_details.dart';
+// import 'package:shopee_seller_app/views/screens/shop_details/shop_details.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -164,7 +164,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(40),
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SellerDetails(),));
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const SellerDetails(),));
                                   },
                                   child: Text(
                                     "Store Details",
