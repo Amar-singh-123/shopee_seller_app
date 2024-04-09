@@ -24,7 +24,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -32,7 +31,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: const SplashScreen(),
-
     );
     }
 }
+
