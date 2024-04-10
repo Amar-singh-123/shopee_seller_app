@@ -216,5 +216,6 @@ class PaymentMode {
     }else{
       return "cashOnDelivery";
     }
-   }
+  }
 }
+
