@@ -11,6 +11,7 @@ import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db
 import 'package:shopee_seller_app/controllers/services/app_firebase/storage_db.dart';
 import 'package:shopee_seller_app/models/category/category_model.dart';
 import 'package:shopee_seller_app/models/products/product_model.dart';
+import 'package:shopee_seller_app/views/screens/catalogue/product/product_edit.dart';
 import 'package:shopee_seller_app/views/utils/app_widgets/textfield/widget_class.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -72,7 +73,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         final pickedImage = await ImagePicker().pickImage(
                           source: ImageSource.gallery,
                         );
-
                         if (pickedImage != null) {
                           var file = File(pickedImage.path);
                           if (productImages.length < 5) {
@@ -96,41 +96,84 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             color: Colors.blue,
                           ),
                         ),
-                        child: productImages.isEmpty
-                            ? Icon(CupertinoIcons.camera)
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.file(
-                                  productImages.first,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                        child: Icon(CupertinoIcons.camera),
                       ),
                     ),
                     productImages.isNotEmpty
                         ? Wrap(
                             children: List.generate(
                               productImages.length,
-                              (index) => Container(
-                                margin: const EdgeInsets.all(5),
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    width: 2,
-                                    color: Colors.blue,
+                              (index) => InkWell(
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Colors.blue,
+                                    ),
                                   ),
-                                ),
-                                child: productImages.isEmpty
-                                    ? const Icon(CupertinoIcons.camera)
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.file(
-                                          productImages[index],
-                                          fit: BoxFit.cover,
+                                  child: productImages.isEmpty
+                                      ? const Icon(CupertinoIcons.camera)
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.file(
+                                            productImages[index],
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title: Text('Image Options'),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(Icons.edit),
+                                            title: Text('Edit'),
+                                            onTap: () async {
+                                              Navigator.pop(
+                                                  context); // Close the dialog
+                                              final pickedImage =
+                                                  await ImagePicker().pickImage(
+                                                source: ImageSource.gallery,
+                                              );
+                                              if (pickedImage != null) {
+                                                var file =
+                                                    File(pickedImage.path);
+                                                setState(() {
+                                                  productImages[index] =
+                                                      file; // Update the image in the list
+                                                });
+                                              } else {
+                                                print(
+                                                    'Maximum number of images reached');
+                                              }
+                                            },
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.delete),
+                                            title: Text('Delete'),
+                                            onTap: () {
+                                              Navigator.pop(
+                                                  context); // Close the dialog
+                                              setState(() {
+                                                productImages.removeAt(
+                                                    index); // Remove the image from the list
+                                              });
+                                            },
+                                          ),
+                                        ],
                                       ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           )
@@ -278,58 +321,70 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                           Container(margin: const EdgeInsets.all(10),child:IconButton(onPressed: () {
-                             Navigator.pop(context);
-                           }, icon: const Icon(Icons.close)),),
+                            Container(
+                              margin: const EdgeInsets.all(10),
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(Icons.close)),
+                            ),
                             Column(
-                                children: <Widget>[
-                                  const Text(
-                                    'Select Product Size',
+                              children: [
+                                const Text(
+                                  'Select Product Size',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                TextcustomField(
+                                  controller: sizeController,
+                                  labelText: 'Product Size',
+                                  keyboardType: TextInputType.text,
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.blue),
                                   ),
-                                  TextcustomField(
-                                    controller: sizeController,
-                                    labelText: 'Product Size',
-                                    keyboardType: TextInputType.text,
+                                  child: const Text(
+                                    'Add size',
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  ElevatedButton(
-                                    child: const Text(
-                                      'Add size',
-                                    ),
-                                    onPressed: () {
-                                      setState(() {});
-                                      productSize.add(sizeController.text);
-                                    },
-                                  ),
-                                  const SizedBox(height: 20),
-                                  productSize.isNotEmpty
-                                      ? Wrap(
-                                    children: List.generate(
-                                      productSize.length,
+                                  onPressed: () {
+                                    setState(() {});
+                                    productSize.add(sizeController.text);
+                                  },
+                                ),
+                                const SizedBox(height: 20),
+                                productSize.isNotEmpty
+                                    ? Wrap(
+                                        children: List.generate(
+                                          productSize.length,
                                           (index) => Container(
-                                        height: 40,
-                                        width: 40,
-                                        margin: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Text(
-                                          productSize[index],
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
+                                            height: 40,
+                                            width: 40,
+                                            margin: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Text(
+                                              productSize[index],
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
                                         ),
+                                      )
+                                    : const Center(
+                                        child: Text(
+                                          "No size selected",
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                      : const Center(
-                                    child: Text(
-                                      "No size selected",
-                                    ),
-                                  ),
-
-                                ],
-                              ),
+                              ],
+                            ),
                           ],
                         ),
                       );

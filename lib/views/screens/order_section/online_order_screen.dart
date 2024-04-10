@@ -79,24 +79,6 @@ class _OnlineOrdersScreenState extends State<OnlineOrdersScreen>
           CancelledScreen(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            context.push(CreateOrderScreen());
-          },
-          label: Text(
-            'ORDER',
-            style:
-                TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 13),
-          ),
-          icon: Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 20,
-          ),
-          backgroundColor: Color(0xff1236b1),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100.0),
-          )),
     );
   }
 

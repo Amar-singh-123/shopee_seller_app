@@ -1,34 +1,57 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../models/category/category_model.dart';
-import '../../utils/app_widgets/textfield/widget_class.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../../controllers/services/app_firebase/app_firebase_auth.dart';
+import '../../../../controllers/services/app_firebase/firestore_db.dart';
+import '../../../../controllers/services/app_firebase/storage_db.dart';
+import '../../../../models/category/category_model.dart';
+import '../../../../models/products/Product_model.dart';
+import '../../../utils/app_widgets/textfield/widget_class.dart';
 
 class ProductEdit extends StatefulWidget {
-  const ProductEdit({super.key});
+  final QueryDocumentSnapshot<Map<String, dynamic>>? productModel;
+  const ProductEdit({Key? key, required this.productModel}) : super(key: key);
 
   @override
   State<ProductEdit> createState() => _ProductEditState();
 }
 
 class _ProductEditState extends State<ProductEdit> {
-  List<File> productImages = [];
+  List<Map<String, dynamic>> productImages = [{'uri': '', 'file': ''}];
   List<String> productImagesUrls = [];
   List<String> productSize = [];
   var selectedCategory = CategoryModel();
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController discountController = TextEditingController();
-  final TextEditingController unitController = TextEditingController();
-  final TextEditingController productDetailController = TextEditingController();
-  final TextEditingController pieceController = TextEditingController();
-  final TextEditingController sizeController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+  TextEditingController unitController = TextEditingController();
+  TextEditingController productDetailController = TextEditingController();
+  TextEditingController pieceController = TextEditingController();
+  TextEditingController sizeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.productModel!['name'];
+    priceController.text = widget.productModel!['price'].toString();
+    discountController.text = widget.productModel!['discount'];
+    unitController.text = widget.productModel!['unit'].toString();
+    productDetailController.text = widget.productModel!['description'].toString();
+    pieceController.text = widget.productModel!['qty'].toString();
+    sizeController.text = widget.productModel!['variants'].toString();
+    List<dynamic> imageUrlList = widget.productModel?['imageUrl'] as List<dynamic>;
+    for (var imageUrl in imageUrlList) {
+      productImages.add({'uri': imageUrl, 'file': ''});
+    }
+    productImages[0].remove(productImages.first);
+  }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool _loading = false;
@@ -48,7 +71,7 @@ class _ProductEditState extends State<ProductEdit> {
           },
         ),
         title: const Text(
-          "Add Products",
+          "Edit Products",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -71,11 +94,9 @@ class _ProductEditState extends State<ProductEdit> {
                         if (pickedImage != null) {
                           var file = File(pickedImage.path);
                           if (productImages.length < 5) {
-                            productImages.add(file);
+                            productImages.add({'uri': '', 'file': file.path});
                             setState(() {});
                           } else {
-                            // Handle if the maximum number of images (5) is reached
-                            // You can show a toast, snackbar, or any other form of notification
                             print('Maximum number of images reached');
                           }
                         }
@@ -91,15 +112,7 @@ class _ProductEditState extends State<ProductEdit> {
                             color: Colors.blue,
                           ),
                         ),
-                        child: productImages.isEmpty
-                            ? Icon(CupertinoIcons.camera)
-                            : ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.file(
-                            productImages.first,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        child: Icon(CupertinoIcons.camera),
                       ),
                     ),
                     productImages.isNotEmpty
@@ -117,14 +130,70 @@ class _ProductEditState extends State<ProductEdit> {
                               color: Colors.blue,
                             ),
                           ),
-                          child: productImages.isEmpty
-                              ? const Icon(CupertinoIcons.camera)
-                              : ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.file(
-                              productImages[index],
-                              fit: BoxFit.cover,
+                          child: InkWell(
+
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+
+                              child: productImages[index]['file'] != ''
+                                  ? Image.file(
+                                File(productImages[index]['file']),
+                                fit: BoxFit.cover,
+                              )
+                                  : Image.network(
+                                productImages[index]['uri'],
+                                fit: BoxFit.cover,
+                              ),
                             ),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: Text('Image Options'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        leading: Icon(Icons.edit),
+                                        title: Text('Edit'),
+
+                                        onTap: () async {
+
+                                          Navigator.pop(
+                                              context); // Close the dialog
+                                          final pickedImage =
+                                          await ImagePicker().pickImage(
+                                            source: ImageSource.gallery,
+                                          );
+                                          if (pickedImage != null) {
+                                            var file =
+                                            File(pickedImage.path);
+                                            productImages[index]['file'] = file.path;
+                                            setState(() {
+                                              // Update the image in the list
+                                            });
+                                          } else {
+                                            print('Maximum number of images reached');
+                                          }
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.delete),
+                                        title: Text('Delete'),
+
+                                        onTap: () {
+                                          Navigator.pop(
+                                              context); // Close the dialog
+                                          setState(() {
+                                            productImages.removeAt(index); // Remove the image from the list
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -149,6 +218,7 @@ class _ProductEditState extends State<ProductEdit> {
               keyboardType: TextInputType.text,
               readOnly: true,
               onTap: () {
+                selectCategory(context);
               },
             ),
             const SizedBox(height: 20),
@@ -272,13 +342,21 @@ class _ProductEditState extends State<ProductEdit> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Container(margin: const EdgeInsets.all(10),child:IconButton(onPressed: () {
-                              Navigator.pop(context);
-                            }, icon: const Icon(Icons.close)),),
+                            Container(
+                              margin: const EdgeInsets.all(10),
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(Icons.close)),
+                            ),
                             Column(
-                              children: <Widget>[
+                              children: [
                                 const Text(
                                   'Select Product Size',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                                 TextcustomField(
                                   controller: sizeController,
@@ -286,8 +364,13 @@ class _ProductEditState extends State<ProductEdit> {
                                   keyboardType: TextInputType.text,
                                 ),
                                 ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                    MaterialStateProperty.all(Colors.blue),
+                                  ),
                                   child: const Text(
                                     'Add size',
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                   onPressed: () {
                                     setState(() {});
@@ -321,7 +404,6 @@ class _ProductEditState extends State<ProductEdit> {
                                     "No size selected",
                                   ),
                                 ),
-
                               ],
                             ),
                           ],
@@ -368,7 +450,7 @@ class _ProductEditState extends State<ProductEdit> {
                   backgroundColor: MaterialStateProperty.all(Colors.blue),
                 ),
                 onPressed: () {
-
+                  _updateProduct(widget.productModel!['productId']);
                 },
                 child: const Text(
                   "Add Product",
@@ -381,4 +463,151 @@ class _ProductEditState extends State<ProductEdit> {
       ),
     );
   }
-}
+
+  Future<void> _updateProduct(String productId) async {
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+    var imageUrl =  await updateImagesInFirebaseStorage(productImages,productId);
+
+    Product product = Product(
+      productId: productId,
+      name: nameController.text,
+      categoryId: selectedCategory.categoryId,
+      price: priceController.text,
+      discount: discountController.text,
+      unit: unitController.text,
+      description: productDetailController.text,
+      qty: int.tryParse(pieceController.text) ?? 0,
+      imageUrl: imageUrl.toList(),
+      sellerId: AppAuth.userId,
+      colors: productColor,
+      paymentMethod: [
+        "CASH ON DELIVERY",
+        "UPI",
+      ],
+      ratting: 0,
+      status: Status(
+        available: true,
+        blocked: false,
+        outOfStock: false,
+      ),
+      updatedAt: DateTime.now(),
+      totalSoldItem: 0,
+      variants: productSize,
+    );
+      var resp = await AppFireStoreDatabase(collection: 'products')
+          .update(data: product.toJson(), doc: productId);
+
+      if (resp.success) {
+        Fluttertoast.showToast(
+          msg: "Product updated successfully!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+        setState(() {
+          _loading = false;
+        });
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(
+          msg: "Product update failed! : ${resp.error}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+        setState(() {
+          _loading = false;
+        });
+      }
+    } catch (e) {
+      print('Error updating product data: $e');
+      setState(() {
+        _loading = false;
+      });
+      throw e;
+    }
+  }
+
+  Future<List<String>> updateImagesInFirebaseStorage(List<Map<String, dynamic>> productImages,productId) async {
+    try {
+      List<String> productImageDownloadUrl = [];
+      for (var image in productImages) {
+        if (image['file'] != '') {
+          var resp = await AppFirebaseStorage(storageCollection: 'product_images')
+              .updateFile(file: File(image['file']), filename: "${DateTime.now().microsecond}.jpeg");
+          if (resp.success) {
+            productImageDownloadUrl.add(resp.url ?? "");
+          }
+        } else {
+          productImageDownloadUrl.add(image['uri']);
+        }
+      }
+      return productImageDownloadUrl;
+
+      // Assuming productId is accessible here, update the imageUrl in Firestore
+      await AppFireStoreDatabase(collection: 'products')
+          .update(data: {"imageUrl": productImageDownloadUrl}, doc: productId);
+    } catch (e) {
+      print('Error updating images in Firebase Storage: $e');
+      throw e;
+    }
+  }
+
+
+  void selectCategory(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: AppFireStoreDatabase(collection: "shoppe_category")
+              .getAllAsStream()
+              .streamAllData,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            if (!snapshot.hasData || snapshot.data?.docs.isEmpty == true) {
+              return Center(child: Text("No category found"));
+            }
+
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                var category =
+                CategoryModel.fromJson(snapshot.data!.docs[index].data());
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    onTap: () {
+                      setState(() {
+                        selectedCategory = category;
+                        categoryController.text = category.categoryName ?? "";
+                      });
+                      Navigator.pop(context);
+                    },
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: CachedNetworkImage(
+                        imageUrl: category.categoryImg ?? "",
+                        width: 70,
+                        height: 70,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    title: Text(category.categoryName ?? ""),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+  }
+
