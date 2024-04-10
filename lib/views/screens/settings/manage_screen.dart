@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/models/orders/order_model.dart';
+import 'package:shopee_seller_app/views/screens/auth/email_auth/signing_with_email.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/catalogue_screen.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/product/add_product.dart';
 import 'package:shopee_seller_app/views/screens/order_section/online_order_screen.dart';
@@ -91,11 +93,17 @@ class ManageScreen extends StatelessWidget {
             ),
           ),
           10.height,
-          const Center(
-              child: Text(
-            "Logout",
-            style: TextStyle(color: Colors.blue),
-          )),
+           Center(
+              child: InkWell(
+                onTap: (){
+                  AppAuth.signOut;
+                  Get.offAll(SigningWithEmail());
+                },
+                child: Text(
+                            "Logout",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+              )),
           15.height
         ],
       ),

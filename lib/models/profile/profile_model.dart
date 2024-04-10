@@ -13,6 +13,7 @@ class ProfileModel {
   String? sellerName;
   String? sellerEmail;
   String? sellerPhone;
+  String? sellerPinCode;
   String? sellerAddress;
   String? sellerImage;
   ProfileModel({
@@ -20,6 +21,7 @@ class ProfileModel {
     this.sellerName,
     this.sellerEmail,
     this.sellerPhone,
+    this.sellerPinCode,
     this.sellerAddress,
     this.sellerImage,
   });
@@ -29,6 +31,7 @@ class ProfileModel {
     sellerName: json["seller_name"],
     sellerEmail: json["seller_email"],
     sellerPhone: json["seller_phone"],
+    sellerPinCode: json["seller_pinCode"],
     sellerAddress: json["seller_address"],
     sellerImage: json["seller_image"],
   );
@@ -37,6 +40,7 @@ class ProfileModel {
     "seller_name": sellerName,
     "seller_email": sellerEmail,
     "seller_phone": sellerPhone,
+    "seller_pinCode": sellerPinCode,
     "seller_address": sellerAddress,
     "seller_image": sellerImage,
   };
