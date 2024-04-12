@@ -51,7 +51,7 @@ class _ViewProductsState extends State<ViewProducts> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = Product.fromJson(
-                  products[index].data() as Map<String, dynamic>);
+                  products[index].data());
               var productData = snapshot.data?.docs[index];
               return Card(
                 elevation: 0,
@@ -79,8 +79,7 @@ class _ViewProductsState extends State<ViewProducts> {
                             imageUrl: product.imageUrl?.first ?? "",
                             placeholder: (context, url) =>
                             const CupertinoActivityIndicator(),
-                            errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                            errorWidget: (context, url, error) => CupertinoActivityIndicator(),
                           ),
                         ),
                         title: Text(product.name ?? "",
