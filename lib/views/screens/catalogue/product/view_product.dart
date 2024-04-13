@@ -6,8 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db.dart';
-import '../../../../models/products/Product_model.dart';
-import 'add_product.dart';
+import 'package:shopee_seller_app/models/products/Product_model.dart'; // Make sure to correct the path if necessary
+import 'package:shopee_seller_app/views/screens/catalogue/category/update_screen.dart'; // Make sure to correct the path if necessary
+import 'package:shopee_seller_app/views/screens/catalogue/product/product_edit.dart';
+import '../../../../controllers/services/app_firebase/app_firebase_auth.dart';
+import '../../../../controllers/services/app_firebase/storage_db.dart';
+import 'add_product.dart'; // Make sure to correct the path if necessary
 
 class ViewProducts extends StatefulWidget {
   const ViewProducts({Key? key}) : super(key: key);
@@ -30,8 +34,9 @@ class _ViewProductsState extends State<ViewProducts> {
         },
         child: const Icon(Icons.add),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('products').snapshots(),
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance.collection('products').where(
+            'sellerId', isEqualTo: AppAuth.userId).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -48,118 +53,9 @@ class _ViewProductsState extends State<ViewProducts> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = Product.fromJson(
-                  products[index].data() as Map<String, dynamic>);
-              var prod = snapshot.data?.docs[index];
-              // return Card(
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //     children: [
-              //       Row(
-              //         children: [
-              //           ClipRRect(
-              //             borderRadius: BorderRadius.circular(5),
-              //             child: Container(
-              //               child: CachedNetworkImage(
-              //                 fit: BoxFit.cover,
-              //                 height: 100,
-              //                 width: 100,
-              //                 imageUrl: product.imageUrl?.first ?? "",
-              //                 placeholder: (context, url) =>
-              //                     const CupertinoActivityIndicator(),
-              //                 errorWidget: (context, url, error) =>
-              //                     const Icon(Icons.error),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //       Row(
-              //         children: [
-              //           Column(
-              //             children: [
-              //               Text(
-              //                 product.name ?? "",
-              //                 style: TextStyle(
-              //                     fontSize: 20, fontWeight: FontWeight.bold),
-              //               ),
-              //               Text(
-              //                 '${product.price.toString()}',
-              //                 style: TextStyle(
-              //                     fontSize: 15, fontWeight: FontWeight.w400),
-              //               ),
-              //               Text(
-              //                 '${product.discount.toString()}',
-              //                 style: TextStyle(
-              //                     fontSize: 15, fontWeight: FontWeight.w400),
-              //               ),
-              //             ],
-              //           ),
-              //           SizedBox(
-              //             width: 10,
-              //           ),
-              //           Column(
-              //             children: [
-              //               Text(
-              //                 '${product.unit.toString()}',
-              //                 style: TextStyle(
-              //                     fontSize: 15, fontWeight: FontWeight.w400),
-              //               ),
-              //               Text(
-              //                 '${product?.description ?? ""}',
-              //                 overflow: TextOverflow.ellipsis,
-              //                 maxLines: 1,
-              //                 style: TextStyle(
-              //
-              //                     fontSize: 15, fontWeight: FontWeight.w400),
-              //               ),
-              //               Text(
-              //                 ' ${product.qty.toString()}',
-              //                 style: TextStyle(
-              //                     fontSize: 15, fontWeight: FontWeight.w400),
-              //               ),
-              //             ],
-              //           )
-              //         ],
-              //       ),
-              //       Row(
-              //         children: [
-              //           IconButton(
-              //               onPressed: () {
-              //                 showDialog(
-              //                   context: context,
-              //                   builder: (BuildContext context) {
-              //                     return AlertDialog(
-              //                       title: const Text('Delete your Product?'),
-              //                       content: const Text(
-              //                           "If you select Delete we will delete your account on our server."),
-              //                       actions: [
-              //                         TextButton(
-              //                           child: const Text('Cancel'),
-              //                           onPressed: () {
-              //                             Navigator.of(context).pop();
-              //                           },
-              //                         ),
-              //                         TextButton(
-              //                           onPressed: () {
-              //                             prod?.reference.delete();
-              //                             Navigator.of(context).pop();
-              //                           },
-              //                           child: const Text(
-              //                             'Delete',
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     );
-              //                   },
-              //                 );
-              //               },
-              //               icon: Icon(Icons.delete))
-              //         ],
-              //       )
-              //     ],
-              //   ),
-              // );
-              return  Card(
+                  products[index].data());
+              var productData = snapshot.data?.docs[index];
+              return Card(
                 elevation: 0,
                 margin:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
@@ -186,18 +82,36 @@ class _ViewProductsState extends State<ViewProducts> {
                             placeholder: (context, url) =>
                             const CupertinoActivityIndicator(),
                             errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                                CupertinoActivityIndicator(),
                           ),
                         ),
                         title: Text(product.name ?? "",
                             style: TextStyle(color: Colors.grey)),
-                        subtitle: const Text("Sub Categories (0)",
+                        subtitle: Text(product.description!,
                             style: TextStyle(color: Colors.grey)),
                         trailing: PopupMenuButton<String>(
                           onSelected: (String value) {
                             if (value == 'edit') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProductEdit(
+                                        productModel: productData,
+                                      ),
+                                ),
+                              );
+                            }
+                            if (value == 'delete') {
+                              for (int i = 0; i <
+                                  product.imageUrl!.length; i++) {
+                                AppFirebaseStorage(
+                                    storageCollection: 'product_images').delete(
+                                    url: product.imageUrl![i]);
+                              }
+                              AppFireStoreDatabase(collection: 'products')
+                                  .delete(doc: product.productId.toString());
 
-                            } else if (value == 'delete') {
                               // category.reference.delete();
                             }
                           },
@@ -252,9 +166,11 @@ class _ViewProductsState extends State<ViewProducts> {
                         children: [
                           Row(
                             children: [
-                               Padding(
+                              Padding(
                                 padding: EdgeInsets.all(15.0),
-                                child: Text(product.status?.available == true ? 'available' : 'Unavailable'),
+                                child: Text(product.status?.available == true
+                                    ? 'available'
+                                    : 'Unavailable'),
                               ),
                               FlutterSwitch(
                                 height: 20.0,
@@ -263,12 +179,13 @@ class _ViewProductsState extends State<ViewProducts> {
                                 toggleSize: 15.0,
                                 borderRadius: 10.0,
                                 activeColor: Colors.indigoAccent,
-                                value:  product.status?.available ?? false,
-                                onToggle: (value) async{
+                                value: product.status?.available ?? false,
+                                onToggle: (value) async {
                                   product.status?.available = value;
-
-
-                                await  AppFireStoreDatabase(collection: 'products').update(data: {"status":product.status?.toJson()}, doc: product.productId ?? "");
+                                  await AppFireStoreDatabase(
+                                      collection: 'products').update(data: {
+                                    "status": product.status?.toJson()
+                                  }, doc: product.productId ?? "");
                                 },
                               ),
                             ],
@@ -333,3 +250,25 @@ class _ViewProductsState extends State<ViewProducts> {
     );
   }
 }
+
+Product productModelFromSnapshot(
+    DocumentSnapshot<Map<String, dynamic>>? snapshot) {
+  if (snapshot == null || !snapshot.exists) {
+    // Handle the case where the snapshot is null or doesn't exist
+    return Product(); // Return a default product or handle accordingly
+  }
+  Map<String, dynamic> data = snapshot.data()!;
+  return Product(
+    imageUrl: data['imageUrl'],
+    productId: data['productId'],
+    variants: data['variants'],
+    colors: data['colors'],
+    unit: data['unit'],
+    qty: data['qty'],
+    price: data['price'],
+    name: data['name'],
+    discount: data['discount'],
+  );
+}
+
+

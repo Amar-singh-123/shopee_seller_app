@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/category/update_screen.dart';
 
 import '../../../../models/category/category_model.dart';
@@ -23,9 +24,10 @@ class _ShowCategoryState extends State<ShowCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('shoppe_category')
+            .where('sellerId', isEqualTo: AppAuth.userId)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

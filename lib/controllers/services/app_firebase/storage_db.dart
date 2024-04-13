@@ -31,9 +31,9 @@ class AppFirebaseStorage {
     return await insertFile(file: file, filename: filename);
   }
 
-  Future<StorageResponse> delete({required String fileName}) async {
+  Future<StorageResponse> delete({required String url}) async {
     try {
-      await _database.ref().child(storageCollection).child(fileName).delete();
+     await _database.refFromURL(url).delete();
       return StorageResponse(success: true, error: null, statusCode: 200);
     } catch (e) {
       return StorageResponse(

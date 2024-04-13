@@ -42,6 +42,16 @@ class ManageProfileScreen extends StatelessWidget {
                   labelText: "Address",
                   hint: "Enter your address",
                 ),
+                EditField(
+                  controller: controller.phoneController.value,
+                  labelText: "phone",
+                  hint: "Enter your phone",
+                ),
+                EditField(
+                  controller: controller.pinCodeController.value,
+                  labelText: "pinCode",
+                  hint: "Enter your pinCode",
+                ),
               ],
             )),
             Button(

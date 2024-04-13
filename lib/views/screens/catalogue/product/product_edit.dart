@@ -6,35 +6,52 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
-import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db.dart';
-import 'package:shopee_seller_app/controllers/services/app_firebase/storage_db.dart';
-import 'package:shopee_seller_app/models/category/category_model.dart';
-import 'package:shopee_seller_app/models/products/product_model.dart';
-import 'package:shopee_seller_app/views/screens/catalogue/product/product_edit.dart';
-import 'package:shopee_seller_app/views/utils/app_widgets/textfield/widget_class.dart';
+import '../../../../controllers/services/app_firebase/app_firebase_auth.dart';
+import '../../../../controllers/services/app_firebase/firestore_db.dart';
+import '../../../../controllers/services/app_firebase/storage_db.dart';
+import '../../../../models/category/category_model.dart';
+import '../../../../models/products/Product_model.dart';
+import '../../../utils/app_widgets/textfield/widget_class.dart';
 
-class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({Key? key}) : super(key: key);
+class ProductEdit extends StatefulWidget {
+  final QueryDocumentSnapshot<Map<String, dynamic>>? productModel;
+  const ProductEdit({Key? key, required this.productModel}) : super(key: key);
 
   @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
+  State<ProductEdit> createState() => _ProductEditState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
-  List<File> productImages = [];
+class _ProductEditState extends State<ProductEdit> {
+  List<Map<String, dynamic>> productImages = [{'uri': '', 'file': ''}];
   List<String> productImagesUrls = [];
   List<String> productSize = [];
   var selectedCategory = CategoryModel();
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController discountController = TextEditingController();
-  final TextEditingController unitController = TextEditingController();
-  final TextEditingController productDetailController = TextEditingController();
-  final TextEditingController pieceController = TextEditingController();
-  final TextEditingController sizeController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+  TextEditingController unitController = TextEditingController();
+  TextEditingController productDetailController = TextEditingController();
+  TextEditingController pieceController = TextEditingController();
+  TextEditingController sizeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.productModel!['name'];
+    priceController.text = widget.productModel!['price'].toString();
+    discountController.text = widget.productModel!['discount'];
+    unitController.text = widget.productModel!['unit'].toString();
+    productDetailController.text = widget.productModel!['description'].toString();
+    pieceController.text = widget.productModel!['qty'].toString();
+    sizeController.text = widget.productModel!['variants'].toString();
+    List<dynamic> imageUrlList = widget.productModel?['imageUrl'] as List<dynamic>;
+    for (var imageUrl in imageUrlList) {
+      productImages.add({'uri': imageUrl, 'file': ''});
+    }
+    productImages[0].remove(productImages.first);
+  }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool _loading = false;
@@ -54,7 +71,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           },
         ),
         title: const Text(
-          "Add Products",
+          "Edit Products",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -73,14 +90,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         final pickedImage = await ImagePicker().pickImage(
                           source: ImageSource.gallery,
                         );
+
                         if (pickedImage != null) {
                           var file = File(pickedImage.path);
                           if (productImages.length < 5) {
-                            productImages.add(file);
+                            productImages.add({'uri': '', 'file': file.path});
                             setState(() {});
                           } else {
-                            // Handle if the maximum number of images (5) is reached
-                            // You can show a toast, snackbar, or any other form of notification
                             print('Maximum number of images reached');
                           }
                         }
@@ -101,85 +117,90 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                     productImages.isNotEmpty
                         ? Wrap(
-                            children: List.generate(
-                              productImages.length,
-                              (index) => InkWell(
-                                child: Container(
-                                  margin: const EdgeInsets.all(5),
-                                  height: 100,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  child: productImages.isEmpty
-                                      ? const Icon(CupertinoIcons.camera)
-                                      : ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: Image.file(
-                                            productImages[index],
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                ),
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) => AlertDialog(
-                                      title: Text('Image Options'),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ListTile(
-                                            leading: Icon(Icons.edit),
-                                            title: Text('Edit'),
-                                            onTap: () async {
-                                              Navigator.pop(
-                                                  context); // Close the dialog
-                                              final pickedImage =
-                                                  await ImagePicker().pickImage(
-                                                source: ImageSource.gallery,
-                                              );
-                                              if (pickedImage != null) {
-                                                var file =
-                                                    File(pickedImage.path);
-                                                setState(() {
-                                                  productImages[index] =
-                                                      file; // Update the image in the list
-                                                });
-                                              } else {
-                                                print(
-                                                    'Maximum number of images reached');
-                                              }
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: Icon(Icons.delete),
-                                            title: Text('Delete'),
-                                            onTap: () {
-                                              Navigator.pop(
-                                                  context); // Close the dialog
-                                              setState(() {
-                                                productImages.removeAt(
-                                                    index); // Remove the image from the list
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
+                      children: List.generate(
+                        productImages.length,
+                            (index) => Container(
+                          margin: const EdgeInsets.all(5),
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          child: InkWell(
+
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+
+                              child: productImages[index]['file'] != ''
+                                  ? Image.file(
+                                File(productImages[index]['file']),
+                                fit: BoxFit.cover,
+                              )
+                                  : Image.network(
+                                productImages[index]['uri'],
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          )
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: Text('Image Options'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        leading: Icon(Icons.edit),
+                                        title: Text('Edit'),
+
+                                        onTap: () async {
+
+                                          Navigator.pop(
+                                              context); // Close the dialog
+                                          final pickedImage =
+                                          await ImagePicker().pickImage(
+                                            source: ImageSource.gallery,
+                                          );
+                                          if (pickedImage != null) {
+                                            var file =
+                                            File(pickedImage.path);
+                                            productImages[index]['file'] = file.path;
+                                            setState(() {
+                                              // Update the image in the list
+                                            });
+                                          } else {
+                                            print('Maximum number of images reached');
+                                          }
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.delete),
+                                        title: Text('Delete'),
+
+                                        onTap: () {
+                                          Navigator.pop(
+                                              context); // Close the dialog
+                                          setState(() {
+                                            productImages.removeAt(index); // Remove the image from the list
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    )
                         : const Center(
-                            child: Text("No images selected"),
-                          )
+                      child: Text("No images selected"),
+                    )
                   ],
                 ),
               ),
@@ -287,22 +308,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
             const SizedBox(height: 20),
             productColor.isNotEmpty
                 ? Wrap(
-                    children: List.generate(
-                      productColor.length,
-                      (index) => Container(
-                        height: 40,
-                        width: 40,
-                        margin: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(productColor[index]),
-                        ),
-                      ),
-                    ),
-                  )
-                : const Center(
-                    child: Text("No color selected"),
+              children: List.generate(
+                productColor.length,
+                    (index) => Container(
+                  height: 40,
+                  width: 40,
+                  margin: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(productColor[index]),
                   ),
+                ),
+              ),
+            )
+                : const Center(
+              child: Text("No color selected"),
+            ),
             Container(
               margin: const EdgeInsets.only(
                 left: 10,
@@ -345,7 +366,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 ElevatedButton(
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.blue),
+                                    MaterialStateProperty.all(Colors.blue),
                                   ),
                                   child: const Text(
                                     'Add size',
@@ -359,30 +380,30 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 const SizedBox(height: 20),
                                 productSize.isNotEmpty
                                     ? Wrap(
-                                        children: List.generate(
-                                          productSize.length,
-                                          (index) => Container(
-                                            height: 40,
-                                            width: 40,
-                                            margin: EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Text(
-                                              productSize[index],
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : const Center(
-                                        child: Text(
-                                          "No size selected",
+                                  children: List.generate(
+                                    productSize.length,
+                                        (index) => Container(
+                                      height: 40,
+                                      width: 40,
+                                      margin: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Text(
+                                        productSize[index],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                    ),
+                                  ),
+                                )
+                                    : const Center(
+                                  child: Text(
+                                    "No size selected",
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -398,37 +419,39 @@ class _AddProductScreenState extends State<AddProductScreen> {
             const SizedBox(height: 20),
             productSize.isNotEmpty
                 ? Wrap(
-                    children: List.generate(
-                      productSize.length,
-                      (index) => Container(
-                        height: 40,
-                        width: 40,
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          productSize[index],
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : const Center(
-                    child: Text(
-                      "No size selected",
+              children: List.generate(
+                productSize.length,
+                    (index) => Container(
+                  height: 40,
+                  width: 40,
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    productSize[index],
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                ),
+              ),
+            )
+                : const Center(
+              child: Text(
+                "No size selected",
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue),
                 ),
-                onPressed: _addProduct,
+                onPressed: () {
+                  _updateProduct(widget.productModel!['productId']);
+                },
                 child: const Text(
                   "Add Product",
                   style: TextStyle(color: Colors.white, fontSize: 17),
@@ -441,11 +464,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  Future<void> _addProduct() async {
+  Future<void> _updateProduct(String productId) async {
     setState(() {
       _loading = true;
     });
-    String productId = firestore.collection('products').doc().id;
+
+    try {
+    var imageUrl =  await updateImagesInFirebaseStorage(productImages,productId);
+
     Product product = Product(
       productId: productId,
       name: nameController.text,
@@ -455,10 +481,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
       unit: unitController.text,
       description: productDetailController.text,
       qty: int.tryParse(pieceController.text) ?? 0,
-      imageUrl: [],
+      imageUrl: imageUrl.toList(),
       sellerId: AppAuth.userId,
       colors: productColor,
-      createdAt: DateTime.now(),
       paymentMethod: [
         "CASH ON DELIVERY",
         "UPI",
@@ -469,72 +494,67 @@ class _AddProductScreenState extends State<AddProductScreen> {
         blocked: false,
         outOfStock: false,
       ),
-      subCategoryId: "",
-      title: "",
       updatedAt: DateTime.now(),
       totalSoldItem: 0,
       variants: productSize,
-      brandId: "",
-      shopId: "",
     );
-    var resp = await AppFireStoreDatabase(collection: 'products')
-        .set(data: product.toJson(), doc: productId);
-    if (resp.success) {
-      await uploadImageToFirebaseStorage(productImages, doc: productId);
-      _clearControllers();
-      Fluttertoast.showToast(
-        msg: "Product added successfully!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-      setState(() {
-        _loading = false;
-      });
-      Navigator.pop(context);
-    } else {
-      Fluttertoast.showToast(
-        msg: "Product added failed! : ${resp.error}",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-      setState(() {
-        _loading = false;
-      });
-    }
-  }
+      var resp = await AppFireStoreDatabase(collection: 'products')
+          .update(data: product.toJson(), doc: productId);
 
-  void _clearControllers() {
-    nameController.clear();
-    categoryController.clear();
-    priceController.clear();
-    discountController.clear();
-    unitController.clear();
-    productDetailController.clear();
-    pieceController.clear();
-  }
-
-  Future<List<String>> uploadImageToFirebaseStorage(List<File> productImages,
-      {required String doc}) async {
-    try {
-      List<String> productImageDownloadUrl = [];
-      productImages.forEach((element) async {
-        var resp = await AppFirebaseStorage(storageCollection: 'product_images')
-            .insertFile(
-                file: element, filename: "${DateTime.now().microsecond}.jpeg");
-        if (resp.success) {
-          productImageDownloadUrl.add(resp.url ?? "");
-          await AppFireStoreDatabase(collection: 'products')
-              .update(data: {"imageUrl": productImageDownloadUrl}, doc: doc);
-        } else {
-          productImageDownloadUrl.add(resp.url ?? "");
-        }
-      });
-      return productImageDownloadUrl;
+      if (resp.success) {
+        Fluttertoast.showToast(
+          msg: "Product updated successfully!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+        setState(() {
+          _loading = false;
+        });
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(
+          msg: "Product update failed! : ${resp.error}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+        setState(() {
+          _loading = false;
+        });
+      }
     } catch (e) {
-      print('Error uploading image to Firebase Storage: $e');
+      print('Error updating product data: $e');
+      setState(() {
+        _loading = false;
+      });
       throw e;
     }
   }
+
+  Future<List<String>> updateImagesInFirebaseStorage(List<Map<String, dynamic>> productImages,productId) async {
+    try {
+      List<String> productImageDownloadUrl = [];
+      for (var image in productImages) {
+        if (image['file'] != '') {
+          var resp = await AppFirebaseStorage(storageCollection: 'product_images')
+              .updateFile(file: File(image['file']), filename: "${DateTime.now().microsecond}.jpeg");
+          if (resp.success) {
+            productImageDownloadUrl.add(resp.url ?? "");
+          }
+        } else {
+          productImageDownloadUrl.add(image['uri']);
+        }
+      }
+      return productImageDownloadUrl;
+
+      // Assuming productId is accessible here, update the imageUrl in Firestore
+      await AppFireStoreDatabase(collection: 'products')
+          .update(data: {"imageUrl": productImageDownloadUrl}, doc: productId);
+    } catch (e) {
+      print('Error updating images in Firebase Storage: $e');
+      throw e;
+    }
+  }
+
 
   void selectCategory(BuildContext context) {
     showModalBottomSheet(
@@ -559,7 +579,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 var category =
-                    CategoryModel.fromJson(snapshot.data!.docs[index].data());
+                CategoryModel.fromJson(snapshot.data!.docs[index].data());
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
@@ -589,4 +609,5 @@ class _AddProductScreenState extends State<AddProductScreen> {
       },
     );
   }
-}
+  }
+

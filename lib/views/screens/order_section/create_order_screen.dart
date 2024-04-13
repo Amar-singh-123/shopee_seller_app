@@ -91,31 +91,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  OrderModel orderModel = OrderModel(
-                    categoryId: "1",
-                    categoryName: "Shirt",
-                    customerId: "1",
-                    customerAddress: "Lachhi",
-                    customerEmail: "raushansingh@gmail.com",
-                    customerName: "Raushan Singh",
-                    customerPhone: "+919060911045",
-                    deliveryTime:
-                        '${selectedDate.hour}:${selectedDate.minute} Am',
-                    deliveryDate:
-                        '${digitToMonth(selectedDate.month)} ${selectedDate.day + 1}, ${selectedDate.year}',
-                    orderId: "second_order",
-                    orderStatus: OrderStatus(),
-                    productDescription: "this jeans is very smart for men.",
-                    productId: '1',
-                    productImages: null,
-                    productName: "Shirt",
-                    productQuantity: '1',
-                    productTotalPrice: '70',
-                  );
-                  FirebaseFirestore.instance
-                      .collection('Orders')
-                      .doc('second_order')
-                      .set(orderModel.toJson());
+
                 },
                 child: Text("Add"))
           ],
