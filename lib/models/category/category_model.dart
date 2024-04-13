@@ -16,6 +16,7 @@ class CategoryModel {
   String? categoryName;
   String? createdAt;
   String? updatedAt;
+  String? sellerId;
 
   CategoryModel({
     this.categoryId,
@@ -23,10 +24,12 @@ class CategoryModel {
     this.categoryName,
     this.createdAt,
     this.updatedAt,
+    this.sellerId,
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
     categoryId: json["categoryId"],
+    sellerId: json["sellerId"],
     categoryImg: json["categoryImg"],
     categoryName: json["categoryName"],
     createdAt: json["createdAt"],
@@ -35,6 +38,7 @@ class CategoryModel {
 
   Map<String, dynamic> toJson() => {
     "categoryId": categoryId,
+    "sellerId": sellerId,
     "categoryImg": categoryImg,
     "categoryName": categoryName,
     "createdAt": createdAt,
