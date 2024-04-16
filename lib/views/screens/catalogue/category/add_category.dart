@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/category/show_category.dart';
 
 import '../../../../models/category/category_model.dart';
@@ -34,6 +35,7 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
       categoryName: categoryName,
       createdAt: Timestamp.now().toString(),
       updatedAt: Timestamp.now().toString(),
+      sellerId: AppAuth.userId,
     );
     try {
       await fireStore

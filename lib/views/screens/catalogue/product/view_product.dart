@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db.dart';
 import 'package:shopee_seller_app/models/products/Product_model.dart'; // Make sure to correct the path if necessary
 import 'package:shopee_seller_app/views/screens/catalogue/category/update_screen.dart'; // Make sure to correct the path if necessary
@@ -34,7 +35,7 @@ class _ViewProductsState extends State<ViewProducts> {
         child: const Icon(Icons.add),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance.collection('products').snapshots(),
+        stream: FirebaseFirestore.instance.collection('products').where('sellerId', isEqualTo: AppAuth.userId).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
