@@ -17,7 +17,7 @@ class CategoryModel {
   String? createdAt;
   String? sellerId;
   String? updatedAt;
-  String? sellerId;
+  // String? sellerId;
 
   CategoryModel({
     this.categoryId,
@@ -35,7 +35,7 @@ class CategoryModel {
     categoryName: json["categoryName"],
     createdAt: json["createdAt"],
     updatedAt: json["updatedAt"],
-    sellerId: json["sellerId"],
+    // sellerId: json["sellerId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -45,6 +45,6 @@ class CategoryModel {
     "categoryName": categoryName,
     "createdAt": createdAt,
     "updatedAt": updatedAt,
-    "sellerId": sellerId,
+    // "sellerId": sellerId,
   };
 }
