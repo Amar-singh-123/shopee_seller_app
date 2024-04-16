@@ -182,18 +182,9 @@ class SigningWithEmail extends StatelessWidget {
                                  onTap: () {
                                    context.push(SignupWithEmail());
                                  }, child: Text("Signup",style: TextStyle(
-                                    color: Color.fromRGBO(113, 148, 251, 1,), fontWeight: FontWeight.w400),),
+                                    color: Color.fromRGBO(113, 148, 251, 1), fontWeight: FontWeight.w400),),
                               ),
 
-                              // FadeInUp(
-                              //   duration: Duration(milliseconds: 2000),
-                              //     child: Row(
-                              //   children: [
-                              //     Container(
-                              //
-                              //     )
-                              //   ],
-                              // ))
 
                             ],
                           )),
@@ -269,32 +260,50 @@ class SigningWithEmail extends StatelessWidget {
          email: signingEmailController.text.trim(),
          password: signingPasswordController.text.trim(),
        );
+// <<<<<<< HEAD
+       // Navigate to home screen or dashboard after successful sign-in
+       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+       //   content: Text('SuccessFully login with email'),
+       // ));
+
+       Get.snackbar("Seller Login", "SuccessFully login with email",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
+// =======
        showSnackBar(title: 'SuccessFully login with email',message: "",color: AppColor.green );
+// >>>>>>> main
        AuthController.navigateUser(uid: userCredential.user?.uid);
      } catch (e) {
        // Handle sign-in errors
        print('Error signing in: $e');
        // You can provide feedback to the user here (e.g., show a snackbar)
-       showSnackBar(title: 'Failed to sign in. Please check your credentials.',message: "",color: AppColor.red );
+// <<<<<<< HEAD
+       Get.snackbar("Seller Login Failed", "Failed to sign in. Please check your credentials.l",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
+
+       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+       //   content: Text('Failed to sign in. Please check your credentials.'),
+       // ));
+// =======
+//        showSnackBar(title: 'Failed to sign in. Please check your credentials.',message: "",color: AppColor.red );
+// >>>>>>> main
      }
     }
    }
 
    Future<UserCredential> signInWithGoogle() async {
-     // Trigger the authentication flow
      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-     // Obtain the auth details from the request
      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-     // Create a new credential
      final credential = GoogleAuthProvider.credential(
        accessToken: googleAuth?.accessToken,
        idToken: googleAuth?.idToken,
      );
      // Once signed in, return the UserCredential
      UserCredential userCredential =  await FirebaseAuth.instance.signInWithCredential(credential);
-     Get.offAll(()=>HomeScreen());
+// <<<<<<< HEAD
+     Get.snackbar("Seller Login", "SuccessFully login with Google",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
+     Get.off(HomeScreen());
+// =======
+//      Get.offAll(()=>HomeScreen());
+// >>>>>>> main
      return userCredential;
    }
 }

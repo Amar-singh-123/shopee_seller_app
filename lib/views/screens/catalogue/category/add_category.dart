@@ -36,7 +36,6 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
       categoryName: categoryName,
       createdAt: Timestamp.now().toString(),
       updatedAt: Timestamp.now().toString(),
-      sellerId: AppAuth.userId,
     );
     try {
       await fireStore
