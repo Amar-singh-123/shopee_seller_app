@@ -37,7 +37,7 @@ class ManageScreen extends StatelessWidget {
           const Divider(),
           GestureDetector(
             onTap: () {
-              Get.to(()=>OnlineOrdersScreen());
+              Get.to(() => OnlineOrdersScreen());
             },
             child: const ListTile(
               leading: Icon(Icons.production_quantity_limits),
@@ -59,7 +59,9 @@ class ManageScreen extends StatelessWidget {
           const Divider(),
           GestureDetector(
             onTap: () {
-              Get.to(()=>CatalogueScreen(selectedTab: 0,));
+              Get.to(() => CatalogueScreen(
+                    selectedTab: 0,
+                  ));
             },
             child: const ListTile(
               leading: Icon(Icons.production_quantity_limits_sharp),
@@ -93,17 +95,17 @@ class ManageScreen extends StatelessWidget {
             ),
           ),
           10.height,
-           Center(
+          Center(
               child: InkWell(
-                onTap: (){
-                  AppAuth.signOut;
-                  Get.offAll(SigningWithEmail());
-                },
-                child: Text(
-                            "Logout",
-                            style: TextStyle(color: Colors.blue),
-                          ),
-              )),
+            onTap: () {
+              AppAuth.signOut;
+              Get.offAll(SigningWithEmail());
+            },
+            child: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.blue),
+            ),
+          )),
           15.height
         ],
       ),
