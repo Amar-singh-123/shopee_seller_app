@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:shopee_seller_app/views/utils/app_colors/app_colors.dart';
 
 extension Spaces on int {
@@ -74,7 +72,7 @@ extension CustomWidgets on StatelessWidget {
         color: AppColor.darkGray,
       );
   showSnackBar({required String title, required String message, Color? color}) {
-    Get.snackbar(title, message,backgroundColor: color);
+    Get.snackbar(title, message,colorText: color);
   }
 
   Text textView({required String text, TextStyle? textStyle}) {
@@ -272,7 +270,7 @@ extension Dates on DateTime {
 }
 
 extension Ext on String{
-int   toInt() =>int.parse(this);
+int toInt() =>int.parse(this);
 }
 
 
