@@ -1,0 +1,1 @@
+const introAnimation = "assets/animations/intro.json";

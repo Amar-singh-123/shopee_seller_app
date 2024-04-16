@@ -6,10 +6,10 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopee_seller_app/models/shopModel/shop_model.dart';
+import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
 import 'dart:io';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
-import '../settings/setting_screen.dart';
+import 'package:shopee_seller_app/models/shopModel/shop_model.dart';
 
 class ShopDetailsScreen extends StatefulWidget {
   const ShopDetailsScreen({Key? key});
@@ -303,6 +303,7 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
         businessCategoryController.clear();
         businessNameController.clear();
 
+// <<<<<<< HEAD
         // ScaffoldMessenger.of(context).showSnackBar(
         //   SnackBar(
         //     content: Text('Seller details saved successfully!'),
@@ -310,7 +311,15 @@ class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
         // );
 
       Get.snackbar("Seller Details", "Seller details saved successfully!",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SettingScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+// =======
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(
+//             content: Text('Seller details saved successfully!'),
+//           ),
+//         );
+//         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+// >>>>>>> main
       // } else {
       //   print('User is not authenticated');
       //   // Handle the case where the user is not authenticated

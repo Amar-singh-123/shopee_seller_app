@@ -7,11 +7,8 @@ class ManageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 10,
-        backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "Manage",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: ListView(
