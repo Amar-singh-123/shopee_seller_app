@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
+// import 'package:pinput/pinput.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import 'package:shopee_seller_app/views/utils/app_styles/app_styles.dart';
 import '../../../../controllers/auth/phone_auth_controller.dart';
@@ -52,15 +52,21 @@ class OtpVerificationScreen extends StatelessWidget {
                   ),
                 ),
                 30.height,
-                Pinput(
-                  controller: pinController,
-                  focusNode: FocusNode(),
-                  length: 6,
-                  androidSmsAutofillMethod:
-                      AndroidSmsAutofillMethod.smsUserConsentApi,
-                  listenForMultipleSmsOnAndroid: true,
-                  separatorBuilder: (index) => const SizedBox(width: 8),
-                ),
+                // Pinput(
+                //   controller: pinController,
+                //   focusNode: FocusNode(),
+                //   length: 6,
+                //   androidSmsAutofillMethod:
+                //       AndroidSmsAutofillMethod.smsUserConsentApi,
+                //   listenForMultipleSmsOnAndroid: true,
+                //   separatorBuilder: (index) => const SizedBox(width: 8),
+                // ),
+                Center(
+                  child: TextField(
+                    controller: pinController,
+                    maxLength: 6,
+                  ),
+                )
               ],
             ),
             SizedBox(

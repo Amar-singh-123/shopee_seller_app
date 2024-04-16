@@ -91,9 +91,10 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                 leading: Icon(CupertinoIcons.arrow_clockwise_circle_fill),
                 title: Text('Logout'),
                 onTap: () {
-                  context.pop;
-                  FirebaseAuth.instance.signOut;
-                  Get.offAll(() => PhoneAuthScreen());
+                  // context.pop;
+                  // FirebaseAuth.instance.signOut;
+                  // Get.offAll(() => PhoneAuthScreen());
+                  _signOut(context);
                 },
                 horizontalTitleGap: 50,
                 shape: 10.shapeBorderRadius,
@@ -449,5 +450,15 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
         ),
       ),
     );
+  }
+}
+
+
+Future<void> _signOut(context) async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PhoneAuthScreen(),));
+  } catch (e) {
+    print("Error signing out: $e");
   }
 }
