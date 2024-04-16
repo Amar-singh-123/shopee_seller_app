@@ -16,18 +16,18 @@ class PopUpMenuButtonWidget extends StatelessWidget {
         iconSize: 30,
       iconColor: Colors.blue,
       itemBuilder: (context) => [
-        const PopupMenuItem(
-        value: 1,
-        child: Row(
-          children: [
-            Icon(Icons.edit),
-            SizedBox(
-              width: 10,
-            ),
-            Text("Update")
-          ],
-        ),
-      ),
+      //   const PopupMenuItem(
+      //   value: 1,
+      //   child: Row(
+      //     children: [
+      //       Icon(Icons.edit),
+      //       SizedBox(
+      //         width: 10,
+      //       ),
+      //       Text("Update")
+      //     ],
+      //   ),
+      // ),
         const PopupMenuItem(
           value: 2,
           child: Row(
@@ -46,7 +46,7 @@ class PopUpMenuButtonWidget extends StatelessWidget {
       elevation: 2,
       onSelected: (value) {
         if (value == 1) {
-          context.push(UpdateTabBarWidget(data : data));
+          // context.push(UpdateTabBarWidget(data : data));
         }
         else if (value == 2) {
           BannerController(context: context).deleteBanner(id: id);

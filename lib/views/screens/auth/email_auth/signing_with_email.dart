@@ -14,16 +14,18 @@ class SigningWithEmail extends StatelessWidget {
    SigningWithEmail({super.key});
    TextEditingController signingEmailController = TextEditingController();
    TextEditingController signingPasswordController = TextEditingController();
+   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          child: Container(
+          child: Form(
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 400,
+                  height: context.screenHeight / 2.4,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/images/background.png'),
@@ -119,6 +121,8 @@ class SigningWithEmail extends StatelessWidget {
                                                   143, 148, 251, 1)))),
                                   child: TextField(
                                     controller: signingEmailController,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Enter Email",
@@ -131,11 +135,11 @@ class SigningWithEmail extends StatelessWidget {
                                   child: TextField(
                                     controller: signingPasswordController,
                                     obscureText: true,
+                                    textInputAction: TextInputAction.next,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Password",
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey[700])),
+                                        hintStyle: TextStyle(color: Colors.grey[700])),
                                   ),
                                 )
                               ],
@@ -148,7 +152,9 @@ class SigningWithEmail extends StatelessWidget {
                           duration: Duration(milliseconds: 1900),
                           child: InkWell(
                             onTap: (){
-                              signingWithEmail(context);
+                              if(_formKey.currentState!.validate()){
+                                signingWithEmail(context);
+                              }
                             },
                             child: Container(
                               height: 50,
@@ -272,27 +278,19 @@ class SigningWithEmail extends StatelessWidget {
        showSnackBar(title: 'SuccessFully login with email',message: "",color: AppColor.green );
        AuthController.navigateUser(uid: userCredential.user?.uid);
      } catch (e) {
-       // Handle sign-in errors
        print('Error signing in: $e');
-       // You can provide feedback to the user here (e.g., show a snackbar)
        showSnackBar(title: 'Failed to sign in. Please check your credentials.',message: "",color: AppColor.red );
      }
     }
    }
 
    Future<UserCredential> signInWithGoogle() async {
-     // Trigger the authentication flow
      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-     // Obtain the auth details from the request
      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-     // Create a new credential
      final credential = GoogleAuthProvider.credential(
        accessToken: googleAuth?.accessToken,
        idToken: googleAuth?.idToken,
      );
-     // Once signed in, return the UserCredential
      UserCredential userCredential =  await FirebaseAuth.instance.signInWithCredential(credential);
      Get.offAll(()=>HomeScreen());
      return userCredential;
