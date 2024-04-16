@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shopee_seller_app/views/screens/product_edit/product_edit.dart';
 import 'package:shopee_seller_app/views/screens/splash_screen/splash_screens.dart';
 import 'firebase_options.dart';
 
@@ -32,7 +31,6 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: const SplashScreen(),
-      // home:EditProduct()
     );
   }
 }

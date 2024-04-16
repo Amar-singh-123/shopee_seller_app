@@ -33,34 +33,35 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
             side: BorderSide(
                 width: 2, color: AppColor.lineDark, style: BorderStyle.solid)),
         title: const Text('home'),
-        actions: [
-          SizedBox(
-            width: 100,
-            height: 50,
-            child: FlutterSwitch(
-              value: _isOnline,
-              onToggle: (bool value) {
-                setState(() {
-                  _isOnline = value;
-                });
-              },
-              height: 27,
-              width: 80,
-              showOnOff: true,
-              activeText: "Online",
-              inactiveText: "Offline",
-              activeColor: AppColor.green,
-              inactiveColor: AppColor.red,
-              inactiveTextColor: AppColor.white,
-              activeTextColor: AppColor.white,
-              activeTextFontWeight: FontWeight.w500,
-              inactiveTextFontWeight: FontWeight.w500,
-              toggleSize: 20,
-              valueFontSize: 13,
-              padding: 3,
-            ),
-          ),
-        ],
+        // actions: [
+        //   SizedBox(
+        //     width: 100,
+        //     height: 50,
+        //     child: FlutterSwitch(
+        //       value: _isOnline,
+        //       onToggle: (bool value) {
+        //         setState(() {
+        //           _isOnline = value;
+        //         });
+        //       },
+        //       height: 27,
+        //       width: 80,
+        //       showOnOff: true,
+        //       activeText: "Online",
+        //       inactiveText: "Offline",
+        //       activeColor: AppColor.green,
+        //       inactiveColor: AppColor.red,
+        //       inactiveTextColor: AppColor.white,
+        //       activeTextColor: AppColor.white,
+        //       activeTextFontWeight: FontWeight.w500,
+        //       inactiveTextFontWeight: FontWeight.w500,
+        //       toggleSize: 20,
+        //       valueFontSize: 13,
+        //       padding: 3,
+        //     ),
+        //   ),
+        // ],
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: SafeArea(
@@ -129,13 +130,8 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                         Expanded(
                           child: ListTile(
                             contentPadding: 0.allPadding,
-                            title: Text('Business Summery'),
-                            subtitle: Text(
-                              'Complete Business summery in glance',
-                              style: TextStyle(
-                                  color: AppColor.textSoft, fontSize: 11),
-                            ),
-                          ),
+                            title: const Text('Business Summery'),
+                            subtitle: Text('Complete Business summery in glance', style: TextStyle(color: AppColor.textSoft, fontSize: 11),),),
                         ),
                         InkWell(
                           borderRadius: 5.borderRadius,
@@ -171,57 +167,59 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                         ),
                       ],
                     ),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: homeController.businessSummeryList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 200 / 80,
-                              crossAxisSpacing: 20,
-                              mainAxisSpacing: 20),
-                      itemBuilder: (context, index) {
-                        var currentItem = homeController.businessSummeryList[index];
-                        return InkWell(
-                          borderRadius: 8.borderRadius,
-                          splashColor: AppColor.lightBlue,
-                          highlightColor: AppColor.lightBlue,
-                          onTap: currentItem.onTap,
-                          child: Container(
-                            padding: 5.allPadding,
-                            decoration: BoxDecoration(
-                                borderRadius: 8.borderRadius,
-                                border: Border.all(
-                                    width: 1,
-                                    style: BorderStyle.solid,
-                                    color: AppColor.lightBlue)),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: 10.allPadding,
-                                  decoration: BoxDecoration(
-                                      color: AppColor.lightGreen,
-                                      borderRadius: 5.borderRadius),
-                                  child:  Center(
-                                    child: Icon(currentItem.icon,color: AppColor.darkPurple,),
+                    Obx(
+                      ()=> GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: homeController.businessSummeryList.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 200 / 80,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 20),
+                        itemBuilder: (context, index) {
+                          var currentItem = homeController.businessSummeryList[index];
+                          return InkWell(
+                            borderRadius: 8.borderRadius,
+                            splashColor: AppColor.lightBlue,
+                            highlightColor: AppColor.lightBlue,
+                            onTap: currentItem.onTap,
+                            child: Container(
+                              padding: 5.allPadding,
+                              decoration: BoxDecoration(
+                                  borderRadius: 8.borderRadius,
+                                  border: Border.all(
+                                      width: 1,
+                                      style: BorderStyle.solid,
+                                      color: AppColor.lightBlue)),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: 10.allPadding,
+                                    decoration: BoxDecoration(
+                                        color: AppColor.lightGreen,
+                                        borderRadius: 5.borderRadius),
+                                    child:  Center(
+                                      child: Icon(currentItem.icon,color: AppColor.darkPurple,),
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(currentItem.amount),
-                                      Text(currentItem.title)
-                                    ],
-                                  ),
-                                )
-                              ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(currentItem.amount),
+                                        Text(currentItem.title)
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),

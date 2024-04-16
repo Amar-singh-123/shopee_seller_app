@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/category/update_screen.dart';
 
 import '../../../../models/category/category_model.dart';
@@ -23,9 +24,9 @@ class _ShowCategoryState extends State<ShowCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
-            .collection('shoppe_category')
+            .collection('shoppe_category').where('sellerId', isEqualTo: AppAuth.userId)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -135,32 +136,31 @@ class _ShowCategoryState extends State<ShowCategory> {
                           height: 30,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Row(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(15.0),
-                                  child: Text("Online"),
-                                ),
-                                FlutterSwitch(
-                                  height: 20.0,
-                                  width: 40.0,
-                                  padding: 4.0,
-                                  toggleSize: 15.0,
-                                  borderRadius: 10.0,
-                                  activeColor: Colors.indigoAccent,
-                                  value: _switchValue,
-                                  onToggle: (value) {
-                                    setState(() {
-                                      _switchValue = value;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
+                            // Row(
+                            //   children: [
+                            //     const Padding(
+                            //       padding: EdgeInsets.all(15.0),
+                            //       child: Text("Online"),
+                            //     ),
+                            //     FlutterSwitch(
+                            //       height: 20.0,
+                            //       width: 40.0,
+                            //       padding: 4.0,
+                            //       toggleSize: 15.0,
+                            //       borderRadius: 10.0,
+                            //       activeColor: Colors.indigoAccent,
+                            //       value: _switchValue,
+                            //       onToggle: (value) {
+                            //         setState(() {
+                            //           _switchValue = value;
+                            //         });
+                            //       },
+                            //     ),
+                            //   ],
+                            // ),
+
                                 Row(
                                   children: [
                                     InkWell(
@@ -204,8 +204,7 @@ class _ShowCategoryState extends State<ShowCategory> {
                                     )
                                   ],
                                 ),
-                              ],
-                            )
+
                           ],
                         )
                       ],

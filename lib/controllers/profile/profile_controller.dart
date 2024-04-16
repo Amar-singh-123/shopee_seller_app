@@ -14,11 +14,12 @@ class ProfileController extends GetxController {
   Rx<TextEditingController> nameController = TextEditingController().obs;
   Rx<TextEditingController> emailController = TextEditingController().obs;
   Rx<TextEditingController> addressController = TextEditingController().obs;
+  Rx<TextEditingController> phoneController = TextEditingController().obs;
+  Rx<TextEditingController> pinCodeController = TextEditingController().obs;
   Rx<ProfileModel> profileDetails = ProfileModel().obs;
   RxString profileImage = "".obs;
   final _profileDb = AppFireStoreDatabase(collection: 'seller_profile');
   final _profileStorage = AppFirebaseStorage(storageCollection: 'seller_profile');
-
   RxBool updateStatus = false.obs;
   RxBool isNetworkUrl = false.obs;
 
@@ -54,7 +55,8 @@ class ProfileController extends GetxController {
       sellerName: nameController.value.text,
       sellerEmail: emailController.value.text,
       sellerAddress: addressController.value.text,
-      sellerPhone: AppAuth.currentUser?.phoneNumber,
+      sellerPhone: phoneController.value.text,
+      sellerPinCode: pinCodeController.value.text,
       sellerImage: profileImage.value,
     );
     if (profileDetails.value.sellerName?.isEmpty == true) {
@@ -63,11 +65,23 @@ class ProfileController extends GetxController {
       showSnackBar(
         'Please enter your email',
       );
-    } else if (profileDetails.value.sellerAddress?.isEmpty == true) {
+    }
+    else if (profileDetails.value.sellerPhone?.isEmpty == true) {
+      showSnackBar(
+        'Please enter your phone',
+      );
+    }
+    else if (profileDetails.value.sellerAddress?.isEmpty == true) {
       showSnackBar(
         'Please enter your address',
       );
-    } else if (profileImage.value.isEmpty) {
+    }
+    else if (profileDetails.value.sellerPinCode?.isEmpty == true) {
+      showSnackBar(
+        'Please enter your pinCode',
+      );
+    }
+    else if (profileImage.value.isEmpty) {
       showSnackBar(
         'Please select profile Image',
       );
@@ -118,6 +132,8 @@ class ProfileController extends GetxController {
     nameController.value.text = profileDetails.value.sellerName ?? "";
     addressController.value.text = profileDetails.value.sellerAddress ?? "";
     emailController.value.text = profileDetails.value.sellerEmail ?? "";
+    phoneController.value.text = profileDetails.value.sellerPhone ?? "";
+    pinCodeController.value.text = profileDetails.value.sellerPinCode ?? "";
     isNetworkUrl.value = true;
     updateStatus.value = true;
   }
