@@ -47,10 +47,10 @@ class _ProductEditState extends State<ProductEdit> {
     pieceController.text = widget.productModel!['qty'].toString();
     sizeController.text = widget.productModel!['variants'].toString();
     List<dynamic> imageUrlList = widget.productModel?['imageUrl'] as List<dynamic>;
+    productImages.removeAt(0);
     for (var imageUrl in imageUrlList) {
       productImages.add({'uri': imageUrl, 'file': ''});
     }
-    productImages[0].remove(productImages.first);
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -115,6 +115,7 @@ class _ProductEditState extends State<ProductEdit> {
                         child: Icon(CupertinoIcons.camera),
                       ),
                     ),
+
                     productImages.isNotEmpty
                         ? Wrap(
                       children: List.generate(
@@ -156,9 +157,7 @@ class _ProductEditState extends State<ProductEdit> {
                                       ListTile(
                                         leading: Icon(Icons.edit),
                                         title: Text('Edit'),
-
                                         onTap: () async {
-
                                           Navigator.pop(
                                               context); // Close the dialog
                                           final pickedImage =

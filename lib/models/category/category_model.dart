@@ -15,6 +15,7 @@ class CategoryModel {
   String? categoryImg;
   String? categoryName;
   String? createdAt;
+  String? sellerId;
   String? updatedAt;
   String? sellerId;
 
@@ -34,6 +35,7 @@ class CategoryModel {
     categoryName: json["categoryName"],
     createdAt: json["createdAt"],
     updatedAt: json["updatedAt"],
+    sellerId: json["sellerId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +45,6 @@ class CategoryModel {
     "categoryName": categoryName,
     "createdAt": createdAt,
     "updatedAt": updatedAt,
+    "sellerId": sellerId,
   };
 }
