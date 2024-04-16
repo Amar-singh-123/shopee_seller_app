@@ -10,6 +10,7 @@ import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db
 import 'package:shopee_seller_app/models/products/Product_model.dart'; // Make sure to correct the path if necessary
 import 'package:shopee_seller_app/views/screens/catalogue/category/update_screen.dart'; // Make sure to correct the path if necessary
 import 'package:shopee_seller_app/views/screens/catalogue/product/product_edit.dart';
+import '../../../../controllers/services/app_firebase/app_firebase_auth.dart';
 import '../../../../controllers/services/app_firebase/storage_db.dart';
 import 'add_product.dart'; // Make sure to correct the path if necessary
 
@@ -52,7 +53,7 @@ class _ViewProductsState extends State<ViewProducts> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = Product.fromJson(
-                  products[index].data() as Map<String, dynamic>);
+                  products[index].data());
               var productData = snapshot.data?.docs[index];
               return Card(
                 elevation: 0,
@@ -81,7 +82,7 @@ class _ViewProductsState extends State<ViewProducts> {
                             placeholder: (context, url) =>
                             const CupertinoActivityIndicator(),
                             errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                                CupertinoActivityIndicator(),
                           ),
                         ),
                         title: Text(product.name ?? "",
@@ -94,17 +95,22 @@ class _ViewProductsState extends State<ViewProducts> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductEdit(
-                                    productModel: productData,
-                                  ),
+                                  builder: (context) =>
+                                      ProductEdit(
+                                        productModel: productData,
+                                      ),
                                 ),
                               );
                             }
                             if (value == 'delete') {
-                             for(int i =0;i<product.imageUrl!.length;i++){
-                               AppFirebaseStorage(storageCollection: 'product_images').delete(url:product.imageUrl![i]);
-                             }
-                              AppFireStoreDatabase(collection: 'products').delete(doc: product.productId.toString());
+                              for (int i = 0; i <
+                                  product.imageUrl!.length; i++) {
+                                AppFirebaseStorage(
+                                    storageCollection: 'product_images').delete(
+                                    url: product.imageUrl![i]);
+                              }
+                              AppFireStoreDatabase(collection: 'products')
+                                  .delete(doc: product.productId.toString());
 
                               // category.reference.delete();
                             }
@@ -162,7 +168,9 @@ class _ViewProductsState extends State<ViewProducts> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(15.0),
-                                child: Text(product.status?.available == true ? 'available' : 'Unavailable'),
+                                child: Text(product.status?.available == true
+                                    ? 'available'
+                                    : 'Unavailable'),
                               ),
                               FlutterSwitch(
                                 height: 20.0,
@@ -171,10 +179,13 @@ class _ViewProductsState extends State<ViewProducts> {
                                 toggleSize: 15.0,
                                 borderRadius: 10.0,
                                 activeColor: Colors.indigoAccent,
-                                value:  product.status?.available ?? false,
-                                onToggle: (value) async{
+                                value: product.status?.available ?? false,
+                                onToggle: (value) async {
                                   product.status?.available = value;
-                                  await  AppFireStoreDatabase(collection: 'products').update(data: {"status":product.status?.toJson()}, doc: product.productId ?? "");
+                                  await AppFireStoreDatabase(
+                                      collection: 'products').update(data: {
+                                    "status": product.status?.toJson()
+                                  }, doc: product.productId ?? "");
                                 },
                               ),
                             ],
@@ -239,7 +250,9 @@ class _ViewProductsState extends State<ViewProducts> {
     );
   }
 }
-Product productModelFromSnapshot(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
+
+Product productModelFromSnapshot(
+    DocumentSnapshot<Map<String, dynamic>>? snapshot) {
   if (snapshot == null || !snapshot.exists) {
     // Handle the case where the snapshot is null or doesn't exist
     return Product(); // Return a default product or handle accordingly

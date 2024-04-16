@@ -31,6 +31,7 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
   Future<void> _addCategoryToFireStore(String categoryId, String imageUrl, String categoryName) async {
     CategoryModel categoryModel = CategoryModel(
       categoryId: categoryId,
+      sellerId: AppAuth.userId,
       categoryImg: imageUrl,
       categoryName: categoryName,
       createdAt: Timestamp.now().toString(),
