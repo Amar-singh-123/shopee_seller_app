@@ -8,8 +8,8 @@ import '../../../../models/orders/order_model.dart';
 import '../../../../models/products/Product_model.dart';
 import '../../../../models/user/user_model.dart';
 
-class CancelledScreen extends StatelessWidget {
-  const CancelledScreen({super.key});
+class ReadyForPickUp extends StatelessWidget {
+  const ReadyForPickUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CancelledScreen extends StatelessWidget {
       stream: FirebaseFirestore.instance
           .collection('orders')
           .where('sellerId', isEqualTo: AppAuth.userId )
-          .where('orderStatus.canceled', isEqualTo: true)
+          .where('orderStatus.readyForPickUp', isEqualTo: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

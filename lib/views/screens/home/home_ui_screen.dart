@@ -295,6 +295,7 @@ class _HomeUiScreenState extends State<HomeUiScreen> {
                           splashColor: AppColor.lightBlue,
                           highlightColor: AppColor.lightBlue,
                           onTap: currentItem.onTap,
+
                           child: Container(
                             padding: 5.allPadding,
                             decoration: BoxDecoration(
