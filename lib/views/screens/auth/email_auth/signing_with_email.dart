@@ -188,18 +188,9 @@ class SigningWithEmail extends StatelessWidget {
                                  onTap: () {
                                    context.push(SignupWithEmail());
                                  }, child: Text("Signup",style: TextStyle(
-                                    color: Color.fromRGBO(113, 148, 251, 1,), fontWeight: FontWeight.w400),),
+                                    color: Color.fromRGBO(113, 148, 251, 1), fontWeight: FontWeight.w400),),
                               ),
 
-                              // FadeInUp(
-                              //   duration: Duration(milliseconds: 2000),
-                              //     child: Row(
-                              //   children: [
-                              //     Container(
-                              //
-                              //     )
-                              //   ],
-                              // ))
 
                             ],
                           )),
@@ -275,11 +266,18 @@ class SigningWithEmail extends StatelessWidget {
          email: signingEmailController.text.trim(),
          password: signingPasswordController.text.trim(),
        );
+
+
+       Get.snackbar("Seller Login", "SuccessFully login with email",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
+
        showSnackBar(title: 'SuccessFully login with email',message: "",color: AppColor.green );
+
        AuthController.navigateUser(uid: userCredential.user?.uid);
      } catch (e) {
        print('Error signing in: $e');
        showSnackBar(title: 'Failed to sign in. Please check your credentials.',message: "",color: AppColor.red );
+       Get.snackbar("Seller Login Failed", "Failed to sign in. Please check your credentials.l",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
+
      }
     }
    }
@@ -287,12 +285,15 @@ class SigningWithEmail extends StatelessWidget {
    Future<UserCredential> signInWithGoogle() async {
      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
      final credential = GoogleAuthProvider.credential(
        accessToken: googleAuth?.accessToken,
        idToken: googleAuth?.idToken,
      );
      UserCredential userCredential =  await FirebaseAuth.instance.signInWithCredential(credential);
-     Get.offAll(()=>HomeScreen());
+
+     Get.snackbar("Seller Login", "SuccessFully login with Google",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
+     Get.off(HomeScreen());
      return userCredential;
    }
 }

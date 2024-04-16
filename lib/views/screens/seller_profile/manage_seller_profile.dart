@@ -22,7 +22,11 @@ class ManageProfileScreen extends StatelessWidget {
                 Row(
                   children: [
                     16.width,
-                    ImagePickerWidget(imagePath:controller.profileImage.value,onTap: controller.pickProfile,isNetworkImage:controller.isNetworkUrl.value),
+                    ImagePickerWidget(
+                        imagePath:controller.profileImage.value,
+                        onTap: controller.pickProfile,
+                        isNetworkImage:controller.isNetworkUrl.value
+                    ),
                   ],
                 ),
                 20.height,
