@@ -70,7 +70,7 @@ class _OnlineOrdersScreenState extends State<OnlineOrdersScreen>
       body: TabBarView(
         controller: _tabController,
         children: const [
-          // NewScreen(),
+          NewScreen(),
           ConfirmedScreen(),
           ShipmentScreen(),
           TransitScreen(),
