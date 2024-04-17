@@ -36,7 +36,7 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
       if (_categoryImage.isNotEmpty && isFromFile) {String imageName = '$categoryId.jpg';
         imageUrl = await _uploadImageToFirebaseStorage(File(_categoryImage), imageName);
       }
-      await _firestore.collection('shoppe_categories').doc(categoryId).update({
+      await _firestore.collection('shoppe_category').doc(categoryId).update({
         'categoryId': categoryId,
         'categoryImage': imageUrl,
         'categoryName': categoryName,
