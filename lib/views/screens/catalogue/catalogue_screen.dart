@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/product/view_product.dart';
-
 import 'category/show_category.dart';
 
 class CatalogueScreen extends StatefulWidget {

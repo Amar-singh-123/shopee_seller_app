@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 import '../../../controllers/profile/profile_controller.dart';

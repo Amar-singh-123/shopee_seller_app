@@ -2,15 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/firestore_db.dart';
 import 'package:shopee_seller_app/models/products/Product_model.dart'; // Make sure to correct the path if necessary
-import 'package:shopee_seller_app/views/screens/catalogue/category/update_screen.dart'; // Make sure to correct the path if necessary
 import 'package:shopee_seller_app/views/screens/catalogue/product/product_edit.dart';
-import '../../../../controllers/services/app_firebase/app_firebase_auth.dart';
 import '../../../../controllers/services/app_firebase/storage_db.dart';
 import 'add_product.dart'; // Make sure to correct the path if necessary
 
