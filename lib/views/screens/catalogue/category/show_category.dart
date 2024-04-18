@@ -6,7 +6,6 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/category/update_screen.dart';
-
 import '../../../../models/category/category_model.dart';
 import 'add_category.dart';
 
