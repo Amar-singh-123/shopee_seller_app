@@ -1,63 +1,63 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
+import 'package:shopee_seller_app/models/orders/order_model.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
-import '../../../../controllers/services/app_firebase/app_firebase_auth.dart';
-import '../../../../models/orders/order_model.dart';
 import '../../../../models/products/Product_model.dart';
 import '../../../../models/user/user_model.dart';
-
-class ShipmentScreen extends StatelessWidget {
-  const ShipmentScreen({super.key});
+class DeliveredScreen extends StatefulWidget {
+  const DeliveredScreen({super.key});
 
   @override
+  State<DeliveredScreen> createState() => _DeliveredScreenState();
+}
+
+class _DeliveredScreenState extends State<DeliveredScreen> {
+  @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+    return StreamBuilder(
       stream: FirebaseFirestore.instance
-          .collection('orders')
-          .where('sellerId', isEqualTo: AppAuth.userId )
-          .where('orderStatus.shipped', isEqualTo: true)
+          .collection("orders")
+          .where("sellerId", isEqualTo: AppAuth.userId)
+          .where("orderStatus.delivered", isEqualTo: true)
           .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CupertinoActivityIndicator(),
           );
         }
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Center(child: Text("Error ${snapshot.error}"));
         }
         if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
           return const Center(
-            child: Text(
-              'No orders in the section.',
-              style: TextStyle(fontSize: 13, color: Colors.black45),
-            ),
+            child: Text("Don't have Documents"),
           );
         }
-        final List<OrderModel> orders = snapshot.data!.docs
-            .map((DocumentSnapshot<Map<String, dynamic>> document) =>
-            OrderModel.fromJson(document.data()!))
+        final List<OrderModel> order = snapshot.data!.docs
+            .map((e) => OrderModel.fromJson(e.data()))
             .toList();
-
         return ListView.builder(
-          itemCount: orders.length,
-          itemBuilder: (BuildContext context, int index) {
-            OrderModel order = orders[index];
-            return orderDetailsItem(order, context);
+          itemCount: order.length,
+          itemBuilder: (context, index) {
+            OrderModel res = order[index];
+            return orderDetailsItem(res,context);
+
           },
         );
       },
     );
   }
-  Widget orderDetailsItem(OrderModel orderModel, BuildContext context) {
-    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+  Widget orderDetailsItem(OrderModel orderModel, BuildContext context)  {
+    return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('UserProfile')
           .doc(orderModel.customerId)
           .snapshots(),
-      builder: (context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> userSnapShot) {
+      builder: (context,userSnapShot) {
         if (userSnapShot.connectionState == ConnectionState.waiting) {
           return Center(child: CupertinoActivityIndicator());
         }
@@ -65,7 +65,7 @@ class ShipmentScreen extends StatelessWidget {
           return Center(child: Text("No data exists"));
         }
         var user = UserModel.fromJson(userSnapShot.data!.data()!);
-        return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        return StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('products')
               .doc(orderModel.productId ?? "")
@@ -285,4 +285,5 @@ class ShipmentScreen extends StatelessWidget {
       },
     );
   }
+
 }

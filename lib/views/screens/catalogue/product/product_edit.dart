@@ -452,7 +452,7 @@ class _ProductEditState extends State<ProductEdit> {
                   _updateProduct(widget.productModel!['productId']);
                 },
                 child: const Text(
-                  "Add Product",
+                  "Update Product",
                   style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
               ),

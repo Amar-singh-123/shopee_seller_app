@@ -46,7 +46,6 @@ dependencies:
   get: ^4.6.6
   lottie: ^2.6.0
   flutter_switch: ^0.3.2
-  share_plus: ^8.0.2
   dropdown_button2: ^2.3.9
   google_sign_in: ^6.2.1
   firebase_auth: ^4.17.9
@@ -56,6 +55,7 @@ dependencies:
   flex_color_picker: ^3.4.1
   flutter_material_color_picker: ^1.2.0
   firebase_database: ^10.5.0
+  share_plus: ^8.0.3
 
 dev_dependencies:
   flutter_test:
