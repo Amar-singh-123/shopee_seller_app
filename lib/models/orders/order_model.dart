@@ -1,8 +1,6 @@
-// To parse this JSON data, do
-//
-//     final orderModel = orderModelFromJson(jsonString);
-
 import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 OrderModel orderModelFromJson(String str) => OrderModel.fromJson(json.decode(str));
 
@@ -10,116 +8,214 @@ String orderModelToJson(OrderModel data) => json.encode(data.toJson());
 
 class OrderModel {
   String? orderId;
+  String? addressId;
   String? productId;
-  String? categoryId;
-  String? productName;
-  String? categoryName;
-  String? productImages;
-  String? deliveryDate;
-  String? deliveryTime;
-  String? productDescription;
-  String? productQuantity;
-  String? productTotalPrice;
+  String? sellerId;
   String? customerId;
+  Timestamp? orderDate;
+  int? color;
+  String? size;
+  String? pinCode;
+  String? paymentId;
+  int? totalQuantity;
+  int? totalPrice;
+  int? originalPrice;
+  int? deliveryCharge;
+  PaymentMode? paymentMode;
   OrderStatus? orderStatus;
-  String? customerName;
-  String? customerPhone;
-  String? customerAddress;
-  String? customerEmail;
 
   OrderModel({
     this.orderId,
+    this.addressId,
     this.productId,
-    this.categoryId,
-    this.productName,
-    this.categoryName,
-    this.productImages,
-    this.deliveryDate,
-    this.deliveryTime,
-    this.productDescription,
-    this.productQuantity,
-    this.productTotalPrice,
+    this.sellerId,
     this.customerId,
+    this.orderDate,
+    this.pinCode,
+    this.paymentId,
+    this.totalQuantity,
+    this.totalPrice,
+    this.originalPrice,
+    this.deliveryCharge,
+    this.paymentMode,
     this.orderStatus,
-    this.customerName,
-    this.customerPhone,
-    this.customerAddress,
-    this.customerEmail,
+    this.color,
+    this.size,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
     orderId: json["orderId"],
+    addressId: json["addressId"],
     productId: json["productId"],
-    categoryId: json["categoryId"],
-    productName: json["productName"],
-    categoryName: json["categoryName"],
-    productImages: json["productImages"],
-    deliveryDate: json["deliveryDate"],
-    deliveryTime: json["deliveryTime"],
-    productDescription: json["productDescription"],
-    productQuantity: json["productQuantity"],
-    productTotalPrice: json["productTotalPrice"],
+    sellerId: json["sellerId"],
     customerId: json["customerId"],
+    orderDate: json["orderDate"],
+    pinCode: json["pinCode"],
+    paymentId: json["paymentId"],
+    totalQuantity: json["totalQuantity"],
+    totalPrice: json["totalPrice"],
+    color: json["color"],
+    size: json["size"],
+    originalPrice: json["originalPrice"],
+    deliveryCharge: json["deliveryCharge"],
+    paymentMode: json["paymentMode"] == null ? null : PaymentMode.fromJson(json["paymentMode"]),
     orderStatus: json["orderStatus"] == null ? null : OrderStatus.fromJson(json["orderStatus"]),
-    customerName: json["customerName"],
-    customerPhone: json["customerPhone"],
-    customerAddress: json["customerAddress"],
-    customerEmail: json["customerEmail"],
   );
 
   Map<String, dynamic> toJson() => {
     "orderId": orderId,
+    "addressId": addressId,
     "productId": productId,
-    "categoryId": categoryId,
-    "productName": productName,
-    "categoryName": categoryName,
-    "productImages": productImages,
-    "deliveryDate": deliveryDate,
-    "deliveryTime": deliveryTime,
-    "productDescription": productDescription,
-    "productQuantity": productQuantity,
-    "productTotalPrice": productTotalPrice,
+    "sellerId": sellerId,
     "customerId": customerId,
+    "orderDate": orderDate,
+    "pinCode": pinCode,
+    "paymentId": paymentId,
+    "totalQuantity": totalQuantity,
+    "totalPrice": totalPrice,
+    "originalPrice": originalPrice,
+    "deliveryCharge": deliveryCharge,
+    "color": color,
+    "size": size,
+    "paymentMode": paymentMode?.toJson(),
     "orderStatus": orderStatus?.toJson(),
-    "customerName": customerName,
-    "customerPhone": customerPhone,
-    "customerAddress": customerAddress,
-    "customerEmail": customerEmail,
   };
 }
 
 class OrderStatus {
-  bool? orderStatusNew;
+  bool? pending;
   bool? confirmed;
-  bool? shipment;
-  bool? complete;
-  bool? returns;
-  bool? cancelled;
+  bool? readyForPickUp;
+  bool? outForPickUp;
+  bool? pickedUp;
+  bool? readyForShip;
+  bool? shipping;
+  bool? shipped;
+  bool? readyForDelivery;
+  bool? outForDelivery;
+  bool? delivered;
+  bool? canceled;
+  bool? returned;
 
   OrderStatus({
-    this.orderStatusNew,
-    this.confirmed,
-    this.shipment,
-    this.complete,
-    this.returns,
-    this.cancelled,
+    this.pending = true,
+    this.confirmed =  false,
+    this.readyForPickUp = false,
+    this.outForPickUp = false,
+    this.pickedUp = false,
+    this.readyForShip = false,
+    this.shipping = false,
+    this.shipped = false,
+    this.readyForDelivery = false,
+    this.outForDelivery = false,
+    this.delivered = false,
+    this.canceled = false,
+    this.returned = false,
   });
-
   factory OrderStatus.fromJson(Map<String, dynamic> json) => OrderStatus(
-    orderStatusNew: json["new"],
+    pending: json["pending"],
     confirmed: json["confirmed"],
-    shipment: json["shipment"],
-    complete: json["complete"],
-    returns: json["returns"],
-    cancelled: json["cancelled"],
+    readyForPickUp: json["readyForPickUp"],
+    outForPickUp: json["outForPickUp"],
+    pickedUp: json["pickedUp"],
+    readyForShip: json["readyForShip"],
+    shipping: json["shipping"],
+    shipped: json["shipped"],
+    readyForDelivery: json["ReadyForDelivery"],
+    outForDelivery: json["outForDelivery"],
+    delivered: json["delivered"],
+    canceled: json["canceled"],
+    returned: json["returned"],
   );
 
   Map<String, dynamic> toJson() => {
-    "new": orderStatusNew,
+    "pending": pending,
     "confirmed": confirmed,
-    "shipment": shipment,
-    "complete": complete,
-    "returns": returns,
-    "cancelled": cancelled,
+    "readyForPickUp": readyForPickUp,
+    "outForPickUp": outForPickUp,
+    "pickedUp": pickedUp,
+    "readyForShip": readyForShip,
+    "shipping": shipping,
+    "shipped": shipped,
+    "ReadyForDelivery": readyForDelivery,
+    "outForDelivery": outForDelivery,
+    "delivered": delivered,
+    "canceled": canceled,
+    "returned": returned,
   };
+
+  String get currentOrderStatus{
+    if(pending == true) {
+      return "pending";
+    }
+    else if(confirmed == true) {
+      return "confirmed";
+    }
+    else if(readyForPickUp == true) {
+      return "readyForPickUp";
+    }
+    else if(outForPickUp == true) {
+      return "outForPickUp";
+    }
+    else if(pickedUp == true) {
+      return "pickedUp";
+    }
+    else if(readyForShip == true) {
+      return "readyForShip";
+    }
+    else if(shipping == true) {
+      return "shipping";
+    }
+    else if(shipped == true) {
+      return "shipped";
+    }
+    else if(readyForDelivery == true) {
+      return "ReadyForDelivery";
+    }
+    else if(outForDelivery == true) {
+      return "outForDelivery";
+    }
+    else if(delivered == true) {
+      return "delivered";
+    }
+    else if(canceled == true) {
+      return "canceled";
+    }
+    else if(returned == true) {
+      return "returned";
+    }
+    else{
+      return "";
+    }
+
+  }
 }
+
+class PaymentMode {
+  bool? cashOnDelivery;
+  bool? online;
+
+  PaymentMode({
+    this.cashOnDelivery,
+    this.online,
+  });
+
+  factory PaymentMode.fromJson(Map<String, dynamic> json) => PaymentMode(
+    cashOnDelivery: json["cashOnDelivery"],
+    online: json["online"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "cashOnDelivery": cashOnDelivery,
+    "online": online,
+  };
+
+  String get currentPaymentMode {
+    if(online == true){
+      return "online";
+    }else{
+      return "cashOnDelivery";
+    }
+  }
+}
+

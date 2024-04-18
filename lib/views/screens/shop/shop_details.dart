@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopee_seller_app/model/seller_details_model.dart';
+import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
 import 'dart:io';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
+import 'package:shopee_seller_app/models/shopModel/shop_model.dart';
 
-import '../settings/setting_screen.dart';
-
-class SellerDetails extends StatefulWidget {
-  const SellerDetails({Key? key});
+class ShopDetailsScreen extends StatefulWidget {
+  const ShopDetailsScreen({Key? key});
 
   @override
-  State<SellerDetails> createState() => _SellerDetailsState();
+  State<ShopDetailsScreen> createState() => _ShopDetailsScreenState();
 }
 
-class _SellerDetailsState extends State<SellerDetails> {
+class _ShopDetailsScreenState extends State<ShopDetailsScreen> {
   TextEditingController storeNameController = TextEditingController();
   TextEditingController businessNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -302,12 +303,23 @@ class _SellerDetailsState extends State<SellerDetails> {
         businessCategoryController.clear();
         businessNameController.clear();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Seller details saved successfully!'),
-          ),
-        );
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SettingScreen()));
+// <<<<<<< HEAD
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text('Seller details saved successfully!'),
+        //   ),
+        // );
+
+      Get.snackbar("Seller Details", "Seller details saved successfully!",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+// =======
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(
+//             content: Text('Seller details saved successfully!'),
+//           ),
+//         );
+//         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+// >>>>>>> main
       // } else {
       //   print('User is not authenticated');
       //   // Handle the case where the user is not authenticated

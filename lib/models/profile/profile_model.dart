@@ -9,41 +9,39 @@ ProfileModel profileModelFromJson(String str) => ProfileModel.fromJson(json.deco
 String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
 
 class ProfileModel {
-  String? id;
-  String? name;
-  String? email;
-  String? address;
-  int? age;
-  String?imageUrl;
-  String? gender;
-
+  String? sellerId;
+  String? sellerName;
+  String? sellerEmail;
+  String? sellerPhone;
+  String? sellerPinCode;
+  String? sellerAddress;
+  String? sellerImage;
   ProfileModel({
-    this.id,
-    this.name,
-    this.email,
-    this.address,
-    this.age,
-    this.imageUrl,
-    this.gender,
+    this.sellerId,
+    this.sellerName,
+    this.sellerEmail,
+    this.sellerPhone,
+    this.sellerPinCode,
+    this.sellerAddress,
+    this.sellerImage,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
-    id: json["id"],
-    name: json["name"],
-    email: json["email"],
-    address: json["address"],
-    age: json["age"],
-    imageUrl: json["imageUrl"],
-    gender: json["gender"],
+    sellerId: json["seller_id"],
+    sellerName: json["seller_name"],
+    sellerEmail: json["seller_email"],
+    sellerPhone: json["seller_phone"],
+    sellerPinCode: json["seller_pinCode"],
+    sellerAddress: json["seller_address"],
+    sellerImage: json["seller_image"],
   );
-
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "email": email,
-    "address": address,
-    "age": age,
-    "imageUrl":imageUrl,
-    "gender": gender,
+    "seller_id": sellerId,
+    "seller_name": sellerName,
+    "seller_email": sellerEmail,
+    "seller_phone": sellerPhone,
+    "seller_pinCode": sellerPinCode,
+    "seller_address": sellerAddress,
+    "seller_image": sellerImage,
   };
 }

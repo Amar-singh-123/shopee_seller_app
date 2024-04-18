@@ -5,9 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/category/show_category.dart';
 
-import '../../../../models/category_model.dart';
+import '../../../../models/category/category_model.dart';
 
 class AddCategoriesScreen extends StatefulWidget {
   const AddCategoriesScreen({Key? key}) : super(key: key);
@@ -21,7 +22,6 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
   File? _image;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   bool _uploadingData = false;
-
   @override
   void initState() {
     super.initState();
@@ -31,10 +31,14 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
   Future<void> _addCategoryToFireStore(String categoryId, String imageUrl, String categoryName) async {
     CategoryModel categoryModel = CategoryModel(
       categoryId: categoryId,
+      sellerId: AppAuth.userId,
       categoryImg: imageUrl,
       categoryName: categoryName,
       createdAt: Timestamp.now().toString(),
       updatedAt: Timestamp.now().toString(),
+
+      // sellerId: AppAuth.userId,
+
     );
     try {
       await fireStore
@@ -48,11 +52,7 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
         backgroundColor: Colors.green,
         textColor: Colors.white,
       );
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ShowCategory(),
-          ));
+      Navigator.pop(context);
     } catch (e) {
       Fluttertoast.showToast(
         msg: "Failed to add category: $e",
