@@ -2,8 +2,11 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shopee_seller_app/views/screens/home/home_screen.dart';
 import 'package:shopee_seller_app/views/utils/app_constants/image_constants.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
+
+import '../../screens/auth/phone_auth/phone_auth_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,12 +19,16 @@ class _SplashScreenState extends State<SplashScreen> {
   var user = FirebaseAuth.instance.currentUser?.uid;
 
   @override
+  // void initState() {
+  //   super.initState();
+  //   Timer(const Duration(seconds: 3), () {
+  //     if (user != null) {
+  //     } else {}
+  //   });
+  // }
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      if (user != null) {
-      } else {}
-    });
+    Timer(Duration(seconds: 3),() => checkUser());
   }
 
   @override
@@ -42,6 +49,13 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
-    ;
+  }
+  void checkUser(){
+    final auth = FirebaseAuth.instance;
+    if(auth.currentUser != null){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
+    }else{
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PhoneAuthScreen(),));
+    }
   }
 }
