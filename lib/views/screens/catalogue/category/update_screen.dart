@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/storage_db.dart';
 import 'package:shopee_seller_app/models/category/category_model.dart';
 
 class UpdateCategoryScreen extends StatefulWidget {
@@ -36,9 +37,10 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
     try {
       if (_categoryImage.isNotEmpty && isFromFile) {
         String imageName = '$categoryId.jpg';
-        imageUrl = await _uploadImageToFirebaseStorage(File(_categoryImage), imageName);
+        var resp = await AppFirebaseStorage(storageCollection: 'category_images').updateFile(file: File(_categoryImage), filename: imageName);
+        imageUrl = resp.url ?? widget.categoryModel.categoryImg ?? "";
       }
-      await _firestore.collection('shoppe_categories').doc(categoryId).update({
+      await _firestore.collection('shoppe_category').doc(categoryId).update({
         'categoryId': categoryId,
         'categoryImage': imageUrl,
         'categoryName': categoryName,
@@ -63,6 +65,7 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
     } finally {
       setState(() {
         _uploadingData = false;
+            
       });
     }
   }

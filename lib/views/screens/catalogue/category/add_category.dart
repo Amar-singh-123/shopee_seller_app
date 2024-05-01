@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/category/show_category.dart';
+import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
 
 import '../../../../models/category/category_model.dart';
 
@@ -91,101 +92,85 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
-              children: [
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(7),
-                          onTap: () async {
-                            final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                            if (image != null) {
-                              setState(() {
-                                _image = File(image.path);
-                              });
-                            }
-                          },
-                          child: Container(
-                            height: 80,
-                            width: 80,
-                            decoration: ShapeDecoration(
-                              shape: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.blue),
-                                  borderRadius: BorderRadius.circular(7)),
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    child: Stack(
-                                      children: [
-                                        _image == null
-                                            ? const Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Positioned(
-                                                    left: 160,
-                                                    top: 10,
-                                                    child: Icon(
-                                                        Icons
-                                                            .add_a_photo_outlined,
-                                                        color: Colors.blue),
-                                                  ),
-                                                  Positioned(
-                                                    left: 145,
-                                                    top: 50,
-                                                    child: Text(
-                                                      "Add Image",
-                                                      style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 13),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            : Image.file(
-                                                fit: BoxFit.cover,
-                                                _image!,
-                                              ),
-                                      ],
+          Container(
+            height: 80,
+            width: 80,
+            decoration: ShapeDecoration(
+              shape: OutlineInputBorder(
+                  borderSide:
+                      const BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(7)),
+            ),
+            child: InkWell(
+              borderRadius: 7.borderRadius,
+              onTap: () async {
+                final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                if (image != null) {
+                  setState(() {
+                    _image = File(image.path);
+                  });
+                }
+              },
+              child: Center(
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          _image == null
+                              ? const Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceEvenly,
+                                  children: [
+                                    Positioned(
+                                      left: 160,
+                                      top: 10,
+                                      child: Icon(
+                                          Icons
+                                              .add_a_photo_outlined,
+                                          color: Colors.blue),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                                    Positioned(
+                                      left: 145,
+                                      top: 50,
+                                      child: Text(
+                                        "Add Image",
+                                        style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 13),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Image.file(
+                                  fit: BoxFit.cover,
+                                  _image!,
+                                ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                  Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    autofocus: true,
-                    focusNode: FocusNode(),
-                    controller: categoriesCon,
-                    style: TextStyle(color:  Colors.black),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        labelText: 'Category Name'),
-                  ),
-                ),
-              ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+            Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              autofocus: true,
+              focusNode: FocusNode(),
+              controller: categoriesCon,
+              style: TextStyle(color:  Colors.black),
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  labelText: 'Category Name'),
             ),
           ),
         ],
@@ -222,7 +207,6 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
                   });
                   try {
                     String categoryId = fireStore.collection('shoppe_category').doc().id;
-
                     String imageName = '$categoryId.jpg';
                     String imageUrl = await _uploadImageToFirebaseStorage(_image!, imageName);
                     await _addCategoryToFireStore(categoryId, imageUrl, categoriesCon.text);
