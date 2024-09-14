@@ -212,7 +212,7 @@ class SigningWithEmail extends StatelessWidget {
                               "OR",
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1!
+                                  .titleMedium!
                                   .copyWith(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold),

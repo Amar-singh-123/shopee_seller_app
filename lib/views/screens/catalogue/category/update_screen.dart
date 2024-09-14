@@ -11,13 +11,11 @@ import 'package:shopee_seller_app/models/category/category_model.dart';
 
 class UpdateCategoryScreen extends StatefulWidget {
   final CategoryModel categoryModel;
-
-  const UpdateCategoryScreen({Key? key, required this.categoryModel}) : super(key: key);
+  const UpdateCategoryScreen({super.key, required this.categoryModel});
 
   @override
   State<UpdateCategoryScreen> createState() => _UpdateCategoryScreenState();
 }
-
 class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
   late TextEditingController _categoryNameController;
   late String _categoryImage;
@@ -65,7 +63,6 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
     } finally {
       setState(() {
         _uploadingData = false;
-            
       });
     }
   }
