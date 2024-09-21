@@ -17,41 +17,51 @@ class PhoneAuthScreen extends StatelessWidget {
     return Scaffold(
         body: Padding(
           padding:
-              const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 50),
+              const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 200),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  // 100.height,
                   RichText(
-                    text: const TextSpan(
+                    text:  TextSpan(
                       children: [
                         TextSpan(
                           text: 'Register using\n',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: 20,
+                              fontSize: 23,
                               color: Colors.black87),
                         ),
+
                         TextSpan(
                           text: 'your mobile number\n',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: 20,
+                              fontSize: 23,
                               color: Colors.black87),
                         ),
-                        TextSpan(
-                          text: "We'll send OTP on this number",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.black87),
-                        ),
+
                       ],
                     ),
                   ),
+                  // 1.height,
+                  RichText(
+                      text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "We'll send OTP on this number",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: Colors.black87),
+                      ),
+                    ],
+                  )),
                   30.height,
                   IntlPhoneField(
                     flagsButtonPadding: const EdgeInsets.all(8),
@@ -69,6 +79,7 @@ class PhoneAuthScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              150.height,
               Column(
                 children: [
                   SizedBox(
@@ -84,39 +95,8 @@ class PhoneAuthScreen extends StatelessWidget {
                           style: defaultTextStyle,
                         )),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10, top: 18),
-                    child: RichText(
-                      text: const TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "Don't have an account? ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: Colors.black87),
-                          ),
-                          TextSpan(
-                            text: "Register",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: Colors.deepPurpleAccent),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
                 ],
               ),
-              20.height,
-              Text("Or,"),
-              30.height,
-              OutlinedButton(
-                  onPressed: () {
-                    AuthController.signInWithGoogle(context);
-                  },
-                  child: const Text('Continue With Google')),
             ],
           ),
         ),);

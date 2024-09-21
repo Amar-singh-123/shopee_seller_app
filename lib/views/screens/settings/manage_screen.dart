@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopee_seller_app/controllers/services/app_firebase/app_firebase_auth.dart';
-import 'package:shopee_seller_app/models/orders/order_model.dart';
 import 'package:shopee_seller_app/views/screens/auth/email_auth/signing_with_email.dart';
 import 'package:shopee_seller_app/views/screens/catalogue/catalogue_screen.dart';
-import 'package:shopee_seller_app/views/screens/catalogue/product/add_product.dart';
 import 'package:shopee_seller_app/views/screens/order_section/online_order_screen.dart';
 import 'package:shopee_seller_app/views/screens/seller_profile/manage_seller_profile.dart';
 import 'package:shopee_seller_app/views/utils/app_extensions/app_extensions.dart';
@@ -30,7 +28,7 @@ class ManageScreen extends StatelessWidget {
             child: const ListTile(
               leading: Icon(CupertinoIcons.profile_circled),
               title: Text('Profile'),
-              subtitle: Text('Your profile Settings'),
+              // subtitle: Text('Your profile Settings'),
               trailing: Icon(Icons.arrow_forward_ios, size: 13),
             ),
           ),
@@ -40,7 +38,7 @@ class ManageScreen extends StatelessWidget {
               Get.to(() => OnlineOrdersScreen());
             },
             child: const ListTile(
-              leading: Icon(Icons.production_quantity_limits),
+              leading: Icon(Icons.shopping_cart),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,7 +50,7 @@ class ManageScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              subtitle: Text('Get store Android App & publish'),
+              // subtitle: Text('Get store Android App & publish'),
               trailing: Icon(Icons.arrow_forward_ios, size: 13),
             ),
           ),
@@ -66,34 +64,22 @@ class ManageScreen extends StatelessWidget {
             child: const ListTile(
               leading: Icon(Icons.production_quantity_limits_sharp),
               title: Text('Products'),
-              subtitle: Text('Promote and unlock more features & reports'),
-              trailing: Icon(Icons.arrow_forward_ios, size: 13),
-            ),
-          ),
-          const Divider(),
-          15.height,
-          const Divider(),
-          GestureDetector(
-            onTap: () {
-              // Handle tap actions here
-            },
-            child: const ListTile(
-              title: Text('Shoopy for pc'),
-              subtitle: Text('Use shoopy from your laptop & desktop'),
+              // subtitle: Text('Promote and unlock more features & reports'),
               trailing: Icon(Icons.arrow_forward_ios, size: 13),
             ),
           ),
           const Divider(),
           GestureDetector(
             onTap: () {
-              // Handle tap actions here
+              Get.to(()=>CatalogueScreen(selectedTab: 0,));
             },
             child: const ListTile(
-              title: Text('About Us'),
-              subtitle: Text('About Us,App Version and other information'),
+              leading: Icon(Icons.category),
+              title: Text('Category'),
               trailing: Icon(Icons.arrow_forward_ios, size: 13),
             ),
           ),
+          const Divider(),
           10.height,
           Center(
               child: InkWell(

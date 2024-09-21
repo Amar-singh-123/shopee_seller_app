@@ -1,22 +1,21 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopee_seller_app/views/screens/catalogue/category/show_category.dart';
-
-import '../../../../models/category/category_model.dart';
+import 'package:shopee_seller_app/controllers/services/app_firebase/storage_db.dart';
+import 'package:shopee_seller_app/models/category/category_model.dart';
 
 class UpdateCategoryScreen extends StatefulWidget {
   final CategoryModel categoryModel;
-  const UpdateCategoryScreen({Key? key, required this.categoryModel}) : super(key: key);
+  const UpdateCategoryScreen({super.key, required this.categoryModel});
 
   @override
   State<UpdateCategoryScreen> createState() => _UpdateCategoryScreenState();
 }
-
 class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
   late TextEditingController _categoryNameController;
   late String _categoryImage;
@@ -28,19 +27,21 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
   void initState() {
     super.initState();
     _categoryNameController = TextEditingController(text: widget.categoryModel.categoryName);
-    _categoryImage = widget.categoryModel.categoryImg!;
+    _categoryImage = widget.categoryModel.categoryImg ?? '';
   }
 
-  Future<void> _saveOrUpdateCategory(String categoryId, String imageUrl, String categoryName) async {
+  Future<void> _saveOrUpdateCategory(
+      String categoryId, String imageUrl, String categoryName) async {
     try {
-      if (_categoryImage.isNotEmpty && isFromFile) {String imageName = '$categoryId.jpg';
-        imageUrl = await _uploadImageToFirebaseStorage(File(_categoryImage), imageName);
+      if (_categoryImage.isNotEmpty && isFromFile) {
+        String imageName = '$categoryId.jpg';
+        var resp = await AppFirebaseStorage(storageCollection: 'category_images').updateFile(file: File(_categoryImage), filename: imageName);
+        imageUrl = resp.url ?? widget.categoryModel.categoryImg ?? "";
       }
-      await _firestore.collection('shoppe_categories').doc(categoryId).update({
+      await _firestore.collection('shoppe_category').doc(categoryId).update({
         'categoryId': categoryId,
         'categoryImage': imageUrl,
         'categoryName': categoryName,
-        'createdAt': Timestamp.now(),
         'updatedAt': Timestamp.now(),
       });
       Fluttertoast.showToast(
@@ -51,7 +52,6 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
         textColor: Colors.white,
       );
       Navigator.pop(context);
-
     } catch (e) {
       Fluttertoast.showToast(
         msg: "Failed to update category: $e",
@@ -67,7 +67,8 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
     }
   }
 
-  Future<String> _uploadImageToFirebaseStorage(File imageFile, String imageName) async {
+  Future<String> _uploadImageToFirebaseStorage(
+      File imageFile, String imageName) async {
     try {
       final Reference storageReference = FirebaseStorage.instance.ref().child('category_images/$imageName');
       final UploadTask uploadTask = storageReference.putFile(imageFile);
@@ -153,8 +154,6 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    autofocus: true,
-                    focusNode: FocusNode(),
                     controller: _categoryNameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -226,7 +225,7 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 7),
                   child: Text(
-                    "Save",
+                    "Update",
                     style: TextStyle(color: Colors.white),
                   ),
                 )

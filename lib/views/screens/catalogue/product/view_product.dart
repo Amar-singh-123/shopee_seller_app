@@ -39,9 +39,7 @@ class _ViewProductsState extends State<ViewProducts> {
         stream: FirebaseFirestore.instance.collection('products').where('sellerId', isEqualTo: AppAuth.userId).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator(),);
           }
           if (snapshot.hasError) {
             return Center(
@@ -79,16 +77,12 @@ class _ViewProductsState extends State<ViewProducts> {
                             width: 65,
                             fit: BoxFit.cover,
                             imageUrl: product.imageUrl?.first ?? "",
-                            placeholder: (context, url) =>
-                            const CupertinoActivityIndicator(),
-                            errorWidget: (context, url, error) =>
-                                CupertinoActivityIndicator(),
+                            placeholder: (context, url) => const CupertinoActivityIndicator(),
+                            errorWidget: (context, url, error) => CupertinoActivityIndicator(),
                           ),
                         ),
-                        title: Text(product.name ?? "",
-                            style: TextStyle(color: Colors.grey)),
-                        subtitle: Text(product.description!,
-                            style: TextStyle(color: Colors.grey)),
+                        title: Text(product.name ?? "", style: TextStyle(color: Colors.grey)),
+                        subtitle: Text(product.description!, style: TextStyle(color: Colors.grey)),
                         trailing: PopupMenuButton<String>(
                           onSelected: (String value) {
                             if (value == 'edit') {
@@ -103,14 +97,10 @@ class _ViewProductsState extends State<ViewProducts> {
                               );
                             }
                             if (value == 'delete') {
-                              for (int i = 0; i <
-                                  product.imageUrl!.length; i++) {
-                                AppFirebaseStorage(
-                                    storageCollection: 'product_images').delete(
-                                    url: product.imageUrl![i]);
+                              for (int i = 0; i < product.imageUrl!.length; i++) {
+                                AppFirebaseStorage(storageCollection: 'product_images').delete(url: product.imageUrl![i]);
                               }
-                              AppFireStoreDatabase(collection: 'products')
-                                  .delete(doc: product.productId.toString());
+                              AppFireStoreDatabase(collection: 'products').delete(doc: product.productId.toString());
 
                               // category.reference.delete();
                             }
@@ -158,9 +148,7 @@ class _ViewProductsState extends State<ViewProducts> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
+                      const SizedBox(height: 30,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

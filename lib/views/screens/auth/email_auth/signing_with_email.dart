@@ -14,16 +14,18 @@ class SigningWithEmail extends StatelessWidget {
    SigningWithEmail({super.key});
    TextEditingController signingEmailController = TextEditingController();
    TextEditingController signingPasswordController = TextEditingController();
+   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          child: Container(
+          child: Form(
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 400,
+                  height: context.screenHeight / 2.4,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/images/background.png'),
@@ -119,6 +121,8 @@ class SigningWithEmail extends StatelessWidget {
                                                   143, 148, 251, 1)))),
                                   child: TextField(
                                     controller: signingEmailController,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Enter Email",
@@ -131,11 +135,11 @@ class SigningWithEmail extends StatelessWidget {
                                   child: TextField(
                                     controller: signingPasswordController,
                                     obscureText: true,
+                                    textInputAction: TextInputAction.next,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Password",
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey[700])),
+                                        hintStyle: TextStyle(color: Colors.grey[700])),
                                   ),
                                 )
                               ],
@@ -148,7 +152,9 @@ class SigningWithEmail extends StatelessWidget {
                           duration: Duration(milliseconds: 1900),
                           child: InkWell(
                             onTap: (){
-                              signingWithEmail(context);
+                              if(_formKey.currentState!.validate()){
+                                signingWithEmail(context);
+                              }
                             },
                             child: Container(
                               height: 50,
@@ -206,7 +212,7 @@ class SigningWithEmail extends StatelessWidget {
                               "OR",
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1!
+                                  .titleMedium!
                                   .copyWith(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold),
@@ -260,30 +266,18 @@ class SigningWithEmail extends StatelessWidget {
          email: signingEmailController.text.trim(),
          password: signingPasswordController.text.trim(),
        );
-// <<<<<<< HEAD
-       // Navigate to home screen or dashboard after successful sign-in
-       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-       //   content: Text('SuccessFully login with email'),
-       // ));
+
 
        Get.snackbar("Seller Login", "SuccessFully login with email",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
-// =======
+
        showSnackBar(title: 'SuccessFully login with email',message: "",color: AppColor.green );
-// >>>>>>> main
+
        AuthController.navigateUser(uid: userCredential.user?.uid);
      } catch (e) {
-       // Handle sign-in errors
        print('Error signing in: $e');
-       // You can provide feedback to the user here (e.g., show a snackbar)
-// <<<<<<< HEAD
+       showSnackBar(title: 'Failed to sign in. Please check your credentials.',message: "",color: AppColor.red );
        Get.snackbar("Seller Login Failed", "Failed to sign in. Please check your credentials.l",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
 
-       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-       //   content: Text('Failed to sign in. Please check your credentials.'),
-       // ));
-// =======
-//        showSnackBar(title: 'Failed to sign in. Please check your credentials.',message: "",color: AppColor.red );
-// >>>>>>> main
      }
     }
    }
@@ -296,14 +290,10 @@ class SigningWithEmail extends StatelessWidget {
        accessToken: googleAuth?.accessToken,
        idToken: googleAuth?.idToken,
      );
-     // Once signed in, return the UserCredential
      UserCredential userCredential =  await FirebaseAuth.instance.signInWithCredential(credential);
-// <<<<<<< HEAD
+
      Get.snackbar("Seller Login", "SuccessFully login with Google",backgroundColor: const Color.fromRGBO(113, 148, 251, 1));
      Get.off(HomeScreen());
-// =======
-//      Get.offAll(()=>HomeScreen());
-// >>>>>>> main
      return userCredential;
    }
 }

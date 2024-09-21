@@ -7,6 +7,6 @@ class AppTheme {
     scaffoldBackgroundColor: AppColor.dark,
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(backgroundColor: AppColor.blueAccent)),
-    textTheme:  const TextTheme().copyWith(bodyText1: TextStyle(color: AppColor.white),bodyText2:TextStyle( color: AppColor.white) )
+    textTheme:  const TextTheme().copyWith(bodyLarge: TextStyle(color: AppColor.white),bodyMedium:TextStyle( color: AppColor.white) )
   );
 }

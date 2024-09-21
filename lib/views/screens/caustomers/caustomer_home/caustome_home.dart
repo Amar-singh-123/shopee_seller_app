@@ -25,12 +25,13 @@ class _CustomerHomeState extends State<CustomerHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Customers"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Add back arrow functionality here
-          },
-        ),
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //
+        //   },
+        // ),
+
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -84,21 +85,25 @@ class _CustomerHomeState extends State<CustomerHome> {
                     .where('sellerId', isEqualTo: AppAuth.userId)
                     .snapshots(),
                 builder: (context, orderSnapShot) {
-                  if (orderSnapShot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(
-                      child: CupertinoActivityIndicator(),
-                    );
+                  if (orderSnapShot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CupertinoActivityIndicator(),);
                   }
-                  if (orderSnapShot.data == null ||
-                      orderSnapShot.data?.docs.isEmpty == true) {
+                  if (orderSnapShot.data == null || orderSnapShot.data?.docs.isEmpty == true) {
                     return const Center(child: Text('No Customer Available'));
                   }
+                  var orderList = <OrderModel>[];
+                  orderSnapShot.data!.docs.forEach((e) {
+                  var order = OrderModel.fromJson(e.data());
+                  var res =  orderList.where((element) => element.customerId == order.customerId).toList();
+                   if(res.isEmpty){
+                     orderList.add(order);
+                   }
+                  });
+
                   return ListView.builder(
-                    itemCount: 100, // Example item count
+                    itemCount: orderList.length, // Example item count
                     itemBuilder: (context, index) {
-                      var order = OrderModel.fromJson(
-                          orderSnapShot.data!.docs[index].data());
+                      var order = orderList[index];
                       return StreamBuilder<
                               DocumentSnapshot<Map<String, dynamic>>>(
                           stream: FirebaseFirestore.instance
