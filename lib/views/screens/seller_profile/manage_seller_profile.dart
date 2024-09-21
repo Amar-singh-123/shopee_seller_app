@@ -9,21 +9,26 @@ import '../../utils/app_widgets/textfield/default_edit_field.dart';
 
 class ManageProfileScreen extends StatelessWidget {
   ManageProfileScreen({super.key});
+
   var controller = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Obx(() => Text(controller.manageProfileAppBarText))),
+      appBar:
+          AppBar(title: Obx(() => Text(controller.manageProfileAppBarText))),
       body: Obx(
-        ()=> Column(
+        () => Column(
           children: [
-            Expanded(child: ListView(
+            Expanded(
+                child: ListView(
               children: [
                 20.height,
                 Row(
                   children: [
                     16.width,
                     ImagePickerWidget(imagePath:controller.profileImage.value,onTap: controller.pickProfile,isNetworkImage:controller.isNetworkUrl.value),
+
                   ],
                 ),
                 10.height,
