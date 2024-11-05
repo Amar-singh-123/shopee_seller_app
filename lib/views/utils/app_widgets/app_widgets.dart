@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
 
 
 class AppWidgets {
@@ -103,25 +102,25 @@ class AppWidgets {
       iconTheme: iconThem,
     );
   }
+  //
+  // Widget iconButton(
+  //     {required void Function()? onPressed, required Widget icon}) {
+  //   return IconButton(onPressed: onPressed, icon: icon);
+  // }
 
-  Widget iconButton(
-      {required void Function()? onPressed, required Widget icon}) {
-    return IconButton(onPressed: onPressed, icon: icon);
-  }
-
-  Widget pinPut(
-      {required TextEditingController? controller,
-        required String? Function(String?)? validator,
-        bool autofocus = false,
-        required TextInputAction? textInputAction}) {
-    return Pinput(
-      controller: controller,
-      length: 6,
-      validator: validator,
-      textInputAction: textInputAction,
-      autofocus: autofocus,
-    );
-  }
+  // Widget pinPut(
+  //     {required TextEditingController? controller,
+  //       required String? Function(String?)? validator,
+  //       bool autofocus = false,
+  //       required TextInputAction? textInputAction}) {
+  //   return Pinput(
+  //     controller: controller,
+  //     length: 6,
+  //     validator: validator,
+  //     textInputAction: textInputAction,
+  //     autofocus: autofocus,
+  //   );
+  // }
 
   Widget containerButton(String text,{double? width,double? height,void Function()? onTap}){
     return InkWell(

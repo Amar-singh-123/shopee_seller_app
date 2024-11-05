@@ -42,7 +42,7 @@ dependencies:
   cloud_firestore: ^4.15.9
   image_picker: ^1.0.7
   intl_phone_field: ^3.2.0
-  pinput: ^4.0.0
+#  pinput: ^4.0.0
   get: ^4.6.6
   lottie: ^2.6.0
   flutter_switch: ^0.3.2
